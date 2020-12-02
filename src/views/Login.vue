@@ -82,7 +82,7 @@
             'loginName': values.username,
             'password': values.password
           });
-          Toast.success('注册成功');
+          Toast.success('注册成功');//校验账号有没有被注册过是在后端完成
           this.type = 'login';
         } catch (err) {
           Toast.fail(err.message);
