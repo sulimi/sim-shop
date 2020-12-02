@@ -20,7 +20,7 @@
           :rules="[{ required: true, message: '请填写密码' }]"
         />
         <div class="verify">
-<!--          <Verify :showButton="false" :width="'100%'" :height="'40px'" :fontSize="'16px'" :type="1"/>-->
+          <Verify :showButton="false" :width="'100%'" :height="'40px'" :fontSize="'16px'" :type="1"/>
         </div>
         <div style="margin: 16px;">
           <van-button round block type="info" native-type="submit">
@@ -36,10 +36,10 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
-  // import Verify from '../../node_modules/vue2-verify/src/components/Verify.vue'
+  import Verify from '../../node_modules/vue2-verify/src/components/Verify.vue'
 
   @Component({
-    components: {ItemHeader}
+    components: {ItemHeader,Verify}
   })
   export default class Login extends Vue {
     type = 'login';

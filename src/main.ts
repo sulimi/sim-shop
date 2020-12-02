@@ -1,5 +1,5 @@
 import Vue from 'vue';
-
+import md5 from 'js-md5';
 import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
@@ -18,4 +18,4 @@ new Vue({
   render: h => h(App)
 }).$mount('#app');
 
-// Vue.prototype.$md5 = md5;
+Vue.prototype.$md5 = md5;
