@@ -50,6 +50,7 @@
         .icon {
           width: 2em;
           height: 2em;
+          fill:#aaa;
         }
 
         &.active {

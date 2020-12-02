@@ -3,7 +3,7 @@
     <transition :name="transitionName">
       <router-view class="router-view"/>
     </transition>
-    <nav-bar/>
+    <nav-bar v-if="isShowNav"/>
   </div>
 </template>
 <script lang="ts">
@@ -16,9 +16,13 @@
     components: {NavBar}
   })
   export default class App extends Vue {
-    @Watch('$route', { immediate: true, deep: true })
+    isShowNav = false;
+    routeList = ['/', '/home', '/category', '/cart', '/user'];
+
+    @Watch('$route', {immediate: true, deep: true})
     onRouteChange(newVal: Route, oldVal: Route) {
       //TODO 这里可以用路由元信息判断来做一些事情
+      this.isShowNav = this.routeList.indexOf(newVal.path) > -1;
     }
 
     transitionName = 'slide-left';
