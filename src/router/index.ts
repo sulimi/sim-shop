@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Category from '../views/Category.vue'
 import Cart from '@/views/Cart.vue';
 import User from '@/views/User.vue';
+import Login from '@/views/Login.vue';
 
 Vue.use(VueRouter)
 
@@ -42,6 +43,14 @@ const routes: Array<RouteConfig> = [
     path: '/user',
     name: 'user',
     component: User,
+    meta: {
+      index: 1
+    }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
     meta: {
       index: 1
     }

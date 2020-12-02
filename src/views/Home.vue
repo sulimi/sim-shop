@@ -1,6 +1,9 @@
 <template>
   <div class="home-wrapper">
     <HomeHeader/>
+    <main>
+      <router-link to="/login">登录</router-link>
+    </main>
   </div>
 </template>
 
@@ -17,6 +20,9 @@
   }
 </script>
 <style lang="less" scoped>
-  .home {
+  .home-wrapper {
+    main{
+      margin-top: 100px;
+    }
   }
 </style>

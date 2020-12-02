@@ -1,13 +1,14 @@
 import Vue from 'vue';
+
 import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
 import store from './store';
 import 'lib-flexible/flexible';
-import {Button} from 'vant';
+import {Button, Form, Field, Toast} from 'vant';
 
 
-Vue.use(Button);
+Vue.use(Button).use(Field).use(Toast).use(Button).use(Form);
 Vue.config.productionTip = false;
 (window as any).vRouter = router;
 
@@ -16,3 +17,5 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app');
+
+// Vue.prototype.$md5 = md5;
