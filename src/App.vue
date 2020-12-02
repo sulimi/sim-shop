@@ -30,7 +30,7 @@
 </script>
 
 <style lang="less">
-  @import "~@/common/style/mixin";
+  @import "~@/assets/style/mixin";
 
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;

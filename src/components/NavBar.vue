@@ -28,7 +28,7 @@
   }
 </script>
 <style scoped lang="less">
-  @import "~@/common/style/mixin";
+  @import "~@/assets/style/mixin";
 
   .nav-bar {
     position: fixed;

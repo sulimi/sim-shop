@@ -24,7 +24,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import "~@/common/style/header";
+  @import "~@/assets/style/header";
 
   .home-header {
     .header

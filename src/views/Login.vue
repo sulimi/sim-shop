@@ -40,6 +40,7 @@
   import ItemHeader from '@/components/ItemHeader.vue';
   import Verify from '../../node_modules/vue2-verify/src/components/Verify.vue';
   import {Toast} from 'vant';
+  import {login} from '@/service/user';
 
   @Component({
     components: {ItemHeader, Verify}
@@ -50,14 +51,29 @@
     password = '';
     verify = false;
 
-    onSubmit(values: string) {
+     async onSubmit(values: any) {
       const verifySubmit = () => {
         (this.$refs.loginVerifyRef as any).$refs.instance.checkCode();
       };//可以提取到外面，但是我为了方便看就放在这里
       verifySubmit();  //调用这个方法就会触发successFun/errorFun
-      if (!this.verify){
-        Toast.fail('验证码未填或填写错误') //这个方法可以哦——vant表单方法
+
+
+      if (!this.verify) {
+        Toast.fail('验证码未填或填写错误'); //这个方法可以哦——vant表单方法
       }
+
+      //开始请求数据、提交数据
+      if (this.type === 'login') {
+        try{
+          const {data} = await login({
+            "loginName": values.username,
+            "passwordMd5": Vue.prototype.$md5(values.password)
+          })
+        }catch(err){
+          Toast.fail(err.message)
+        }
+      }
+
     }
 
     successFun() {
@@ -73,7 +89,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import "~@/common/style/mixin";
+  @import "~@/assets/style/mixin";
 
   .login {
     img {

@@ -25,7 +25,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import "~@/common/style/header";
+  @import "~@/assets/style/header";
 
   .item-header {
     .header
