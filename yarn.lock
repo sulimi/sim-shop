@@ -1241,6 +1241,11 @@
   dependencies:
     jest-diff "^24.3.0"
 
+"@types/js-md5@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.npm.taobao.org/@types/js-md5/download/@types/js-md5-0.4.2.tgz#95b39911e2081bf2915436e61cc345e12459e5bb"
+  integrity sha1-lbOZEeIIG/KRVDbmHMNF4SRZ5bs=
+
 "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.4", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.6":
   version "7.0.6"
   resolved "https://registry.npm.taobao.org/@types/json-schema/download/@types/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
