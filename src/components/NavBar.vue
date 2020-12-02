@@ -28,7 +28,7 @@
   }
 </script>
 <style scoped lang="less">
-  @import "../common/style/mixin";
+  @import "~@/common/style/mixin";
 
   .nav-bar {
     position: fixed;
@@ -39,7 +39,6 @@
     background: #fff;
 
     .nav-list {
-      border: 1px solid red;
       .fjbt();
 
       .nav-list-item {
