@@ -1,14 +1,16 @@
 <template>
   <div class="cart-wrapper">
-    我是车车
+    <ItemHeader title="购物车"/>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-
-  @Component
+  import ItemHeader from '@/components/ItemHeader.vue';
+  @Component({
+    components: {ItemHeader}
+  })
   export default class Cart extends Vue {
 
   }
