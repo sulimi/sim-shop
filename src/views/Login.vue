@@ -26,10 +26,11 @@
         </div>
         <div style="margin: 16px;">
           <van-button round block type="info" native-type="submit">
-            登录
+            {{type==='login'?'登录':'立即注册'}}
           </van-button>
         </div>
       </van-form>
+      <div class="toggle-btn" @click="toggle">{{type==='login'?'没有账号？注册':'已有账号？登录'}}</div>
     </div>
   </div>
 </template>
@@ -40,7 +41,7 @@
   import ItemHeader from '@/components/ItemHeader.vue';
   import Verify from '../../node_modules/vue2-verify/src/components/Verify.vue';
   import {Toast} from 'vant';
-  import {login} from '@/service/user';
+  import {login, register} from '@/service/user';
   import {setLocal} from '@/assets/ts/utils';
 
   @Component({
@@ -52,7 +53,7 @@
     password = '';
     verify = false;
 
-     async onSubmit(values: any) {
+    async onSubmit(values: any) {
       const verifySubmit = () => {
         (this.$refs.loginVerifyRef as any).$refs.instance.checkCode();
       };//可以提取到外面，但是我为了方便看就放在这里
@@ -65,15 +66,26 @@
 
       //开始请求数据、提交数据
       if (this.type === 'login') {
-        try{
+        try {
           const {data} = await login({
-            "loginName": values.username,
-            "passwordMd5": Vue.prototype.$md5(values.password)
-          })
-          setLocal('token',data)//设置localStorage
-          window.location.href='/' //回到首页？
-        }catch(err){
-          Toast.fail(err.message)
+            'loginName': values.username,
+            'passwordMd5': Vue.prototype.$md5(values.password)
+          });
+          setLocal('token', data);//设置localStorage
+          window.location.href = '/'; //回到首页？
+        } catch (err) {
+          Toast.fail(err.message);
+        }
+      } else {
+        try {
+          const {data} = await register({
+            'loginName': values.username1,
+            'password': values.password1
+          });
+          Toast.success('注册成功');
+          this.type = 'login';
+        } catch (err) {
+          Toast.fail(err.message);
         }
       }
 
@@ -82,13 +94,22 @@
     successFun(value: any) {
       // console.log('成功');
       this.verify = true;
-      value.refresh()
+      value.refresh();
     }
 
     errorFun(value: any) {
       // console.log('失败');
       this.verify = false;
-      value.refresh()
+      value.refresh();
+    }
+
+    toggle() {
+      this.verify = false;
+      if (this.type === 'login') {
+        this.type = 'register';
+      } else {
+        this.type = 'login';
+      }
     }
   }
 </script>
@@ -141,6 +162,13 @@
             }
           }
         }
+      }
+
+      .toggle-btn {
+        padding: 0 36px 16px;
+        font-size: 12px;
+        text-align: right;
+        color: #1989FA;
       }
     }
   }
