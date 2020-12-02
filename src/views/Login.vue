@@ -79,14 +79,16 @@
 
     }
 
-    successFun() {
+    successFun(value: any) {
       // console.log('成功');
       this.verify = true;
+      value.refresh()
     }
 
-    errorFun() {
+    errorFun(value: any) {
       // console.log('失败');
       this.verify = false;
+      value.refresh()
     }
   }
 </script>
