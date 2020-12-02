@@ -4,9 +4,9 @@
     <div class="user-message">
       <img src="../assets/head.jpg"/>
       <div class="content-text">
-        <span>昵称：我是十三</span>
-        <span>登录名：15748574839</span>
-        <span class="words">个性签名：我是一个个性签名我是一个个性签名我是一个个性签名我是一个个性签名</span>
+        <span>昵称：{{userData.nickName}}</span>
+        <span>登录名：{{userData.loginName}}</span>
+        <span class="words">个性签名：{{userData.introduceSign}}</span>
       </div>
     </div>
     <ul class="message-list">
@@ -35,12 +35,23 @@
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
   import Icon from '@/components/Icon.vue';
+  import {getUserInfo} from '@/service/user';
+  import {Toast} from 'vant';
 
   @Component({
     components: {Icon, ItemHeader}
   })
   export default class User extends Vue {
+    userData = {};
 
+    async mounted() {
+      try {
+        const {data} = await getUserInfo();
+        this.userData = data;
+      } catch (e) {
+        Toast.fail(e.message);
+      }
+    }
   }
 </script>
 
@@ -81,17 +92,20 @@
         }
       }
     }
-    .message-list{
+
+    .message-list {
       padding: 0 20px;
       margin-top: 20px;
+
       li {
         height: 40px;
         line-height: 40px;
         border-bottom: 1px solid #e9e9e9;
         .fjbt();
         font-size: 14px;
+
         .icon {
-          fill:#aaa;
+          fill: #aaa;
         }
       }
     }
