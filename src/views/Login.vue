@@ -41,6 +41,7 @@
   import Verify from '../../node_modules/vue2-verify/src/components/Verify.vue';
   import {Toast} from 'vant';
   import {login} from '@/service/user';
+  import {setLocal} from '@/assets/ts/utils';
 
   @Component({
     components: {ItemHeader, Verify}
@@ -69,6 +70,8 @@
             "loginName": values.username,
             "passwordMd5": Vue.prototype.$md5(values.password)
           })
+          setLocal('token',data)//设置localStorage
+          window.location.href='/' //回到首页？
         }catch(err){
           Toast.fail(err.message)
         }
