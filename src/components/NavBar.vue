@@ -1,16 +1,16 @@
 <template>
   <div class="nav-bar">
     <ul class="nav-list">
-      <router-link tag="li" class="nav-list-item" to="home">
+      <router-link tag="li" class="nav-list-item" active-class="active" to="home">
         <Icon name="home"/>
         <span>首页</span></router-link>
-      <router-link tag="li" class="nav-list-item" to="category">
+      <router-link tag="li" class="nav-list-item" active-class="active" to="category">
         <Icon name="category"/>
         <span>分类</span></router-link>
-      <router-link tag="li" class="nav-list-item" to="cart">
+      <router-link tag="li" class="nav-list-item" active-class="active" to="cart">
         <Icon name="cart"/>
         <span>购物车</span></router-link>
-      <router-link tag="li" class="nav-list-item" to="user">
+      <router-link tag="li" class="nav-list-item" active-class="active" to="user">
         <Icon name="user"/>
         <span>我的</span></router-link>
     </ul>
