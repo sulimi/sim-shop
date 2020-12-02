@@ -79,8 +79,8 @@
       } else {
         try {
           const {data} = await register({
-            'loginName': values.username1,
-            'password': values.password1
+            'loginName': values.username,
+            'password': values.password
           });
           Toast.success('注册成功');
           this.type = 'login';
