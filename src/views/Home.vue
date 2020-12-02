@@ -1,19 +1,22 @@
 <template>
   <div class="home-wrapper">
-    我是首页
+    <HomeHeader/>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+  import {Component, Vue} from 'vue-property-decorator';
+  import HomeHeader from '@/components/HomeHeader.vue';
 
-@Component({
-  components: {
-  },
-})
-export default class Home extends Vue {}
+  @Component({
+    components: {
+      HomeHeader
+    },
+  })
+  export default class Home extends Vue {
+  }
 </script>
 <style lang="less" scoped>
-  .home{
+  .home {
   }
 </style>

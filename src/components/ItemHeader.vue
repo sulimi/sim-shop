@@ -1,5 +1,5 @@
 <template>
-  <header class="item-header">
+  <header class="item-header header">
     <Icon name="left" @click="backFun"/>
     <div class="item-header-title" v-if="title">{{title}}</div>
     <slot v-else/>
@@ -25,23 +25,9 @@
 </script>
 
 <style lang="less" scoped>
-  @import "~@/common/style/mixin";
+  @import "~@/common/style/header";
 
   .item-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    .fjbt();
-    .wh(100%, 40px);
-    line-height: 40px;
-    padding: 0 10px;
-    color: #252525;
-    background: #fff;
-    border-bottom: 1px solid #dcdcdc;
-
-    .icon {
-      width: 1.1em;
-      height: 1.1em;
-    }
+    .header
   }
 </style>
