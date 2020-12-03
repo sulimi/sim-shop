@@ -1,12 +1,12 @@
 <template>
   <div class="home-wrapper">
-    <HomeHeader>
+    <HomeHeader :is-login="isLogin">
       <span class="shop-name">XX商城</span>
       <span class="border"> | </span>
-      <router-link class="text-search" tag="span" to="/">屯年货啦！</router-link>
+      <router-link class="text-search" tag="span" to="/category">屯年货啦！</router-link>
     </HomeHeader>
     <main>
-      <router-link to="/login">登录</router-link>
+      <SwipeHome :swipeImgs="swipeImgs"/>
     </main>
   </div>
 </template>
@@ -14,13 +14,33 @@
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator';
   import HomeHeader from '@/components/HomeHeader.vue';
+  import SwipeHome from '@/components/SwipeHome.vue';
+  import {getLocal} from '@/assets/ts/utils';
+  import {Toast} from 'vant';
+  import {getHome} from '@/service/home';
 
   @Component({
     components: {
+      SwipeHome,
       HomeHeader
     },
   })
   export default class Home extends Vue {
+    swipeImgs = [];
+    isLogin = false;
+
+    async mounted() {
+      const token = getLocal('token');//为什么要拿这个呢，又不是登录（哦，判断右上角是登录还是头像）
+      if (token) {
+        this.isLogin = true;
+      }
+      Toast.loading({
+        message: '加载中',
+        forbidClick: true
+      });
+      const {data} = await getHome({});
+      this.swipeImgs = data.carousels;
+    }
   }
 </script>
 <style lang="less" scoped>
@@ -54,7 +74,7 @@
     }
 
     main {
-      margin-top: 100px;
+      /*margin-top: 100px;*/
     }
   }
 </style>

@@ -5,10 +5,12 @@ import './registerServiceWorker';
 import router from './router';
 import store from './store';
 import 'lib-flexible/flexible';
-import {Button, Form, Field, Toast} from 'vant';
+import {Button, Form, Field, Toast, Swipe, SwipeItem,SwipeCell} from 'vant';
 
 
-Vue.use(Button).use(Field).use(Toast).use(Button).use(Form);
+Vue.use(Button).use(Field)
+  .use(Toast).use(Button).use(Form)
+  .use(Swipe).use(SwipeItem).use(SwipeCell );
 Vue.config.productionTip = false;
 (window as any).vRouter = router;
 
