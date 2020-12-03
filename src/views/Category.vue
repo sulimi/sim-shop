@@ -7,8 +7,10 @@
       </SearchOne>
     </ItemHeader>
 
+
     <!--    滑动-->
-    <main class="category-content">
+
+    <main class="category-content" ref="searchWrap">
       <ListScroll class="menu-list">
         <ul>
           <li v-for="item in categoryList" :key="item.categoryId"
@@ -24,7 +26,7 @@
         <div class="list-wrapper">
           <div class="list-item-wrapper" v-for="item in categoryList" :key="item.categoryId">
             <div class="list-item" v-for="i in item.secondLevelCategoryVOS" :key="i.categoryId"
-                 >
+            >
               <template v-if="clickIndexId===i.parentId">
                 <div class="item-title">{{i.categoryName}}</div>
                 <div class="item">
@@ -63,6 +65,7 @@
       this.categoryList = data;
     }
 
+
     onClickMenu(id: number) {
       this.clickIndexId = id;
     }
@@ -73,9 +76,6 @@
   @import "~@/assets/style/mixin";
 
   .category-wrapper {
-    border: 1px solid red;
-    height: 100%;
-    overflow: hidden;
     ::v-deep.item-header {
       .center-header {
         background: #F7F7F7;
@@ -83,11 +83,9 @@
     }
 
     .category-content {
-      border: 1px solid red;
-      padding-top: 40px;
+      margin-top: 40px;
       display: flex;
-      height: 100%;
-
+      height: 400px;
       .menu-list {
         background: #F8F8F8;
         width: 28%;
@@ -117,7 +115,6 @@
 
       .category-list {
         background: #fff;
-        height: 100%;
         flex-grow: 1;
         padding: 0 10px;
 

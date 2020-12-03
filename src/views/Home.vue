@@ -1,14 +1,16 @@
 <template>
   <div class="home-wrapper">
     <HomeHeader :class="{'active':headerScroll}" :is-login="isLogin"/>
-    <main>
-      <SwipeHome :swipeImgs="swipeImgs"/>
-      <HomeNavList/>
-      <HomeModule :moduleList="newGoodses" title="新品上线"/>
-      <HomeModule :moduleList="hotGoodses" title="热门商品"/>
-      <HomeModule :moduleList="recommendGoodses" title="最新推荐"/>
-      <div class="bottom">到底啦~</div>
-    </main>
+<!--    <ListScroll>-->
+      <main>
+        <SwipeHome :swipeImgs="swipeImgs"/>
+        <HomeNavList/>
+        <HomeModule :moduleList="newGoodses" title="新品上线"/>
+        <HomeModule :moduleList="hotGoodses" title="热门商品"/>
+        <HomeModule :moduleList="recommendGoodses" title="最新推荐"/>
+        <div class="bottom">到底啦~</div>
+      </main>
+<!--    </ListScroll>-->
   </div>
 </template>
 
@@ -21,9 +23,11 @@
   import {getHome} from '@/service/home';
   import HomeNavList from '@/views/home/HomeNavList.vue';
   import HomeModule from '@/views/home/HomeModule.vue';
+  import ListScroll from '@/components/ListScroll.vue';
 
   @Component({
     components: {
+      ListScroll,
       HomeModule,
       HomeNavList,
       SwipeHome,

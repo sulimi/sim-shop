@@ -1,7 +1,6 @@
 <template>
-  <!--  better-scroll 公用丝滑滚动组件-->
   <div ref="wrapper" class="scroll-wrapper">
-    <slot/>
+    <slot></slot>
   </div>
 </template>
 
@@ -23,9 +22,9 @@
     // 是否开启横向滚动
     @Prop(Boolean) scrollX!: boolean | false;
     // 是否派发滚动事件
-    @Prop(Array) scrollData!: [] | null;
-    // 列表的数据
     @Prop(Boolean) listenScroll!: boolean | true;
+    // 列表的数据
+    @Prop(Array) scrollData!: [] | null;
     // 是否派发滚动到底部的事件，用于上拉加载
     @Prop(Boolean) pullup!: boolean | false;
     // 是否派发顶部下拉的事件，用于下拉刷新
@@ -34,6 +33,9 @@
     @Prop(Boolean) beforeScroll!: boolean | false;
     // 当数据更新后，刷新scroll的延时
     @Prop(Number) refreshDelay!: number | 20;
+
+
+
     scroll: any;
 
     // 监听数据的变化，重新计算高度
@@ -44,22 +46,24 @@
       }, this.refreshDelay);
     }
 
-
-    // 初始化滚动组件，拿不到 this.$refs.wrapper 代码不往下走
     mounted() {
+      // 在 DOM 渲染完毕后初始化 better-scroll
+      setTimeout(() => {
+        this.initScroll()
+      }, 20)
+    }
+
+    initScroll() {
+      // 初始化滚动组件，拿不到 this.$refs.wrapper 代码不往下走
+      if (!this.$refs.wrapper) {
+        return;
+      }
       // better-scroll 初始化， 传入配置项参数
       this.scroll = new BScroll((this.$refs.wrapper as any), {
         probeType: this.probeType,
         click: this.click,
         scrollX: this.scrollX
       });
-    }
-
-
-    initScroll() {
-      if (!this.$refs.wrapper) {
-        return;
-      }
       // 是否派发滚动事件
       if (this.listenScroll) {
         this.scroll.on('scroll', (position: any) => {
