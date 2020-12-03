@@ -28,10 +28,10 @@
               <template v-if="clickIndexId===i.parentId">
                 <div class="item-title">{{i.categoryName}}</div>
                 <div class="item">
-                  <div class="i" v-for="ii in i.thirdLevelCategoryVOS" :key="ii.categoryId">
+                  <router-link to="/" class="i" v-for="ii in i.thirdLevelCategoryVOS" :key="ii.categoryId">
                     <Icon name="todo"/>
                     <span>{{ii.categoryName}}</span>
-                  </div>
+                  </router-link>
                 </div>
               </template>
             </div>
@@ -61,7 +61,6 @@
     async mounted() {
       const {data} = await getCategory();
       this.categoryList = data;
-      console.log(data);
     }
 
     onClickMenu(id: number) {
@@ -74,6 +73,9 @@
   @import "~@/assets/style/mixin";
 
   .category-wrapper {
+    border: 1px solid red;
+    height: 100%;
+    overflow: hidden;
     ::v-deep.item-header {
       .center-header {
         background: #F7F7F7;
@@ -82,8 +84,10 @@
 
     .category-content {
       border: 1px solid red;
-      margin-top: 40px;
+      padding-top: 40px;
       display: flex;
+      height: 100%;
+
       .menu-list {
         background: #F8F8F8;
         width: 28%;
@@ -101,6 +105,7 @@
             text-align: center;
             line-height: 56px;
             font-size: 14px;
+            cursor: pointer;
 
             &.active {
               color: @primary;

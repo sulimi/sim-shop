@@ -25,8 +25,8 @@
     @Prop() routerName!: string;
 
     backFun() {
+      if (!this.routerName) return
       this.$router.push({path: this.routerName});
-      console.log(1);
     }
   }
 </script>

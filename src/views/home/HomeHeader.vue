@@ -56,6 +56,8 @@
 
     .text-search {
       padding-left: 10px;
+      flex-grow: 1;
+      text-align: left;
     }
 
     .header-btn {
