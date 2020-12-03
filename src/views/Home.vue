@@ -9,6 +9,9 @@
       <SwipeHome :swipeImgs="swipeImgs"/>
       <HomeNavList/>
       <HomeModule :moduleList="newGoodses" title="新品上线"/>
+      <HomeModule :moduleList="hotGoodses" title="热门商品"/>
+      <HomeModule :moduleList="recommendGoodses" title="最新推荐"/>
+      <div class="bottom">到底啦~</div>
     </main>
   </div>
 </template>
@@ -89,7 +92,14 @@
     }
 
     main {
-      /*margin-top: 100px;*/
+      margin-bottom: 80px;
+      .bottom {
+        font-size: 12px;
+        color: #aaa;
+        width: 100%;
+        text-align: center;
+        padding-top:26px;
+      }
     }
   }
 </style>
