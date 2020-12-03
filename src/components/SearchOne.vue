@@ -16,6 +16,7 @@
 
 <style lang="less" scoped>
   @import "~@/assets/style/header.less";
+
   .center-header {
     .wh(74%, 70%);
     .fjbt(row, flex-start);
@@ -25,5 +26,10 @@
     font-size: 12px;
     color: #666;
     padding: 0 10px;
+
+    .icon {
+      fill: #666;
+      margin: 0 6px;
+    }
   }
 </style>

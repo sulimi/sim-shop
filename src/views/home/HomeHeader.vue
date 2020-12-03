@@ -4,7 +4,9 @@
       <Icon name="show"/>
     </router-link>
     <SearchOne>
-      <slot/>
+      <span class="shop-name">XX商城</span>
+      <span class="border"> | </span>
+      <router-link class="text-search" tag="span" to="/category">屯年货啦！</router-link>
     </SearchOne>
     <router-link class="header-btn" to="/user">
       <Icon name="user" v-if="isLogin"/>
@@ -35,6 +37,25 @@
     border-bottom: none;
     .wh(100%, 50px);
     background: transparent;
+
+    .shop-name {
+      display: inline-block;
+      padding-right: 6px;
+      color: @primary;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .border {
+      display: inline-block;
+      font-size: 20px;
+      color: #999;
+      margin-bottom: 2px;
+    }
+
+    .text-search {
+      padding-left: 10px;
+    }
 
     .header-btn {
       color: @primary;

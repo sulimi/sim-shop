@@ -1,10 +1,6 @@
 <template>
   <div class="home-wrapper">
-    <HomeHeader :class="{'active':headerScroll}" :is-login="isLogin">
-      <span class="shop-name">XX商城</span>
-      <span class="border"> | </span>
-      <router-link class="text-search" tag="span" to="/category">屯年货啦！</router-link>
-    </HomeHeader>
+    <HomeHeader :class="{'active':headerScroll}" :is-login="isLogin"/>
     <main>
       <SwipeHome :swipeImgs="swipeImgs"/>
       <HomeNavList/>
@@ -75,27 +71,6 @@
 
   .home-wrapper {
     ::v-deep.home-header {
-      .center-header {
-        .shop-name {
-          display: inline-block;
-          padding-right: 6px;
-          color: @primary;
-          font-size: 20px;
-          font-weight: bold;
-        }
-
-        .border {
-          display: inline-block;
-          font-size: 20px;
-          color: #999;
-          margin-bottom: 2px;
-        }
-
-        .text-search {
-          padding-left: 10px;
-        }
-      }
-
       transition: all 1s;
 
       &.active {

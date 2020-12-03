@@ -1,6 +1,6 @@
 <template>
   <div class="user-wrapper">
-    <ItemHeader title="我的"/>
+    <ItemHeader title="我的" icon-right="more"/>
     <div class="user-message">
       <img src="../assets/head.jpg"/>
       <div class="content-text">

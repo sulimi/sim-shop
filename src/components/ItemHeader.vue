@@ -3,7 +3,7 @@
     <Icon name="left" @click="backFun"/>
     <div class="item-header-title" v-if="title">{{title}}</div>
     <slot v-else/>
-    <Icon name="more"/>
+    <Icon :name="iconRight"/>
   </header>
 </template>
 
@@ -17,6 +17,7 @@
   })
   export default class ItemHeader extends Vue {
     @Prop() title!: string;
+    @Prop() iconRight!: string;
 
     backFun() {
       this.$router.go(-1);

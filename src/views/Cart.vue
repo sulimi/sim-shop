@@ -1,6 +1,6 @@
 <template>
   <div class="cart-wrapper">
-    <ItemHeader title="购物车"/>
+    <ItemHeader title="购物车" icon-right="more"/>
   </div>
 </template>
 
