@@ -57,7 +57,7 @@
       this.newGoodses = newGoodses;
       this.hotGoodses = hotGoodses;
       this.recommendGoodses = recommendGoodses;
-
+      Toast.clear(); // 数据请求结束，清楚弹窗
     }
   }
 </script>
@@ -93,12 +93,13 @@
 
     main {
       margin-bottom: 80px;
+
       .bottom {
         font-size: 12px;
         color: #aaa;
         width: 100%;
         text-align: center;
-        padding-top:26px;
+        padding-top: 26px;
       }
     }
   }
