@@ -6,14 +6,6 @@
         <span>全场50元起步</span>
       </SearchOne>
     </ItemHeader>
-    <header class="category-header wrap">
-      <i class="nbicon nbfanhui"></i>
-      <div class="header-search">
-        <i class="nbicon nbSearch"></i>
-        <router-link tag="span" class="search-title" to="./product-list?from=category">全场50元起步</router-link>
-      </div>
-      <i class="nbicon nbmore"></i>
-    </header>
   </div>
 </template>
 <script lang="ts">
@@ -22,12 +14,18 @@
   import ItemHeader from '@/components/ItemHeader.vue';
   import SearchOne from '@/components/SearchOne.vue';
   import Icon from '@/components/Icon.vue';
+  import {getCategory} from '@/service/category';
 
   @Component({
     components: {Icon, SearchOne, ItemHeader}
   })
   export default class Category extends Vue {
+    categoryList = [];
 
+    async mounted() {
+      const {data} = await getCategory();
+      this.categoryList = data;
+    }
   }
 </script>
 
