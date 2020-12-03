@@ -3,9 +3,9 @@
     <router-link class="header-btn" to="/category">
       <Icon name="show"/>
     </router-link>
-    <div class="center-header">
+    <SearchOne>
       <slot/>
-    </div>
+    </SearchOne>
     <router-link class="header-btn" to="/user">
       <Icon name="user" v-if="isLogin"/>
       <span v-else>登录</span>
@@ -17,9 +17,10 @@
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
   import Icon from '@/components/Icon.vue';
+  import SearchOne from '@/components/SearchOne.vue';
 
   @Component({
-    components: {Icon}
+    components: {SearchOne, Icon}
   })
   export default class HomeHeader extends Vue {
     @Prop() isLogin!: boolean;
@@ -28,19 +29,13 @@
 
 <style lang="less" scoped>
   @import "~@/assets/style/header.less";
+
   .home-header {
     .header;
     border-bottom: none;
     .wh(100%, 50px);
     background: transparent;
-    .center-header {
-      .wh(74%, 80%);
-      .fjbt(row, flex-start);
-      margin: 10px 0;
-      color: #232326;
-      background: rgba(255, 255, 255, .7);
-      border-radius: 20px;
-    }
+
     .header-btn {
       color: @primary;
 

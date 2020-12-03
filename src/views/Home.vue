@@ -78,7 +78,7 @@
       .center-header {
         .shop-name {
           display: inline-block;
-          padding: 0 6px 0 10px;
+          padding-right: 6px;
           color: @primary;
           font-size: 20px;
           font-weight: bold;
@@ -92,9 +92,6 @@
         }
 
         .text-search {
-          font-size: 12px;
-          color: #666;
-          line-height: 21px;
           padding-left: 10px;
         }
       }
