@@ -27,7 +27,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import "~@/assets/style/header";
+  @import "~@/assets/style/header.less";
   .home-header {
     .header;
     border-bottom: none;

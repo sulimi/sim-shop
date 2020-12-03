@@ -8,21 +8,24 @@
     <main>
       <SwipeHome :swipeImgs="swipeImgs"/>
       <HomeNavList/>
+      <HomeModule :moduleList="newGoodses" title="新品上线"/>
     </main>
   </div>
 </template>
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator';
-  import HomeHeader from '@/components/HomeHeader.vue';
-  import SwipeHome from '@/components/SwipeHome.vue';
+  import HomeHeader from '@/views/home/HomeHeader.vue';
+  import SwipeHome from '@/views/home/SwipeHome.vue';
   import {getLocal} from '@/assets/ts/utils';
   import {Toast} from 'vant';
   import {getHome} from '@/service/home';
-  import HomeNavList from '@/components/HomeNavList.vue';
+  import HomeNavList from '@/views/home/HomeNavList.vue';
+  import HomeModule from '@/views/home/HomeModule.vue';
 
   @Component({
     components: {
+      HomeModule,
       HomeNavList,
       SwipeHome,
       HomeHeader

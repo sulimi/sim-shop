@@ -77,7 +77,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import "~@/assets/style/mixin";
+  @import "~@/assets/style/mixin.less";
 
   .show-list {
     display: flex;
