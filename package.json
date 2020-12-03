@@ -9,8 +9,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/better-scroll": "^1.12.3",
     "@types/js-md5": "^0.4.2",
     "axios": "^0.21.0",
+    "better-scroll": "^2.0.6",
     "core-js": "^3.6.5",
     "js-md5": "^0.7.3",
     "lib-flexible": "^0.3.2",
