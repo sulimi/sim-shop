@@ -1,6 +1,6 @@
 <template>
   <div class="home-wrapper">
-    <HomeHeader :is-login="isLogin">
+    <HomeHeader :class="{'active':headerScroll}" :is-login="isLogin">
       <span class="shop-name">XX商城</span>
       <span class="border"> | </span>
       <router-link class="text-search" tag="span" to="/category">屯年货啦！</router-link>
@@ -35,6 +35,7 @@
     },
   })
   export default class Home extends Vue {
+    headerScroll = false;
     swipeImgs = [];
     newGoodses = [];
     hotGoodses = [];
@@ -43,6 +44,8 @@
     isLogin = false;
 
     async mounted() {
+      window.addEventListener('scroll', this.pageScroll);
+
       const token = getLocal('token');//为什么要拿这个呢，又不是登录（哦，判断右上角是登录还是头像）
       if (token) {
         this.isLogin = true;
@@ -58,6 +61,12 @@
       this.hotGoodses = hotGoodses;
       this.recommendGoodses = recommendGoodses;
       Toast.clear(); // 数据请求结束，清楚弹窗
+    }
+
+
+    pageScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      scrollTop > 100 ? this.headerScroll = true : this.headerScroll = false;
     }
   }
 </script>
@@ -87,6 +96,20 @@
           color: #666;
           line-height: 21px;
           padding-left: 10px;
+        }
+      }
+
+      transition: all 1s;
+
+      &.active {
+        background: @primary;
+
+        .header-btn {
+          color: #fff;
+
+          .icon {
+            fill: #fff;
+          }
         }
       }
     }
