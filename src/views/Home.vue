@@ -7,6 +7,7 @@
     </HomeHeader>
     <main>
       <SwipeHome :swipeImgs="swipeImgs"/>
+      <HomeNavList/>
     </main>
   </div>
 </template>
@@ -18,15 +19,21 @@
   import {getLocal} from '@/assets/ts/utils';
   import {Toast} from 'vant';
   import {getHome} from '@/service/home';
+  import HomeNavList from '@/components/HomeNavList.vue';
 
   @Component({
     components: {
+      HomeNavList,
       SwipeHome,
       HomeHeader
     },
   })
   export default class Home extends Vue {
     swipeImgs = [];
+    newGoodses = [];
+    hotGoodses = [];
+    recommendGoodses = [];
+
     isLogin = false;
 
     async mounted() {
@@ -39,7 +46,12 @@
         forbidClick: true
       });
       const {data} = await getHome({});
-      this.swipeImgs = data.carousels;
+      const {carousels, newGoodses, hotGoodses, recommendGoodses} = data;
+      this.swipeImgs = carousels;
+      this.newGoodses = newGoodses;
+      this.hotGoodses = hotGoodses;
+      this.recommendGoodses = recommendGoodses;
+
     }
   }
 </script>
