@@ -34,6 +34,7 @@
 
   .home-header {
     .header;
+    padding: 0 10px;
     border-bottom: none;
     .wh(100%, 50px);
     background: transparent;

@@ -1,9 +1,13 @@
 <template>
-  <header class="item-header header">
-    <Icon name="left" @click="backFun"/>
+  <header class="item-header header" @click="backFun">
+    <div class="btn-icon">
+      <Icon name="left" @click="backFun" @touchstart="backFun"/>
+    </div>
     <div class="item-header-title" v-if="title">{{title}}</div>
     <slot v-else/>
-    <Icon :name="iconRight"/>
+    <div class="btn-icon">
+      <Icon :name="iconRight"/>
+    </div>
   </header>
 </template>
 
@@ -18,9 +22,11 @@
   export default class ItemHeader extends Vue {
     @Prop() title!: string;
     @Prop() iconRight!: string;
+    @Prop() routerName!: string;
 
     backFun() {
-      this.$router.go(-1);
+      this.$router.push({path: this.routerName});
+      console.log(1);
     }
   }
 </script>
@@ -29,6 +35,6 @@
   @import "~@/assets/style/header";
 
   .item-header {
-    .header
+    .header;
   }
 </style>

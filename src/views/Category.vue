@@ -1,6 +1,6 @@
 <template>
   <div class="category-wrapper">
-    <ItemHeader>
+    <ItemHeader router-name="/home">
       <SearchOne>
         <Icon name="search"/>
         <span>全场50元起步</span>
@@ -81,9 +81,9 @@
     }
 
     .category-content {
+      border: 1px solid red;
       margin-top: 40px;
       display: flex;
-
       .menu-list {
         background: #F8F8F8;
         width: 28%;
