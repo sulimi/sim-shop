@@ -3,9 +3,12 @@
     <router-link to="/category">
       <Icon name="show"/>
     </router-link>
-    <slot/>
+    <div class="center-header">
+      <slot/>
+    </div>
     <router-link to="/user">
       <Icon name="user"/>
+      <!--      <span>登录</span>-->
     </router-link>
   </header>
 </template>
@@ -27,6 +30,14 @@
   @import "~@/assets/style/header";
 
   .home-header {
-    .header
+    .header;
+    .center-header{
+      .wh(74%, 80%);
+      .fjbt(row,flex-start);
+      margin: 10px 0;
+      color: #232326;
+      background: rgba(255, 255, 255, .7);
+      border-radius: 20px;
+    }
   }
 </style>
