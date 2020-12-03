@@ -8,17 +8,34 @@
     </ItemHeader>
 
     <!--    滑动-->
-    <ListScroll>
-      <ul>
-        <li v-for="item in categoryList" :key="item.categoryId"
-            :class="{'active' : clickIndexId === item.categoryId}"
-            @click="onClickMenu(item.categoryId)"
-            @touchstart="onClickMenu(item.categoryId)"
-        >
-          {{item.categoryName}}
-        </li>
-      </ul>
-    </ListScroll>
+    <main class="category-content">
+      <ListScroll class="menu-list">
+        <ul>
+          <li v-for="item in categoryList" :key="item.categoryId"
+              :class="{'active' : clickIndexId === item.categoryId}"
+              @click="onClickMenu(item.categoryId)"
+              @touchstart="onClickMenu(item.categoryId)"
+          >
+            {{item.categoryName}}
+          </li>
+        </ul>
+      </ListScroll>
+      <ListScroll class="category-list">
+        <div class="list-wrapper">
+          <div class="list-item-wrapper" v-for="item in categoryList" :key="item.categoryId">
+            <div class="list-item" v-for="i in item.secondLevelCategoryVOS" :key="i.categoryId">
+              <div class="item-title">{{i.categoryName}}</div>
+              <div class="item">
+                <div class="i" v-for="ii in i.thirdLevelCategoryVOS" :key="ii.categoryId">
+                  <Icon name="todo"/>
+                  <span>{{ii.categoryName}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ListScroll>
+    </main>
 
   </div>
 </template>
@@ -41,6 +58,7 @@
     async mounted() {
       const {data} = await getCategory();
       this.categoryList = data;
+      console.log(data);
     }
 
     onClickMenu(id: number) {
@@ -59,30 +77,81 @@
       }
     }
 
-    .scroll-wrapper {
+    .category-content {
       margin-top: 40px;
-      background: #F8F8F8;
-      width: 28%;
-      height: 100%;
-      overflow: hidden;
+      display: flex;
 
-      ul {
-        width: 100%;
+      .menu-list {
         background: #F8F8F8;
+        width: 28%;
+        height: 100%;
+        overflow: hidden;
+        flex-shrink: 0;
 
-        li {
+        ul {
           width: 100%;
-          height: 56px;
-          text-align: center;
-          line-height: 56px;
-          font-size: 14px;
+          background: #F8F8F8;
 
-          &.active {
-            color: @primary;
-            background: #fff;
+          li {
+            width: 100%;
+            height: 56px;
+            text-align: center;
+            line-height: 56px;
+            font-size: 14px;
+
+            &.active {
+              color: @primary;
+              background: #fff;
+            }
+          }
+        }
+      }
+
+      .category-list {
+        background: #fff;
+        height: 100%;
+        flex-grow: 1;
+        padding: 0 10px;
+
+        .list-wrapper {
+          width: 100%;
+
+          .list-item-wrapper {
+            width: 100%;
+
+            .list-item {
+              .fjcc(column);
+
+              .item-title {
+                font-size: 17px;
+                font-weight: 500;
+                padding: 20px 0;
+                width: 100%;
+              }
+
+              .item {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+
+                .i {
+                  .fjcc(column);
+                  width: 33.3333%;
+                  margin-bottom: 10px;
+                  text-align: center;
+                  font-size: 12px;
+
+                  .icon {
+                    .wh(30px, 30px);
+                    fill: @primary;
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
+
   }
 </style>
