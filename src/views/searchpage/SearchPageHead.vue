@@ -8,30 +8,30 @@
       <input
         type="text"
         class="search-input"
-        :value="keyword"
-        @change="$emit('update:keyword',$event.target.value)"/>
+        :value="$store.state.keyword"
+        @input="onInputFun($event.target.value)"
+      />
     </div>
-    <span class="search-btn" @click="getSearch">搜索</span>
+    <span class="search-btn" @click="$store.commit('onRefresh')">搜索</span>
   </header>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop} from 'vue-property-decorator';
+  import {Component} from 'vue-property-decorator';
   import Icon from '@/components/Icon.vue';
+
   @Component({
     components: {Icon}
   })
   export default class SearchPageHead extends Vue {
-    @Prop() keyword!: string;
+    onInputFun(value: string) {
+      this.$store.commit('changeKeyword', value);
+      this.$store.commit('onRefresh')
+    }
 
     goBack() {
       this.$router.go(-1);
-    }
-
-    getSearch() {
-      console.log(this.keyword);
-      this.$emit('onRefresh',this.keyword);
     }
   }
 </script>
@@ -48,12 +48,13 @@
     color: #656771;
     z-index: 10000;
 
-    .icon-left{
+    .icon-left {
       height: 100%;
       .fjcc();
-      .icon{
+
+      .icon {
         margin: 0 20px 0 10px;
-        fill:#666;
+        fill: #666;
       }
     }
 
@@ -68,9 +69,9 @@
       overflow: hidden;
       .borderRadius(20px);
 
-      .icon{
+      .icon {
         margin: 0 10px;
-        fill:#666;
+        fill: #666;
       }
 
       .search-input {
