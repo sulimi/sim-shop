@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {Toast} from 'vant/types/toast';
 import {search} from '@/service/category';
+import {getCart} from '@/service/cart';
 
 Vue.use(Vuex);
 
@@ -14,28 +15,13 @@ const store = new Vuex.Store({
     searchTotalPage: 0,//页码总数
     searchResult: [],
     orderBy: '',
-    keyword:''  //关键词搜索
+    keyword: '',  //关键词搜索
+    cartCount: 0,
   },
   mutations: {
-    async init(state) {
-      if (!state.keyword) {
-        // Toast.fail('请输入关键词');
-        state.searchFinished = true;
-        state.searchLoading = false;
-        return;
-      }
-      const {data, data: {list}} = await search({
-        pageNumber: state.searchPage,
-        keyword: state.keyword,
-        orderBy: state.orderBy
-      });
-      state.searchResult = state.searchResult.concat(list);
-      state.searchTotalPage = data.totalPage;
-      state.searchLoading = false;
-      if (state.searchPage >= data.totalPage) state.searchFinished = true;
-    },
-    changeKeyword(state,val){
-      state.keyword=val;
+    //滚动加载
+    changeKeyword(state, val) {
+      state.keyword = val;
     },
     onLoad(state) {
       if (!state.searchRefreshing && state.searchPage < state.searchTotalPage) {
@@ -45,7 +31,7 @@ const store = new Vuex.Store({
         state.searchResult = [];
         state.searchRefreshing = false;
       }
-     store.commit('init')
+      store.dispatch('init').then()
     },
     onRefresh(state) {
       //重新请求刷新数据
@@ -54,9 +40,45 @@ const store = new Vuex.Store({
       state.searchLoading = true;
       state.searchPage = 1;
       store.commit('onLoad');
+    },
+
+
+    //购物车、详情页
+    addCart (state, payload) {
+      state.cartCount = payload.count
     }
   },
-  actions: {},
+  actions: {
+    //滚动加载
+    async init(context) {
+      if (!context.state.keyword) {
+        // Toast.fail('请输入关键词');
+        context.state.searchFinished = true;
+        context.state.searchLoading = false;
+        return;
+      }
+      const {data, data: {list}} = await search({
+        pageNumber: context.state.searchPage,
+        keyword: context.state.keyword,
+        orderBy: context.state.orderBy
+      });
+      console.log(data);
+      context.state.searchResult = context.state.searchResult.concat(list);
+      context.state.searchTotalPage = data.totalPage;
+      context.state.searchLoading = false;
+      if (context.state.searchPage >= data.totalPage){
+        context.state.searchFinished = true;
+      }
+    },
+
+    //购物车、详情页
+    async updateCart(ctx) {
+      const { data } = await getCart()
+      ctx.commit('addCart', {
+        count: data.length || 0
+      })
+    }
+  },
   modules: {}
 });
-export {store}
+export {store};

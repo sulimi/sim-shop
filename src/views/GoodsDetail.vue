@@ -27,9 +27,9 @@
       <van-goods-action-icon icon="shop-o" text="店铺" @click="onClickIcon"/>
       <van-goods-action-icon icon="chat-o" text="客服" color="#ee0a24" @click="onClickIcon"/>
       <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" @click="onClickIcon"/>
-      <van-goods-action-icon icon="cart-o" text="购物车" badge="5"/>
-      <van-goods-action-button type="warning" text="加入购物车"/>
-      <van-goods-action-button type="danger" text="立即购买"/>
+      <van-goods-action-icon icon="cart-o" text="购物车" :badge="$store.state.cartCount" @click="goTo"/>
+      <van-goods-action-button type="warning" text="加入购物车" @click="addCart"/>
+      <van-goods-action-button type="danger" text="立即购买" @click="goToCart"/>
     </van-goods-action>
   </div>
 </template>
@@ -41,6 +41,7 @@
   import {getDetail} from '@/service/category';
   import SwipeHome from '@/views/home/SwipeHome.vue';
   import {Toast} from 'vant';
+  import {addCart} from '@/service/cart';
 
   @Component({
     components: {SwipeHome, ItemHeader}
@@ -59,8 +60,21 @@
       Toast('未开发');
     }
 
-    onClickButton() {
-      Toast('点击按钮');
+    goTo() {
+      this.$router.push({path: '/cart'});
+    }
+
+
+    async addCart() {
+      const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
+      if (resultCode == 200) Toast.success('添加成功');
+      this.$store.dispatch('updateCart');
+    }
+
+    async goToCart() {
+      const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
+      this.$store.dispatch('updateCart');
+      this.goTo()
     }
   }
 </script>

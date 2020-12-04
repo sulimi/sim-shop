@@ -25,7 +25,7 @@
     created() {
       this.$store.commit('changeKeyword', '手机');
       this.$store.commit('onRefresh')
-      this.$store.commit('init')
+      this.$store.dispatch('init')
     }
 
     changeTab(name: string, title: string) {
