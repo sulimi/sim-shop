@@ -10,7 +10,7 @@
               @load="$store.commit('onLoad')"
               @offset="300">
       <div class="list-item" v-for="(item,index) in $store.state.searchResult" :key="index"
-           @click="productDetail(item)">
+           @click="goodsDetail(item)">
         <img :src="prefix(item.goodsCoverImg)" alt=""/>
         <div class="item-text">
           <p class="item-name"><span>{{item.goodsName}}</span></p>
@@ -34,8 +34,8 @@
   export default class SearchPageList extends Vue {
     @Prop() keyword!: string;
 
-    productDetail(item: any) {
-      this.$router.push({path: `product/${item.goodsId}`});
+    goodsDetail(item: any) {
+      this.$router.push({path: `goodsdetail/${item.goodsId}`});
     }
 
   }

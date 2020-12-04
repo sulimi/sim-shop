@@ -25,7 +25,9 @@
     @Prop() routerName!: string;
 
     backFun() {
-      if (!this.routerName) return
+      if (!this.routerName){
+        this.$router.go(-1)
+      }
       this.$router.push({path: this.routerName});
     }
   }

@@ -2,7 +2,7 @@
   <div class="module-item">
     <header class="module-item-title">{{title}}</header>
     <div class="module-item-content">
-      <router-link to="/" class="content-item" v-for="item in moduleList" :key="item.goodsId">
+      <router-link :to="'/goodsdetail/'+item.goodsId" class="content-item" v-for="item in moduleList" :key="item.goodsId">
         <img :src="prefix(item.goodsCoverImg)" alt="">
         <div class="item-message">
           <div class="text">{{ item.goodsName }}</div>

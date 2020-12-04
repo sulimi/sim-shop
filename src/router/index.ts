@@ -6,6 +6,7 @@ import Cart from '@/views/Cart.vue';
 import User from '@/views/User.vue';
 import Login from '@/views/Login.vue';
 import SearchPage from '@/views/searchpage/SearchPage.vue';
+import GoodsDetail from '@/views/GoodsDetail.vue';
 
 Vue.use(VueRouter)
 
@@ -36,11 +37,19 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: '/goodsdetail/:id',
+    name: 'goodsdetail',
+    component: GoodsDetail,
+    meta: {
+      index: 3
+    }
+  },
+  {
     path: '/category',
     name: 'category',
     component: Category,
     meta: {
-      index: 1
+      index: 2
     }
   },
   {
@@ -48,7 +57,7 @@ const routes: Array<RouteConfig> = [
     name: 'searchpage',
     component: SearchPage,
     meta: {
-      index: 1
+      index: 2
     }
   },
   {
@@ -72,7 +81,7 @@ const routes: Array<RouteConfig> = [
     name: 'login',
     component: Login,
     meta: {
-      index: 1
+      index: 2
     }
   },
 ]
