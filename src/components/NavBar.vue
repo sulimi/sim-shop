@@ -7,9 +7,11 @@
       <router-link tag="li" class="nav-list-item" active-class="active" to="/category">
         <Icon name="category"/>
         <span>分类</span></router-link>
-      <router-link tag="li" class="nav-list-item" active-class="active" to="/cart">
+      <router-link tag="li" class="nav-list-item cart-wrap" active-class="active" to="/cart">
+        <div class="cart-count" v-if="$store.state.cartCount>0">{{$store.state.cartCount}}</div>
         <Icon name="cart"/>
-        <span>购物车</span></router-link>
+        <span>购物车</span>
+      </router-link>
       <router-link tag="li" class="nav-list-item" active-class="active" to="/user">
         <Icon name="user"/>
         <span>我的</span></router-link>
@@ -45,18 +47,20 @@
         .fjcc(column);
         /*width: 33.33%;*/
         /*margin: 0 auto;*/
-        flex:1;
-        /*flex-grow: 1;*/
+        /*flex-grow: 1;*//*四个效果一样*/
+        flex: 1;
+
         .icon {
           width: 2em;
           height: 2em;
-          fill:#aaa;
+          fill: #aaa;
         }
 
         &.active {
           color: @primary;
-          .icon{
-            fill:@primary;
+
+          .icon {
+            fill: @primary;
           }
         }
 
@@ -65,6 +69,24 @@
           padding-top: 2px;
         }
 
+        &.cart-wrap {
+          position: relative;
+
+          .cart-count {
+            position: absolute;
+            background: red;
+            color: #fff;
+            top: -2px;
+            right: 15%;
+            padding: 0 4px;
+            text-align: left;
+            max-width: 100%;
+            .ellipsisSingle;
+            border-radius: 20px;
+            font-weight: bold;
+          }
+
+        }
       }
     }
   }

@@ -62,7 +62,6 @@ const store = new Vuex.Store({
         keyword: context.state.keyword,
         orderBy: context.state.orderBy
       });
-      console.log(data);
       context.state.searchResult = context.state.searchResult.concat(list);
       context.state.searchTotalPage = data.totalPage;
       context.state.searchLoading = false;
