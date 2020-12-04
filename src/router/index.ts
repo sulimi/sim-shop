@@ -5,6 +5,7 @@ import Category from '../views/Category.vue'
 import Cart from '@/views/Cart.vue';
 import User from '@/views/User.vue';
 import Login from '@/views/Login.vue';
+import SearchPage from '@/views/SearchPage.vue';
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,14 @@ const routes: Array<RouteConfig> = [
     path: '/category',
     name: 'category',
     component: Category,
+    meta: {
+      index: 1
+    }
+  },
+  {
+    path: '/searchpage',
+    name: 'searchpage',
+    component: SearchPage,
     meta: {
       index: 1
     }
