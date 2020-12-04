@@ -74,11 +74,13 @@
 
           .cart-count {
             position: absolute;
-            background: red;
+            background: #ee0a24;
             color: #fff;
             top: -2px;
             right: 15%;
-            padding: 0 4px;
+            height: 1.3em;
+            /*line-height: 1.3em;*/
+            padding: 0 6px;
             text-align: left;
             max-width: 100%;
             .ellipsisSingle;
