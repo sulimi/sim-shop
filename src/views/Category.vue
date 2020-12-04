@@ -25,8 +25,7 @@
       <ListScroll class="category-list">
         <div class="list-wrapper">
           <div class="list-item-wrapper" v-for="item in categoryList" :key="item.categoryId">
-            <div class="list-item" v-for="i in item.secondLevelCategoryVOS" :key="i.categoryId"
-            >
+            <div class="list-item" v-for="i in item.secondLevelCategoryVOS" :key="i.categoryId">
               <template v-if="clickIndexId===i.parentId">
                 <div class="item-title">{{i.categoryName}}</div>
                 <div class="item">
@@ -86,9 +85,10 @@
       margin-top: 40px;
       display: flex;
       height: 400px;
+
       .menu-list {
         background: #F8F8F8;
-        width: 28%;
+        width: 30%;
         height: 100%;
         overflow: hidden;
         flex-shrink: 0;
@@ -104,10 +104,13 @@
             line-height: 56px;
             font-size: 14px;
             cursor: pointer;
+            transition: all 80ms;
 
             &.active {
               color: @primary;
               background: #fff;
+              font-size: 15px;
+              font-weight: bold;
             }
           }
         }
