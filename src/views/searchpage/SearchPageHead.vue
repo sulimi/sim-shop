@@ -12,7 +12,7 @@
         @input="onInputFun($event.target.value)"
       />
     </div>
-    <span class="search-btn" @click="$store.commit('onRefresh')">搜索</span>
+    <span class="search-btn" @click="onSearchFun">搜索</span>
   </header>
 </template>
 
@@ -20,6 +20,7 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import Icon from '@/components/Icon.vue';
+  import {Toast} from 'vant';
 
   @Component({
     components: {Icon}
@@ -27,7 +28,14 @@
   export default class SearchPageHead extends Vue {
     onInputFun(value: string) {
       this.$store.commit('changeKeyword', value);
-      this.$store.commit('onRefresh')
+      this.$store.commit('onRefresh');
+    }
+
+    onSearchFun() {
+      if (!this.$store.state.keyword){
+        Toast.fail('请输入关键词')
+      }
+      this.$store.commit('onRefresh');
     }
 
     goBack() {

@@ -3,13 +3,12 @@
                     @refresh="$store.commit('onRefresh')"
                     success-text="刷新成功"
                     class="search-list-refresh">
-    <van-list
-      v-model="$store.state.searchLoading"
-      :finished="$store.state.searchFinished"
-      finished-text="没有更多了"
-      @load="$store.commit('onLoad')"
-      @offset="300"
-    >
+    <van-list v-if="$store.state.searchResult.length"
+              v-model="$store.state.searchLoading"
+              :finished="$store.state.searchFinished"
+              finished-text="没有更多了"
+              @load="$store.commit('onLoad')"
+              @offset="300">
       <div class="list-item" v-for="(item,index) in $store.state.searchResult" :key="index"
            @click="productDetail(item)">
         <img :src="prefix(item.goodsCoverImg)" alt=""/>
@@ -20,14 +19,18 @@
         </div>
       </div>
     </van-list>
+    <None v-else>输入关键字搜索吧~</None>
   </van-pull-refresh>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
+  import None from '@/components/None.vue';
 
-  @Component
+  @Component({
+    components: {None}
+  })
   export default class SearchPageList extends Vue {
     @Prop() keyword!: string;
 
