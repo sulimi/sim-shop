@@ -100,6 +100,7 @@
         }
         .detail-list-content-img {
           img {
+            /*TODO*/
             border: 1px solid red;
             width: 100%!important;
           }
