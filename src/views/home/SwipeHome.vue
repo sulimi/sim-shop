@@ -1,7 +1,7 @@
 <template>
   <van-swipe class="home-swipe" :autoplay="5000" indicator-color="#1baeae">
     <van-swipe-item v-for="item in swipeImgs" :key="item.carouselUrl?item.carouselUrl:item">
-      <img :src="item.carouselUrl?item.carouselUrl:item" alt="" @click="goTo(item.carouselUrl?item.carouselUrl:'none')">
+      <img :src="item.carouselUrl?item.carouselUrl:prefix(item)" alt="" @click="goTo(item.carouselUrl?item.carouselUrl:'none')">
     </van-swipe-item>
   </van-swipe>
 </template>
