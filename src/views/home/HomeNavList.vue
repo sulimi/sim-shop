@@ -1,5 +1,5 @@
 <template>
-  <div class="show-list">
+  <div class="show-list" @click="onClickIcon">
     <router-link :to="item.to" v-for="item in showList" v-bind:key="item.name">
       <Icon :name="item.icon"/>
       <span>{{item.name}}</span>
@@ -11,6 +11,7 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import Icon from '@/components/Icon.vue';
+  import {Toast} from 'vant';
 
   type ShowList = {
     icon: string;
@@ -73,6 +74,9 @@
         to: ''
       },
     ];
+    onClickIcon() {
+      Toast('未开发');
+    }
   }
 </script>
 

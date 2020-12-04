@@ -22,6 +22,15 @@
         <div class="detail-list-content-img" v-html="goodsItemData.goodsDetailContent"/>
       </div>
     </div>
+
+    <van-goods-action>
+      <van-goods-action-icon icon="shop-o" text="店铺" @click="onClickIcon" />
+      <van-goods-action-icon icon="chat-o" text="客服" color="#ee0a24" @click="onClickIcon"/>
+      <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" @click="onClickIcon"/>
+      <van-goods-action-icon icon="cart-o" text="购物车" badge="5"/>
+      <van-goods-action-button type="warning" text="加入购物车"/>
+      <van-goods-action-button type="danger" text="立即购买"/>
+    </van-goods-action>
   </div>
 </template>
 
@@ -31,6 +40,7 @@
   import ItemHeader from '@/components/ItemHeader.vue';
   import {getDetail} from '@/service/category';
   import SwipeHome from '@/views/home/SwipeHome.vue';
+  import {Toast} from 'vant';
 
   @Component({
     components: {SwipeHome, ItemHeader}
@@ -42,6 +52,13 @@
       const {id} = this.$route.params;
       const {data} = await getDetail(id);
       this.goodsItemData = data;
+    }
+
+    onClickIcon() {
+      Toast('未开发');
+    }
+    onClickButton() {
+      Toast('点击按钮');
     }
   }
 </script>
@@ -106,6 +123,13 @@
           }
         }
       }
+    }
+
+    .van-goods-action-button--warning {
+      background: linear-gradient(to right,#6bd8d8, @primary)
+    }
+    .van-goods-action-button--danger {
+      background: linear-gradient(to right, #0dc3c3, #098888)
     }
   }
 </style>

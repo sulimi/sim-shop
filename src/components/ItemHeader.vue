@@ -5,8 +5,8 @@
     </div>
     <div class="item-header-title" v-if="title">{{title}}</div>
     <slot v-else/>
-    <div class="btn-icon">
-      <Icon :name="iconRight"/>
+    <div class="btn-icon" @click="onClickIcon">
+      <Icon :name="iconRight" />
     </div>
   </header>
 </template>
@@ -15,6 +15,7 @@
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
   import Icon from '@/components/Icon.vue';
+  import {Toast} from 'vant';
 
   @Component({
     components: {Icon}
@@ -23,7 +24,9 @@
     @Prop() title!: string;
     @Prop() iconRight!: string;
     @Prop() routerName!: string;
-
+    onClickIcon() {
+      Toast('未开发');
+    }
     backFun() {
       if (!this.routerName){
         this.$router.go(-1)
