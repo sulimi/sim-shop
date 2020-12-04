@@ -3,8 +3,9 @@ import md5 from 'js-md5';
 import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
-import store from './store';
+import {store} from './store';
 import 'lib-flexible/flexible';
+import {prefix} from '@/assets/ts/utils';
 import {Button, Form, Field, Toast, Swipe, SwipeItem, SwipeCell, Tabs, Tab, List, PullRefresh} from 'vant';
 
 
@@ -13,6 +14,7 @@ Vue.use(Button).use(Field)
   .use(Swipe).use(SwipeItem).use(SwipeCell)
   .use(Tabs).use(Tab).use(List).use(PullRefresh);
 Vue.config.productionTip = false;
+Vue.prototype.prefix = prefix;
 (window as any).vRouter = router;
 
 new Vue({

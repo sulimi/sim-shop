@@ -16,7 +16,6 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
-  import {prefix} from '@/assets/ts/utils';
 
   type ModuleList = {
     goodsCoverImg: string;
