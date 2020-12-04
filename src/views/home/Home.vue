@@ -71,7 +71,7 @@
   }
 </script>
 <style lang="less" scoped>
-  @import "~@/assets/style/header";
+  @import "~@/assets/style/header.less";
 
   .home-wrapper {
     ::v-deep.home-header {

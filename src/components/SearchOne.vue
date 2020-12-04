@@ -1,5 +1,7 @@
 <template>
-  <div class="center-header">
+  <div class="center-header"
+       @click="$router.push('/searchpage')"
+       >
     <slot/>
   </div>
 </template>

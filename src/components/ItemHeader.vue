@@ -1,7 +1,7 @@
 <template>
-  <header class="item-header header" @click="backFun">
-    <div class="btn-icon">
-      <Icon name="left" @click="backFun" @touchstart="backFun"/>
+  <header class="item-header header">
+    <div class="btn-icon" @click="backFun">
+      <Icon name="left"/>
     </div>
     <div class="item-header-title" v-if="title">{{title}}</div>
     <slot v-else/>

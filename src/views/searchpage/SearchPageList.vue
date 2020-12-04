@@ -1,6 +1,8 @@
 <template>
-  <van-pull-refresh v-model="$store.state.searchRefreshing" class="search-list-refresh">
-    {{$store.state.searchResult.length}}
+  <van-pull-refresh v-model="$store.state.searchRefreshing"
+                    @refresh="$store.commit('onRefresh')"
+                    success-text="刷新成功"
+                    class="search-list-refresh">
     <van-list
       v-model="$store.state.searchLoading"
       :finished="$store.state.searchFinished"

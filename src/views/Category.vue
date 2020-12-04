@@ -1,6 +1,6 @@
 <template>
   <div class="category-wrapper">
-    <ItemHeader router-name="/home">
+    <ItemHeader router-name="/">
       <SearchOne>
         <Icon name="search"/>
         <span>全场50元起步</span>

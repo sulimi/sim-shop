@@ -22,6 +22,11 @@
     components: {SearchPageList, SearchPageHead}
   })
   export default class SearchPage extends Vue {
+    created() {
+      this.$store.commit('changeKeyword', '手机');
+      this.$store.commit('onRefresh')
+      this.$store.commit('init')
+    }
 
     changeTab(name: string, title: string) {
       this.$store.state.orderBy = name;
@@ -31,7 +36,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import "~@/assets/style/mixin";
+  @import "~@/assets/style/mixin.less";
 
   .product-header {
     position: fixed;

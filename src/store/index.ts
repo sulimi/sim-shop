@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     searchTotalPage: 0,//页码总数
     searchResult: [],
     orderBy: '',
-    keyword:'手机'  //关键词搜索
+    keyword:''  //关键词搜索
   },
   mutations: {
     async init(state) {
