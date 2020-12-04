@@ -16,6 +16,7 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
+  import {prefix} from '@/assets/ts/utils';
 
   type ModuleList = {
     goodsCoverImg: string;
@@ -29,15 +30,6 @@
   export default class HomeModule extends Vue {
     @Prop() moduleList!: ModuleList;
     @Prop() title!: string;
-
-    prefix(url: string) {
-      if (url && url.startsWith('http')) {
-        return url;
-      } else {
-        url = `http://47.99.134.126:28019${url}`;
-        return url;
-      }
-    }
   }
 </script>
 
