@@ -1,7 +1,7 @@
 <template>
   <van-swipe class="home-swipe" :autoplay="5000" indicator-color="#1baeae">
     <van-swipe-item v-for="item in swipeImgs" :key="item.carouselUrl?item.carouselUrl:item">
-      <img :src="item.carouselUrl?item.carouselUrl:prefix(item)" alt="" @click="goTo(item.carouselUrl?item.carouselUrl:'none')">
+      <img :src="item.carouselUrl?item.carouselUrl:prefix(item)" alt="" @click="goTo(item.carouselUrl?item.carouselUrl:item)">
     </van-swipe-item>
   </van-swipe>
 </template>
@@ -20,7 +20,6 @@
 
     goTo(url: string) {
       //TODO  跳到一个指定路由
-      if (url === 'nont') return;
       window.open(url);
     }
   }

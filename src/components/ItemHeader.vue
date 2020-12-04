@@ -25,6 +25,7 @@
     @Prop() iconRight!: string;
     @Prop() routerName!: string;
     onClickIcon() {
+      Toast.setDefaultOptions({ duration: 500 });
       Toast('未开发');
     }
     backFun() {

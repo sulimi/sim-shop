@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="detail-list">
-        <ul>
+        <ul @click="onClickIcon">
           <li>概述</li>
           <li>参数</li>
           <li>安装服务</li>
@@ -24,7 +24,7 @@
     </div>
 
     <van-goods-action>
-      <van-goods-action-icon icon="shop-o" text="店铺" @click="onClickIcon" />
+      <van-goods-action-icon icon="shop-o" text="店铺" @click="onClickIcon"/>
       <van-goods-action-icon icon="chat-o" text="客服" color="#ee0a24" @click="onClickIcon"/>
       <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" @click="onClickIcon"/>
       <van-goods-action-icon icon="cart-o" text="购物车" badge="5"/>
@@ -49,6 +49,7 @@
     goodsItemData = [];
 
     async mounted() {
+      Toast.setDefaultOptions({duration: 500});
       const {id} = this.$route.params;
       const {data} = await getDetail(id);
       this.goodsItemData = data;
@@ -57,6 +58,7 @@
     onClickIcon() {
       Toast('未开发');
     }
+
     onClickButton() {
       Toast('点击按钮');
     }
@@ -67,6 +69,8 @@
   @import "~@/assets/style/mixin";
 
   .good-detail {
+    width: 100vw;
+    overflow: hidden;
 
     .detail-content {
       margin-top: 40px;
@@ -99,6 +103,7 @@
 
       .detail-list {
         width: 100%;
+
         ul {
           .fjbt();
           margin: 10px 0;
@@ -115,19 +120,19 @@
             }
           }
         }
+
         .detail-list-content-img {
-          img {
-            /*TODO*/
-            border: 1px solid red;
-            width: 100%!important;
+          ::v-deep img {
+            width: 100%;
           }
         }
       }
     }
 
     .van-goods-action-button--warning {
-      background: linear-gradient(to right,#6bd8d8, @primary)
+      background: linear-gradient(to right, #6bd8d8, @primary)
     }
+
     .van-goods-action-button--danger {
       background: linear-gradient(to right, #0dc3c3, #098888)
     }
