@@ -7,6 +7,7 @@ import User from '@/views/User.vue';
 import Login from '@/views/Login.vue';
 import SearchPage from '@/views/searchpage/SearchPage.vue';
 import GoodsDetail from '@/views/GoodsDetail.vue';
+import SubmitPage from '@/views/SubmitPage.vue';
 
 Vue.use(VueRouter)
 
@@ -64,6 +65,14 @@ const routes: Array<RouteConfig> = [
     path: '/cart',
     name: 'cart',
     component: Cart,
+    meta: {
+      index: 1
+    }
+  },
+  {
+    path: '/submitpage',
+    name: 'submitpage',
+    component: SubmitPage,
     meta: {
       index: 1
     }

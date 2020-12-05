@@ -134,7 +134,11 @@
 
     //订单提交
     onSubmit() {
-      console.log(1);
+      if (this.checkIdArr.length===0){
+        Toast.fail('请选择购买商品')
+        return
+      }
+      this.$router.push(`/submitpage?moneycount=${this.moneyCount}`)
     }
 
     onClickEditAddress() {
