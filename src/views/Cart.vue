@@ -65,9 +65,7 @@
   export default class Cart extends Vue {
     list = []; // 购物车商品列表
     checkIdArr = [];// 购物车商品的 id 数组，用于多选
-    checkItemArr = [];
     checkAll = false;
-    moneyCount = 0;
 
     mounted() {
       this.init();
@@ -90,7 +88,7 @@
       //解决二次触发：
       if ((this.list.filter(i => (i as any).cartItemId === clickItem.name)[0] as any).goodsCount === value) return;
       try {
-        const a = await addCartItemCount({
+        await addCartItemCount({
           cartItemId: clickItem.name,
           goodsCount: value
         });
@@ -105,13 +103,19 @@
       // console.log(this.list.filter((i: any) =>));
     }
 
+    get checkItemArr() {
+      return this.list.filter(i => (this.checkIdArr as any).includes((i as any).cartItemId));
+    }
+
+    get moneyCount() {
+      return this.checkItemArr.reduce((sum, item) => {
+        return sum + (item as any).sellingPrice * (item as any).goodsCount;
+      }, 0);
+    }
+
     checkItemFun(arr: any) {
       //牛逼!它会把选中的商品的id加到数组里
       this.checkAll = this.checkIdArr.length === this.list.length;
-      this.checkItemArr = this.list.filter(i => (arr as any).includes((i as any).cartItemId));
-      this.moneyCount = this.checkItemArr.reduce((sum, item) => {
-        return sum + (item as any).sellingPrice;
-      }, 0);
     }
 
     toggleAll() {
