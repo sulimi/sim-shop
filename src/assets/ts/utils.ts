@@ -4224,46 +4224,49 @@ export const tdist = {
   621100: ['定西市', '620000'],
   621102: ['安定区', '621100']
 } as any;
-//
-// tdist.getLev1 = function () {
-//   for (var t = [], e = 1; e < 100; e++) {
-//     let i = '0000';
-//     i = e < 10 ? '0' + e + i : e + i;
-//     const n = this[i];
-//     'undefined' != typeof n && t.push({
-//       id: i,
-//       text: n[0]
-//     });
-//   }
-//   return t;
-// };
-//
-// tdist.getLev2 = function (t: string) {
-//   if ('' == t)
-//     return [];
-//   for (var e = [], i = 1; i < 100; i++) {
-//     let n = t.substr(0, 2);
-//     n += i < 10 ? '0' + i + '00' : i + '00';
-//     const r = this[n];
-//     'undefined' != typeof r && e.push({
-//       id: n,
-//       text: r[0]
-//     });
-//   }
-//   return e;
-// };
-//
-// tdist.getLev3 = function (t: string) {
-//   if ('' == t)
-//     return [];
-//   for (var e = [], i = 1; i < 100; i++) {
-//     let n = t.substr(0, 4);
-//     n += i < 10 ? '0' + i : i;
-//     const r = this[n];
-//     'undefined' != typeof r && e.push({
-//       id: n,
-//       text: r[0]
-//     });
-//   }
-//   return e;
-// };
+
+tdist.getLev1 = function () {
+  const t = [];
+  for (let e = 1; e < 100; e++) {
+    let i = '0000';
+    i = e < 10 ? '0' + e + i : e + i;
+    const n = this[i];
+    'undefined' != typeof n && t.push({
+      id: i,
+      text: n[0]
+    });
+  }
+  return t;
+};
+
+tdist.getLev2 = function (t: string) {
+  if ('' == t)
+    return [];
+  const e = [];
+  for (let i = 1; i < 100; i++) {
+    let n = t.substr(0, 2);
+    n += i < 10 ? '0' + i + '00' : i + '00';
+    const r = this[n];
+    'undefined' != typeof r && e.push({
+      id: n,
+      text: r[0]
+    });
+  }
+  return e;
+};
+
+tdist.getLev3 = function (t: string) {
+  if ('' == t)
+    return [];
+  const e = [];
+  for (let i = 1; i < 100; i++) {
+    let n = t.substr(0, 4);
+    n += i < 10 ? '0' + i : i;
+    const r = this[n];
+    'undefined' != typeof r && e.push({
+      id: n,
+      text: r[0]
+    });
+  }
+  return e;
+};
