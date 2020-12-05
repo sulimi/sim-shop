@@ -58,8 +58,6 @@
     cartList= []
     mounted() {
       this.init()
-
-      console.log(JSON.parse((this.$route.query.checkIdArr as any)).join(','))
     }
     async init() {
       Toast.loading({ message: '加载中...', forbidClick: true });
