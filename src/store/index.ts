@@ -44,7 +44,7 @@ const store = new Vuex.Store({
 
 
     //购物车、详情页
-    addCart (state, payload) {
+    updateCartCount (state, payload) {
       state.cartCount = payload.count
     }
   },
@@ -73,7 +73,7 @@ const store = new Vuex.Store({
     //购物车、详情页
     async updateCart(ctx) {
       const { data } = await getCart()
-      ctx.commit('addCart', {
+      ctx.commit('updateCartCount', {
         count: data.length || 0
       })
     }

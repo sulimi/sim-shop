@@ -7,3 +7,7 @@ export function addCart(params: any) {
 export function getCart(params: any = null) {
   return axios.get('/shop-cart', {params});
 }
+
+export function deleteCartItem(id: number) {
+  return axios.delete(`/shop-cart/${id}`);
+}

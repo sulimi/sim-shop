@@ -28,6 +28,16 @@
               </div>
             </div>
           </div>
+          <template #right>
+            <van-button
+              slot="right"
+              square
+              icon="delete"
+              type="danger"
+              class="delete-button"
+              @click="deleteGood(item.cartItemId)"
+            />
+          </template>
         </van-swipe-cell>
       </van-checkbox-group>
       <!--      <van-button type="info" @click="toggleAll" v-model="checkAll">全选</van-button>-->
@@ -46,7 +56,7 @@
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
   import {Toast} from 'vant';
-  import {getCart} from '@/service/cart';
+  import {deleteCartItem, getCart} from '@/service/cart';
 
   @Component({
     components: {ItemHeader}
@@ -104,7 +114,11 @@
         (this.$refs.checkboxGroup as any).toggleAll();
       }
     }
-
+    async deleteGood(id: number){
+      const { data } = await deleteCartItem(id)
+      this.$store.dispatch('updateCart')
+      this.init()
+    }
     //订单提交
     onSubmit() {
       console.log(1);
