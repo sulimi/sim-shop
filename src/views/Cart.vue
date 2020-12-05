@@ -24,7 +24,7 @@
                   :value="item.goodsCount"
                   :name="item.cartItemId"
                   async-change
-                  @change="onChange"
+                  @change="onChangeGoodsCount"
                 />
               </div>
             </div>
@@ -57,7 +57,7 @@
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
   import {Toast} from 'vant';
-  import {deleteCartItem, getCart} from '@/service/cart';
+  import {addCartItemCount, deleteCartItem, getCart} from '@/service/cart';
 
   @Component({
     components: {ItemHeader}
@@ -84,20 +84,20 @@
     }
 
     //进步器的异步触发方法
-    onChange(value: any, clickItem: { name: number }) {
+    async onChangeGoodsCount(value: any, clickItem: { name: number }) {
       //value是按钮显示的值，clickItem是整个按钮的信息
       // 注意此时修改 value 后会再次触发 change 事件
       //解决二次触发：
       if ((this.list.filter(i => (i as any).cartItemId === clickItem.name)[0] as any).goodsCount === value) return;
-      Toast.loading({forbidClick: true});
-      setTimeout(() => {
-        Toast.clear();
-        this.list.forEach(i => {
-          if (clickItem.name === (i as any).cartItemId) {
-            (i as any).goodsCount = value;
-          }
+      try {
+        const a = await addCartItemCount({
+          cartItemId: clickItem.name,
+          goodsCount: value
         });
-      }, 500);
+      } catch (e) {
+        return; //解决错误时二次触发刷新：
+      }
+      this.init();
     }
 
     //复选框
@@ -108,8 +108,7 @@
     checkItemFun(arr: any) {
       //牛逼!它会把选中的商品的id加到数组里
       this.checkAll = this.checkIdArr.length === this.list.length;
-      this.checkItemArr = this.list.filter(i => (this.checkIdArr as any).includes((i as any).cartItemId));
-      console.log(this.checkItemArr);
+      this.checkItemArr = this.list.filter(i => (arr as any).includes((i as any).cartItemId));
       this.moneyCount = this.checkItemArr.reduce((sum, item) => {
         return sum + (item as any).sellingPrice;
       }, 0);
