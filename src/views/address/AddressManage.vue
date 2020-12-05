@@ -1,8 +1,8 @@
 <template>
   <div class="address-manage-wrapper">
     <ItemHeader icon-right="more" title="地址管理"/>
-    <div class="address-item">
-新增地址
+    <div class="address-item" @click="goTo">
+      新增地址
     </div>
   </div>
 </template>
@@ -16,14 +16,21 @@
     components: {ItemHeader}
   })
   export default class AddressManage extends Vue {
-
+    mounted() {
+      console.log(this.$route.query);
+    }
+    goTo(){
+      this.$router.push('/addaddress')
+    }
   }
 </script>
 
 <style lang="less" scoped>
   @import "~@/assets/style/mixin.less";
-  .address-item {
-    margin-top: 40px;
 
+  .address-item {
+    border: 1px solid red;
+    margin-top: 40px;
+    height: 100px;
   }
 </style>

@@ -18,7 +18,7 @@
         <span>账号管理</span>
         <Icon name="right"/>
       </li>
-      <li>
+      <li @click="goTo('地址管理')">
         <span>地址管理</span>
         <Icon name="right"/>
       </li>
@@ -43,13 +43,17 @@
   })
   export default class User extends Vue {
     userData = {};
-
     async mounted() {
       try {
         const {data} = await getUserInfo();
         this.userData = data;
       } catch (e) {
         Toast.fail(e.message);
+      }
+    }
+    goTo(value: string){
+      if (value==='地址管理'){
+        this.$router.push('/addressmanage?user=user')
       }
     }
   }

@@ -8,7 +8,8 @@ import Login from '@/views/login/Login.vue';
 import SearchPage from '@/views/search/SearchPage.vue';
 import GoodsDetail from '@/views/detil/GoodsDetail.vue';
 import SubmitPage from '@/views/submit/SubmitPage.vue';
-import AddressManage from '@/views/submit/AddressManage.vue';
+import AddressManage from '@/views/address/AddressManage.vue';
+import AddAddress from '@/views/address/AddAddress.vue';
 
 Vue.use(VueRouter);
 
@@ -82,6 +83,14 @@ const routes: Array<RouteConfig> = [
     path: '/addressmanage',
     name: 'addressmanage',
     component: AddressManage,
+    meta: {
+      index: 3
+    }
+  },
+  {
+    path: '/addaddress',
+    name: 'addaddress',
+    component: AddAddress,
     meta: {
       index: 3
     }

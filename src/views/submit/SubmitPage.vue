@@ -90,7 +90,7 @@
     }
 
     goTo () {
-      this.$router.push({ path: 'addressmanage'})
+      this.$router.push({ path: 'addressmanage?submit=submit'})
     }
 
     get moneyPay() {
