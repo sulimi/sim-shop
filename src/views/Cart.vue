@@ -3,7 +3,7 @@
     <ItemHeader title="购物车" icon-right="more"/>
     <div class="cart-content">
       <van-checkbox-group v-model="checkIdArr" @change="checkItemFun" ref="checkboxGroup">
-        <van-swipe-cell @click="clickItem(item.cartItemId)" :right-width="50" v-for="(item, index) in list"
+        <van-swipe-cell :right-width="50" v-for="(item, index) in list"
                         :key="index"><!--van-swipe-cell可以右滑删除按钮-->
           <CartGoodItem :itemObj="{item,list,init}"/>
           <template #right>
@@ -32,7 +32,7 @@
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
   import {Toast} from 'vant';
-  import {addCartItemCount, deleteCartItem, getCart} from '@/service/cart';
+  import {deleteCartItem, getCart} from '@/service/cart';
   import CartEmpty from '@/views/cart/CartEmpty.vue';
   import SubmitBtn from '@/views/cart/SubmitBtn.vue';
   import CartGoodItem from '@/views/cart/CartGoodItem.vue';
@@ -60,10 +60,6 @@
     }
 
 
-    //复选框
-    clickItem(id: number) {
-      // console.log(this.list.filter((i: any) =>));
-    }
 
     get checkItemArr() {
       return this.list.filter(i => (this.checkIdArr as any).includes((i as any).cartItemId));

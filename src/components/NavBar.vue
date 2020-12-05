@@ -27,6 +27,9 @@
     components: {Icon}
   })
   export default class HelloWorld extends Vue {
+    created(){
+      this.$store.commit('fetchCartCount')
+    }
   }
 </script>
 <style scoped lang="less">
@@ -76,16 +79,16 @@
             position: absolute;
             background: #ee0a24;
             color: #fff;
-            top: -2px;
-            right: 15%;
+            top: 1px;
+            right: 30%;
             font-size: 12px;
             height: 1.3em;
             /*line-height: 1.3em;*/
-            padding: 0 6px;
+            padding: 0px 4px;
             text-align: left;
             max-width: 100%;
             .ellipsisSingle;
-            border-radius: 20px;
+            border-radius: 30px;
             font-weight: bold;
           }
 

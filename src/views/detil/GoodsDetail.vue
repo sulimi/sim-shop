@@ -27,7 +27,7 @@
       <van-goods-action-icon icon="shop-o" text="店铺" @click="onClickIcon"/>
       <van-goods-action-icon icon="chat-o" text="客服" color="#ee0a24" @click="onClickIcon"/>
       <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" @click="onClickIcon"/>
-      <van-goods-action-icon icon="cart-o" text="购物车" :badge="$store.state.cartCount" @click="goTo"/>
+      <van-goods-action-icon icon="cart-o" text="购物车" :badge="count" @click="goTo"/>
       <van-goods-action-button type="warning" text="加入购物车" @click="addCartFun"/>
       <van-goods-action-button type="danger" text="立即购买" @click="goToCart"/>
     </van-goods-action>
@@ -48,12 +48,16 @@
   })
   export default class GoodsDetail extends Vue {
     goodsItemData = [];
-
     async mounted() {
+      this.$store.commit('fetchCartCount')
       Toast.setDefaultOptions({duration: 500});
       const {id} = this.$route.params;
       const {data} = await getDetail(id);
       this.goodsItemData = data;
+    }
+
+    get count () {
+      return this.$store.state.cartCount
     }
 
     onClickIcon() {
@@ -66,15 +70,26 @@
 
 
     async addCartFun() {
-      const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
-      if (resultCode == 200) Toast.success('添加成功');
-      this.$store.dispatch('updateCart');
+      try {
+        const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
+        if (resultCode == 200) Toast.success('添加成功');
+        this.$store.dispatch('updateCart');
+      }catch (e) {
+        return
+      }
     }
 
     async goToCart() {
-      const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
-      this.$store.dispatch('updateCart');
-      this.goTo()
+      //TODO 应该要跳到下单页
+      try {
+        const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
+        this.$store.dispatch('updateCart');
+        this.goTo()
+      }catch (e) {
+        console.log(e);
+        this.goTo()
+      }
+
     }
   }
 </script>

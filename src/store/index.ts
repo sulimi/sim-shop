@@ -46,7 +46,15 @@ const store = new Vuex.Store({
     //购物车、详情页
     updateCartCount (state, payload) {
       state.cartCount = payload.count
-    }
+      store.commit('saveCartCount');
+    },
+
+    fetchCartCount(state) {
+      state.cartCount = JSON.parse(window.localStorage.getItem('cartCount') || '0');
+    },
+    saveCartCount(state) {
+      window.localStorage.setItem('cartCount', JSON.stringify(state.cartCount));
+    },
   },
   actions: {
     //滚动加载
