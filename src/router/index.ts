@@ -1,27 +1,28 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
-import Category from '../views/Category.vue'
+import Vue from 'vue';
+import VueRouter, {RouteConfig} from 'vue-router';
+import Home from '../views/Home.vue';
+import Category from '../views/Category.vue';
 import Cart from '@/views/Cart.vue';
 import User from '@/views/User.vue';
 import Login from '@/views/login/Login.vue';
 import SearchPage from '@/views/search/SearchPage.vue';
 import GoodsDetail from '@/views/detil/GoodsDetail.vue';
-import SubmitPage from '@/views/cart/SubmitPage.vue';
+import SubmitPage from '@/views/submit/SubmitPage.vue';
+import AddressManage from '@/views/submit/AddressManage.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 //push
-const VueRouterPush: any = VueRouter.prototype.push
-VueRouter.prototype.push = function push (to: any) {
-  return VueRouterPush.call(this, to).catch((err: any) => err)
-}
+const VueRouterPush: any = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(to: any) {
+  return VueRouterPush.call(this, to).catch((err: any) => err);
+};
 
 //replace
-const VueRouterReplace: any  = VueRouter.prototype.replace
-VueRouter.prototype.replace = function replace (to: any) {
-  return VueRouterReplace.call(this, to).catch((err: any) => err)
-}
+const VueRouterReplace: any = VueRouter.prototype.replace;
+VueRouter.prototype.replace = function replace(to: any) {
+  return VueRouterReplace.call(this, to).catch((err: any) => err);
+};
 
 const routes: Array<RouteConfig> = [
   {
@@ -74,7 +75,15 @@ const routes: Array<RouteConfig> = [
     name: 'submitpage',
     component: SubmitPage,
     meta: {
-      index: 1
+      index: 2
+    }
+  },
+  {
+    path: '/addressmanage',
+    name: 'addressmanage',
+    component: AddressManage,
+    meta: {
+      index: 3
     }
   },
   {
@@ -93,10 +102,10 @@ const routes: Array<RouteConfig> = [
       index: 2
     }
   },
-]
+];
 
 const router = new VueRouter({
   routes
-})
+});
 
-export default router
+export default router;

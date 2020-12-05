@@ -8,12 +8,12 @@ import 'lib-flexible/flexible';
 import {prefix} from '@/assets/ts/utils';
 import {Button, Form, Field, Toast, Swipe, SwipeItem, SwipeCell,
   Tabs, Tab, List, PullRefresh, GoodsAction,GoodsActionIcon,GoodsActionButton,
-  CheckboxGroup,Checkbox,SubmitBar,Stepper,Icon
+  CheckboxGroup,Checkbox,SubmitBar,Stepper,Icon,Popup
 } from 'vant';
 
 
 Vue.use(Button).use(Field).use(Icon)
-  .use(Toast).use(Button).use(Form)
+  .use(Toast).use(Button).use(Form).use(Popup)
   .use(Swipe).use(SwipeItem).use(SwipeCell)
   .use(Tabs).use(Tab).use(List).use(PullRefresh)
   .use(GoodsAction).use(GoodsActionButton).use(GoodsActionIcon)

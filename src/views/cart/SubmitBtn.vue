@@ -29,7 +29,7 @@
         Toast.fail('请选择购买商品');
         return;
       }
-      this.$router.push(`/submitpage?moneycount=${this.moneyCount}`);
+      this.$router.push(`/submitpage?checkIdArr=${JSON.stringify(this.checkObj.checkIdArr)}`);
     }
 
     //全选
