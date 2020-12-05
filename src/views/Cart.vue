@@ -2,8 +2,9 @@
   <div class="cart-wrapper">
     <ItemHeader title="购物车" icon-right="more"/>
     <div class="cart-content">
-      <van-checkbox-group v-model="checkArr" @change="checkItemFun" ref="checkboxGroup">
-        <van-swipe-cell :right-width="50" v-for="(item, index) in list" :key="index"><!--van-swipe-cell可以右滑删除按钮-->
+      <van-checkbox-group v-model="checkIdArr" @change="checkItemFun" ref="checkboxGroup">
+        <van-swipe-cell @click="clickItem(item.cartItemId)" :right-width="50" v-for="(item, index) in list"
+                        :key="index"><!--van-swipe-cell可以右滑删除按钮-->
           <div class="good-item">
             <van-checkbox :name="item.cartItemId"/><!--选择按钮-->
             <div class="good-img">
@@ -42,7 +43,7 @@
       </van-checkbox-group>
       <!--      <van-button type="info" @click="toggleAll" v-model="checkAll">全选</van-button>-->
     </div>
-    <van-submit-bar :price="9999999999" button-text="提交订单" @submit="onSubmit">
+    <van-submit-bar :price="moneyCount*100" button-text="提交订单" @submit="onSubmit">
       <van-checkbox v-model="checkAll" @click="toggleAll">全选</van-checkbox>
       <!--      <template #tip>-->
       <!--        你的收货地址不支持同城送, <span @click="onClickEditAddress">修改地址</span>-->
@@ -63,8 +64,10 @@
   })
   export default class Cart extends Vue {
     list = []; // 购物车商品列表
-    checkArr = [];// 购物车商品的 id 数组，用于多选
+    checkIdArr = [];// 购物车商品的 id 数组，用于多选
+    checkItemArr = [];
     checkAll = false;
+    moneyCount = 0;
 
     mounted() {
       this.init();
@@ -98,27 +101,34 @@
     }
 
     //复选框
-    checkItemFun(id: number) {
+    clickItem(id: number) {
+      // console.log(this.list.filter((i: any) =>));
+    }
+
+    checkItemFun(arr: any) {
       //牛逼!它会把选中的商品的id加到数组里
-      if (this.checkArr.length === this.list.length) {
-        this.checkAll = true;
-      } else {
-        this.checkAll = false;
-      }
+      this.checkAll = this.checkIdArr.length === this.list.length;
+      this.checkItemArr = this.list.filter(i => (this.checkIdArr as any).includes((i as any).cartItemId));
+      console.log(this.checkItemArr);
+      this.moneyCount = this.checkItemArr.reduce((sum, item) => {
+        return sum + (item as any).sellingPrice;
+      }, 0);
     }
 
     toggleAll() {
-      if (this.checkArr.length !== this.list.length) {
+      if (this.checkIdArr.length !== this.list.length) {
         (this.$refs.checkboxGroup as any).toggleAll(true);
       } else {
         (this.$refs.checkboxGroup as any).toggleAll();
       }
     }
-    async deleteGood(id: number){
-      const { data } = await deleteCartItem(id)
-      this.$store.dispatch('updateCart')
-      this.init()
+
+    async deleteGood(id: number) {
+      const {data} = await deleteCartItem(id);
+      this.$store.dispatch('updateCart');
+      this.init();
     }
+
     //订单提交
     onSubmit() {
       console.log(1);
@@ -200,18 +210,21 @@
           flex: 1;
           overflow: hidden;
           margin-left: 10px;
-          > span{
+
+          > span {
             &:nth-child(1) {
               flex-grow: 1;
               flex-shrink: 0;
             }
+
             &:nth-child(2) {
 
               max-width: 90%;
               .fjcc();
               justify-content: flex-start;
               overflow: hidden;
-              .van-submit-bar__price--integer{
+
+              .van-submit-bar__price--integer {
                 flex-grow: 1;
                 .ellipsisSingle;
               }
