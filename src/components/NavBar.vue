@@ -78,6 +78,7 @@
             color: #fff;
             top: -2px;
             right: 15%;
+            font-size: 12px;
             height: 1.3em;
             /*line-height: 1.3em;*/
             padding: 0 6px;

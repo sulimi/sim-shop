@@ -7,14 +7,17 @@ import {store} from './store';
 import 'lib-flexible/flexible';
 import {prefix} from '@/assets/ts/utils';
 import {Button, Form, Field, Toast, Swipe, SwipeItem, SwipeCell,
-  Tabs, Tab, List, PullRefresh, GoodsAction,GoodsActionIcon,GoodsActionButton} from 'vant';
+  Tabs, Tab, List, PullRefresh, GoodsAction,GoodsActionIcon,GoodsActionButton,
+  CheckboxGroup,Checkbox,SubmitBar,Stepper
+} from 'vant';
 
 
 Vue.use(Button).use(Field)
   .use(Toast).use(Button).use(Form)
   .use(Swipe).use(SwipeItem).use(SwipeCell)
   .use(Tabs).use(Tab).use(List).use(PullRefresh)
-  .use(GoodsAction).use(GoodsActionButton).use(GoodsActionIcon);
+  .use(GoodsAction).use(GoodsActionButton).use(GoodsActionIcon)
+  .use(Stepper).use(SubmitBar).use(Checkbox).use(CheckboxGroup);
 
 
 Vue.config.productionTip = false;
