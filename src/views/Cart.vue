@@ -30,9 +30,14 @@
           </div>
         </van-swipe-cell>
       </van-checkbox-group>
-<!--      <van-button type="info" @click="toggleAll" v-model="checkAll">全选</van-button>-->
-      <van-checkbox v-model="checkAll" @click="toggleAll">全选</van-checkbox>
+      <!--      <van-button type="info" @click="toggleAll" v-model="checkAll">全选</van-button>-->
     </div>
+    <van-submit-bar :price="9999999999" button-text="提交订单" @submit="onSubmit">
+      <van-checkbox v-model="checkAll" @click="toggleAll">全选</van-checkbox>
+      <!--      <template #tip>-->
+      <!--        你的收货地址不支持同城送, <span @click="onClickEditAddress">修改地址</span>-->
+      <!--      </template>-->
+    </van-submit-bar>
   </div>
 </template>
 
@@ -99,16 +104,18 @@
         (this.$refs.checkboxGroup as any).toggleAll();
       }
     }
+
+    //订单提交
+    onSubmit() {
+      console.log(1);
+    }
+
+    onClickEditAddress() {
+      console.log(1);
+    }
+
   }
 </script>
-<style lang="less">
-  @import "~@/assets/style/mixin.less";
-
-  .van-checkbox__icon--checked .van-icon {
-    background-color: @primary;
-    border-color: @primary;
-  }
-</style>
 <style lang="less" scoped>
   @import "~@/assets/style/mixin.less";
 
@@ -162,6 +169,41 @@
       .delete-button {
         width: 50px;
         height: 100%;
+      }
+    }
+
+    .van-submit-bar {
+      overflow: hidden;
+      margin-bottom: 50px;
+
+      .van-submit-bar__bar {
+        display: flex;
+        justify-content: space-between;
+
+        .van-submit-bar__text {
+          .fjcc();
+          justify-content: flex-end;
+          flex: 1;
+          overflow: hidden;
+          margin-left: 10px;
+          > span{
+            &:nth-child(1) {
+              flex-grow: 1;
+              flex-shrink: 0;
+            }
+            &:nth-child(2) {
+
+              max-width: 90%;
+              .fjcc();
+              justify-content: flex-start;
+              overflow: hidden;
+              .van-submit-bar__price--integer{
+                flex-grow: 1;
+                .ellipsisSingle;
+              }
+            }
+          }
+        }
       }
     }
   }
