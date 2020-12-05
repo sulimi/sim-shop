@@ -2,7 +2,7 @@
   <div class="cart-wrapper">
     <ItemHeader title="购物车" icon-right="more"/>
     <div class="cart-content">
-      <van-checkbox-group v-model="result" ref="checkboxGroup">
+      <van-checkbox-group v-model="checkArr" @change="checkItemFun" ref="checkboxGroup">
         <van-swipe-cell :right-width="50" v-for="(item, index) in list" :key="index"><!--van-swipe-cell可以右滑删除按钮-->
           <div class="good-item">
             <van-checkbox :name="item.cartItemId"/><!--选择按钮-->
@@ -30,8 +30,8 @@
           </div>
         </van-swipe-cell>
       </van-checkbox-group>
-      <van-button type="primary" @click="checkAll">全选</van-button>
-      <van-button type="info" @click="toggleAll">反选</van-button>
+<!--      <van-button type="info" @click="toggleAll" v-model="checkAll">全选</van-button>-->
+      <van-checkbox v-model="checkAll" @click="toggleAll">全选</van-checkbox>
     </div>
   </div>
 </template>
@@ -48,10 +48,13 @@
   })
   export default class Cart extends Vue {
     list = []; // 购物车商品列表
-    result = [];// 购物车商品的 id 数组，用于多选
+    checkArr = [];// 购物车商品的 id 数组，用于多选
+    checkAll = false;
+
     mounted() {
       this.init();
     }
+
 
     async init() {
       // 加载中禁止点击
@@ -59,7 +62,6 @@
       // 获取购物车商品数据
       const {data} = await getCart({pageNumber: 1});
       this.list = data;
-      this.result = data.map((item: { cartItemId: number }) => item.cartItemId);
       Toast.clear();
     }
 
@@ -81,19 +83,27 @@
     }
 
     //复选框
-    checkAll() {
-      console.log(this.result);
-      this.$refs.checkboxGroup.toggleAll(true);
+    checkItemFun(id: number) {
+      //牛逼!它会把选中的商品的id加到数组里
+      if (this.checkArr.length === this.list.length) {
+        this.checkAll = true;
+      } else {
+        this.checkAll = false;
+      }
     }
+
     toggleAll() {
-      // console.log(this.result);
-      //反选之后会把控制的数组置空，同理不选的项组件会帮你把它变成false
-      this.$refs.checkboxGroup.toggleAll();
+      if (this.checkArr.length !== this.list.length) {
+        (this.$refs.checkboxGroup as any).toggleAll(true);
+      } else {
+        (this.$refs.checkboxGroup as any).toggleAll();
+      }
     }
   }
 </script>
 <style lang="less">
   @import "~@/assets/style/mixin.less";
+
   .van-checkbox__icon--checked .van-icon {
     background-color: @primary;
     border-color: @primary;
