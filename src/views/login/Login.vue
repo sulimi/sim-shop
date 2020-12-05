@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <ItemHeader :title="type==='login'?'登录':'注册'"/>
-    <img src="../assets/login.jpg" alt="登录">
+    <img src="../../assets/login.jpg" alt="登录">
     <div class="login-message">
       <van-form @submit="onSubmit" class="login-from">
         <van-field
@@ -39,7 +39,7 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
-  import Verify from '../../node_modules/vue2-verify/src/components/Verify.vue';
+  import Verify from 'vue2-verify/src/components/Verify.vue';
   import {Toast} from 'vant';
   import {login, register} from '@/service/user';
   import {setLocal} from '@/assets/ts/utils';
@@ -115,7 +115,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import "~@/assets/style/mixin";
+  @import "~@/assets/style/mixin.less";
 
   .login {
     img {

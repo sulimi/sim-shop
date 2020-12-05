@@ -8,11 +8,11 @@ import 'lib-flexible/flexible';
 import {prefix} from '@/assets/ts/utils';
 import {Button, Form, Field, Toast, Swipe, SwipeItem, SwipeCell,
   Tabs, Tab, List, PullRefresh, GoodsAction,GoodsActionIcon,GoodsActionButton,
-  CheckboxGroup,Checkbox,SubmitBar,Stepper
+  CheckboxGroup,Checkbox,SubmitBar,Stepper,Icon
 } from 'vant';
 
 
-Vue.use(Button).use(Field)
+Vue.use(Button).use(Field).use(Icon)
   .use(Toast).use(Button).use(Form)
   .use(Swipe).use(SwipeItem).use(SwipeCell)
   .use(Tabs).use(Tab).use(List).use(PullRefresh)

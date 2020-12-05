@@ -80,7 +80,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import "~@/assets/style/mixin";
+  @import "~@/assets/style/mixin.less";
 
   .good-detail {
     width: 100vw;

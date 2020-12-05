@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/home/Home.vue'
+import Home from '../views/Home.vue'
 import Category from '../views/Category.vue'
 import Cart from '@/views/Cart.vue';
 import User from '@/views/User.vue';
-import Login from '@/views/Login.vue';
-import SearchPage from '@/views/searchpage/SearchPage.vue';
-import GoodsDetail from '@/views/GoodsDetail.vue';
-import SubmitPage from '@/views/SubmitPage.vue';
+import Login from '@/views/login/Login.vue';
+import SearchPage from '@/views/search/SearchPage.vue';
+import GoodsDetail from '@/views/detil/GoodsDetail.vue';
+import SubmitPage from '@/views/cart/SubmitPage.vue';
 
 Vue.use(VueRouter)
 

@@ -15,8 +15,8 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import SearchPageHead from '@/views/searchpage/SearchPageHead.vue';
-  import SearchPageList from '@/views/searchpage/SearchPageList.vue';
+  import SearchPageHead from '@/views/search/SearchPageHead.vue';
+  import SearchPageList from '@/views/search/SearchPageList.vue';
 
   @Component({
     components: {SearchPageList, SearchPageHead}
