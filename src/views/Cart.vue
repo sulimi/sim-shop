@@ -2,37 +2,37 @@
   <div class="cart-wrapper">
     <ItemHeader title="购物车" icon-right="more"/>
     <div class="cart-content">
-      <van-swipe-cell :right-width="50" v-for="(item, index) in list" :key="index"><!--van-swipe-cell可以右滑删除按钮-->
-        <div class="good-item">
-          <van-checkbox :name="item.cartItemId"/><!--选择按钮-->
-          <div class="good-img">
-            <img :src="prefix(item.goodsCoverImg)" alt="">
-          </div>
-          <div class="good-text">
-            <div class="good-title">
-              <span>{{ item.goodsName }}</span>
-              <span>x{{ item.goodsCount }}</span>
+      <van-checkbox-group v-model="result" ref="checkboxGroup">
+        <van-swipe-cell :right-width="50" v-for="(item, index) in list" :key="index"><!--van-swipe-cell可以右滑删除按钮-->
+          <div class="good-item">
+            <van-checkbox :name="item.cartItemId"/><!--选择按钮-->
+            <div class="good-img">
+              <img :src="prefix(item.goodsCoverImg)" alt="">
             </div>
-            <div class="good-btn">
-              <div class="money">¥{{ item.sellingPrice }}</div>
-              <!--商品+1-1按钮 vant进步器-->
-              <van-stepper
-                integer
-                :min="1"
-                :value="item.goodsCount"
-                :name="item.cartItemId"
-                async-change
-                @change="onChange"
-              />
+            <div class="good-text">
+              <div class="good-title">
+                <span>{{ item.goodsName }}</span>
+                <span>x{{ item.goodsCount }}</span>
+              </div>
+              <div class="good-btn">
+                <div class="money">¥{{ item.sellingPrice }}</div>
+                <!--商品+1-1按钮 vant进步器-->
+                <van-stepper
+                  integer
+                  :min="1"
+                  :value="item.goodsCount"
+                  :name="item.cartItemId"
+                  async-change
+                  @change="onChange"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </van-swipe-cell>
-
-
+        </van-swipe-cell>
+      </van-checkbox-group>
+      <van-button type="primary" @click="checkAll">全选</van-button>
+      <van-button type="info" @click="toggleAll">反选</van-button>
     </div>
-
-
   </div>
 </template>
 
@@ -69,7 +69,6 @@
       // 注意此时修改 value 后会再次触发 change 事件
       //解决二次触发：
       if ((this.list.filter(i => (i as any).cartItemId === clickItem.name)[0] as any).goodsCount === value) return;
-
       Toast.loading({forbidClick: true});
       setTimeout(() => {
         Toast.clear();
@@ -78,12 +77,28 @@
             (i as any).goodsCount = value;
           }
         });
-
       }, 500);
+    }
+
+    //复选框
+    checkAll() {
+      console.log(this.result);
+      this.$refs.checkboxGroup.toggleAll(true);
+    }
+    toggleAll() {
+      // console.log(this.result);
+      //反选之后会把控制的数组置空，同理不选的项组件会帮你把它变成false
+      this.$refs.checkboxGroup.toggleAll();
     }
   }
 </script>
-
+<style lang="less">
+  @import "~@/assets/style/mixin.less";
+  .van-checkbox__icon--checked .van-icon {
+    background-color: @primary;
+    border-color: @primary;
+  }
+</style>
 <style lang="less" scoped>
   @import "~@/assets/style/mixin.less";
 
