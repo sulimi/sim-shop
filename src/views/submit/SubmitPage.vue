@@ -3,13 +3,19 @@
     <ItemHeader title="提交订单" icon-right="more"/>
 
 
-    <div class="address-wrap">
+    <div class="address-wrap" @click="goTo" v-if="address">
       <div class="name">
         <span class="me">我是昵称</span>
         <span class="number">15758394732</span>
       </div>
       <div class="address">
         浙江省 杭州市 西湖区 西湖底23号
+      </div>
+      <van-icon class="arrow" name="arrow"/>
+    </div>
+    <div class="address-wrap" @click="goTo" v-else>
+      <div class="name">
+        <span class="none">无地址，去添加</span>
       </div>
       <van-icon class="arrow" name="arrow"/>
     </div>
@@ -38,7 +44,8 @@
         <span>商品金额：</span>
         <span>¥{{moneyPay}}</span>
       </div>
-      <van-button class="pay-btn" color="#1baeae" type="primary" block>生成订单</van-button>
+      <van-button class="pay-btn" color="#1baeae" type="primary" block v-if="address">生成订单</van-button>
+      <van-button disabled class="pay-btn" color="#1baeae" type="primary" block v-else>生成订单</van-button>
     </div>
   </div>
 </template>
@@ -48,31 +55,45 @@
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
   import {Toast} from 'vant';
-  import {getLocal, setLocal} from '@/assets/ts/utils';
   import {getByCartItemIds} from '@/service/cart';
+  import {getDefaultAddress} from '@/service/address';
 
   @Component({
     components: {ItemHeader}
   })
   export default class SubmitPage extends Vue {
-    cartList= []
-    mounted() {
-      this.init()
-    }
-    async init() {
-      Toast.loading({ message: '加载中...', forbidClick: true });
-      // 获取查询参数内的 id
-      const { checkIdArr } = this.$route.query
-      // id 会本地存储，如果查询字符串 id 优先获取，若没有,则获取本地存储的 ids
-      // const _checkIdArr = checkIdArr ? JSON.parse(checkIdArr as any) : JSON.parse(getLocal('checkIdArr')||'[]')
-      // setLocal('checkIdArr', JSON.stringify(_checkIdArr))
+    cartList = [];
+    address = '';
 
-      //找到
-      const { data: list } = await getByCartItemIds({ cartItemIds: JSON.parse((this.$route.query.checkIdArr as any)).join(',') })
-      this.cartList = list
-      Toast.clear()
+    mounted() {
+      this.init();
     }
-    get moneyPay(){
+
+    async init() {
+      Toast.loading({message: '加载中...', forbidClick: true});
+      // 获取查询参数内的 id
+      const {checkIdArr} = this.$route.query;
+      //找到
+      const {data: list} = await getByCartItemIds({cartItemIds: JSON.parse((checkIdArr as any)).join(',')});
+      this.cartList = list;
+
+      //有默认就取默认
+      const {data: address} = await getDefaultAddress();
+      //没有就新建
+      if (!address) {
+        // this.$router.push({path: 'addressmanage'});
+        Toast.fail('请添加收货地址')
+        return;
+      }
+      this.address = address;
+      Toast.clear();
+    }
+
+    goTo () {
+      this.$router.push({ path: 'addressmanage'})
+    }
+
+    get moneyPay() {
       return this.cartList.reduce((sum: any, item: any) => {
         return sum + (item as any).sellingPrice * (item as any).goodsCount;
       }, 0);
@@ -85,7 +106,8 @@
 
   .submit-wrapper {
     background: #f9f9f9;
-    .address-wrap{
+
+    .address-wrap {
       margin-bottom: 20px;
       background: #fff;
       position: relative;
@@ -94,20 +116,28 @@
       font-size: 14px;
       padding: 16px;
       color: #222333;
+
       .name, .address {
         margin: 10px 0;
       }
-      .name{
-        .me{
+
+      .name {
+        .me {
           font-style: italic;
           font-weight: bold;
         }
-        .number{
+
+        .number {
           padding-left: 10px;
           color: @primary;
           font-weight: bold;
         }
+        .none{
+          color: #aaa;
+          font-size: 12px;
+        }
       }
+
       .arrow {
         position: absolute;
         right: 10px;
@@ -115,6 +145,7 @@
         transform: translateY(-50%);
         font-size: 20px;
       }
+
       &::before {
         content: '';
         position: absolute;
@@ -127,19 +158,23 @@
         background-size: 80px;
       }
     }
-    .good-message{
+
+    .good-message {
       width: 100%;
       margin-bottom: 120px;
+
       .good-item {
         width: 100%;
         padding: 10px;
         background: #fff;
         display: flex;
+
         .good-img {
           img {
             .wh(100px, 100px)
           }
         }
+
         .good-text {
           display: flex;
           flex-direction: column;
@@ -147,21 +182,26 @@
           flex: 1;
           padding: 20px;
           overflow: hidden;
+
           .good-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 12px;
-            span:nth-child(1){
+
+            span:nth-child(1) {
               .ellipsisSingle;
             }
-            span:nth-child(2){
+
+            span:nth-child(2) {
               flex-shrink: 0;
             }
           }
+
           .good-money {
             display: flex;
             justify-content: space-between;
+
             .price {
               font-size: 16px;
               color: red;
@@ -171,7 +211,8 @@
         }
       }
     }
-    .yes-btn{
+
+    .yes-btn {
       position: fixed;
       bottom: 0;
       left: 0;
@@ -179,17 +220,20 @@
       background: #fff;
       padding: 10px 0 50px 0;
       border-top: 1px solid #e9e9e9;
-      >div {
+
+      > div {
         display: flex;
         justify-content: space-between;
         padding: 0 5%;
         margin: 10px 0;
         font-size: 14px;
+
         span:nth-child(2) {
           color: red;
           font-size: 18px;
         }
       }
+
       .pay-btn {
         position: fixed;
         bottom: 7px;

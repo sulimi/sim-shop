@@ -1,6 +1,9 @@
 <template>
   <div class="address-manage-wrapper">
     <ItemHeader icon-right="more" title="地址管理"/>
+    <div class="address-item">
+新增地址
+    </div>
   </div>
 </template>
 
@@ -17,6 +20,10 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
+  @import "~@/assets/style/mixin.less";
+  .address-item {
+    margin-top: 40px;
 
+  }
 </style>
