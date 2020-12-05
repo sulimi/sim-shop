@@ -22,6 +22,7 @@
                 :value="item.goodsCount"
                 :name="item.cartItemId"
                 async-change
+                @change="onChange"
               />
             </div>
           </div>
@@ -60,6 +61,22 @@
       this.list = data;
       this.result = data.map((item: { cartItemId: number }) => item.cartItemId);
       Toast.clear();
+    }
+
+    //进步器的异步触发方法
+    onChange(value: any, clickItem: {name: number}) {
+      //value是按钮显示的值，clickItem是整个按钮的信息
+      Toast.loading({ forbidClick: true });
+      setTimeout(() => {
+        Toast.clear();
+        // 注意此时修改 value 后会再次触发 change 事件
+        this.list.forEach(item => {
+          if(clickItem.name=== (item as any).cartItemId){
+            (item as any).goodsCount=value
+          }
+        })
+
+      }, 500);
     }
   }
 </script>
