@@ -8,10 +8,20 @@
         <span>商品金额：</span>
         <span>¥{{moneyPay}}</span>
       </div>
-      <van-button class="pay-btn" color="#1baeae" type="primary" block @click="createOrder" v-if="address">生成订单
+      <van-button class="pay-btn" color="#1baeae" type="primary" block @click="submitPay" v-if="address">生成订单
       </van-button>
       <van-button disabled class="pay-btn" color="#1baeae" type="primary" block v-else>生成订单</van-button>
     </div>
+    <van-popup
+      v-model="showPay"
+      closeable
+      close-icon="close"
+      position="bottom"
+      :style="{ height: '30%' }"
+    >
+      <van-button color="#1989fa" block @click="payFun(1)">支付宝支付</van-button>
+      <van-button color="#4fc08d" block @click="payFun(2)">微信支付</van-button>
+    </van-popup>
   </div>
 </template>
 
@@ -25,12 +35,13 @@
   import SubmitAddress from '@/views/submit/SubmitAddress.vue';
   import {getLocal, setLocal} from '@/assets/ts/utils';
   import {getAddressDetail, getAddressList, getDefaultAddress} from '@/service/address';
-  import {createOrder} from '@/service/submit';
+  import {createOrder, payOrder} from '@/service/submit';
 
   @Component({
     components: {SubmitAddress, GoodList, ItemHeader}
   })
   export default class SubmitPage extends Vue {
+    showPay = false;
     cartList = [];
     address = '';
     orderNo = '';
@@ -58,7 +69,7 @@
         const {data: a} = await getAddressList();
         const isAddressDeleted = a.map((i: any) => i.addressId).indexOf(parseInt(addressId as string));
         if (isAddressDeleted < 0) {
-          this.addressId=''
+          this.addressId = '';
         }
         const {data: address} = this.addressId ? await getAddressDetail(addressId as any) : await getDefaultAddress();
         this.address = address;
@@ -80,14 +91,22 @@
       }, 0);
     }
 
-    async createOrder() {
+    async submitPay() {
+      this.showPay = true;
+    }
+
+    async payFun(type: number) {
+      Toast.loading;
       const params = {
         addressId: (this.address as any).addressId,
         cartItemIds: this.cartList.map(item => (item as any).cartItemId)
       };
       const {data} = await createOrder(params);
       setLocal('cartItemIds', '');
+      console.log(data);
       this.orderNo = data;
+      await payOrder({orderNo: this.orderNo, payType: type});
+      // this.$router.push({path: 'order'});
     }
   }
 </script>
@@ -127,6 +146,15 @@
         left: 0;
         width: 90%;
         margin: 0 auto;
+      }
+    }
+
+    .van-popup--bottom {
+      .fjcc(column);
+      padding: 0 16px;
+
+      button {
+        margin: 6px;
       }
     }
   }
