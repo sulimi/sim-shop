@@ -1,44 +1,8 @@
 <template>
   <div class="submit-wrapper">
     <ItemHeader title="提交订单" icon-right="more"/>
-
-
-    <div class="address-wrap" @click="goTo" v-if="address">
-      <div class="name">
-        <span class="me">我是昵称</span>
-        <span class="number">15758394732</span>
-      </div>
-      <div class="address">
-        浙江省 杭州市 西湖区 西湖底23号
-      </div>
-      <van-icon class="arrow" name="arrow"/>
-    </div>
-    <div class="address-wrap" @click="goTo" v-else>
-      <div class="name">
-        <span class="none">无地址，去添加</span>
-      </div>
-      <van-icon class="arrow" name="arrow"/>
-    </div>
-
-
-    <div class="good-message">
-      <div class="good-item" v-for="item in cartList" :key="item.cartItemId">
-        <div class="good-img">
-          <img :src='prefix(item.goodsCoverImg)' alt="">
-        </div>
-        <div class="good-text">
-          <div class="good-title">
-            <span>{{item.goodsName}}</span>
-            <span>x{{item.goodsCount}}</span>
-          </div>
-          <div class="good-money">
-            <div class="price">¥{{item.sellingPrice}}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
+    <SubmitAddress/>
+    <GoodList :cart-list="cartList"/>
     <div class="yes-btn">
       <div class="price">
         <span>商品金额：</span>
@@ -57,9 +21,11 @@
   import {Toast} from 'vant';
   import {getByCartItemIds} from '@/service/cart';
   import {getDefaultAddress} from '@/service/address';
+  import GoodList from '@/views/submit/GoodList.vue';
+  import SubmitAddress from '@/views/submit/SubmitAddress.vue';
 
   @Component({
-    components: {ItemHeader}
+    components: {SubmitAddress, GoodList, ItemHeader}
   })
   export default class SubmitPage extends Vue {
     cartList = [];
@@ -76,22 +42,11 @@
       //找到
       const {data: list} = await getByCartItemIds({cartItemIds: JSON.parse((checkIdArr as any)).join(',')});
       this.cartList = list;
-
-      //有默认就取默认
       const {data: address} = await getDefaultAddress();
-      //没有就新建
-      if (!address) {
-        // this.$router.push({path: 'addressmanage'});
-        Toast.fail('请添加收货地址')
-        return;
-      }
       this.address = address;
       Toast.clear();
     }
 
-    goTo () {
-      this.$router.push({ path: 'addressmanage?submit=submit'})
-    }
 
     get moneyPay() {
       return this.cartList.reduce((sum: any, item: any) => {
@@ -106,111 +61,6 @@
 
   .submit-wrapper {
     background: #f9f9f9;
-
-    .address-wrap {
-      margin-bottom: 20px;
-      background: #fff;
-      position: relative;
-      text-align: left;
-      margin-top: 40px;
-      font-size: 14px;
-      padding: 16px;
-      color: #222333;
-
-      .name, .address {
-        margin: 10px 0;
-      }
-
-      .name {
-        .me {
-          font-style: italic;
-          font-weight: bold;
-        }
-
-        .number {
-          padding-left: 10px;
-          color: @primary;
-          font-weight: bold;
-        }
-        .none{
-          color: #aaa;
-          font-size: 12px;
-        }
-      }
-
-      .arrow {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 20px;
-      }
-
-      &::before {
-        content: '';
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 2px;
-        background: -webkit-repeating-linear-gradient(135deg, #ff6c6c 0, #ff6c6c 20%, transparent 0, transparent 25%, #1989fa 0, #1989fa 45%, transparent 0, transparent 50%);
-        background: repeating-linear-gradient(-45deg, #ff6c6c 0, #ff6c6c 20%, transparent 0, transparent 25%, #1989fa 0, #1989fa 45%, transparent 0, transparent 50%);
-        background-size: 80px;
-      }
-    }
-
-    .good-message {
-      width: 100%;
-      margin-bottom: 120px;
-
-      .good-item {
-        width: 100%;
-        padding: 10px;
-        background: #fff;
-        display: flex;
-
-        .good-img {
-          img {
-            .wh(100px, 100px)
-          }
-        }
-
-        .good-text {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          flex: 1;
-          padding: 20px;
-          overflow: hidden;
-
-          .good-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-
-            span:nth-child(1) {
-              .ellipsisSingle;
-            }
-
-            span:nth-child(2) {
-              flex-shrink: 0;
-            }
-          }
-
-          .good-money {
-            display: flex;
-            justify-content: space-between;
-
-            .price {
-              font-size: 16px;
-              color: red;
-              line-height: 28px;
-            }
-          }
-        }
-      }
-    }
 
     .yes-btn {
       position: fixed;
