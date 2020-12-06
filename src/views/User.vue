@@ -10,7 +10,7 @@
       </div>
     </div>
     <ul class="message-list">
-      <li>
+      <li @click="goTo('我的订单')">
         <span>我的订单</span>
         <Icon name="right"/>
       </li>
@@ -54,6 +54,8 @@
     goTo(value: string){
       if (value==='地址管理'){
         this.$router.push('/addressmanage?user=user')
+      }else if (value==='我的订单'){
+        this.$router.push('/mypay?user=user')
       }
     }
   }
