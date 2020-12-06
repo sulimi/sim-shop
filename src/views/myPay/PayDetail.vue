@@ -21,6 +21,7 @@
       <van-button v-if="!(list.orderStatus < 0 || list.orderStatus == 4)" block @click="noPay(list.orderNo)">
         取消订单
       </van-button>
+      <van-button v-if="isNoPay" block disabled>订单已取消</van-button>
     </div>
     <div class="detail-money">
       <div class="money-item">
@@ -61,6 +62,8 @@
   export default class PayDetail extends Vue {
     list = {};
     showPay = false;
+    isNoPay = false;
+    noPayArr = [] as number[];
 
     mounted() {
       this.init();
@@ -74,6 +77,11 @@
       const {id} = this.$route.query;
       const {data} = await getOrderDetail(id);
       this.list = data;
+      this.noPayArr = JSON.parse(window.localStorage.getItem('noPayArr') || '[]');
+      const _noPayArr = [...this.noPayArr];
+      if (_noPayArr.indexOf((id as any)) >= 0) {
+        this.isNoPay = true;
+      }
       Toast.clear();
     }
 
@@ -86,33 +94,36 @@
       this.showPay = true;
     }
 
-    // noPay(id: number) {
-    //   Dialog.confirm({
-    //     title: '是否确认订单？',
-    //   }).then(() => {
-    //     confirmOrder(id).then((res: any) => {
-    //       if (res.resultCode == 200) {
-    //         Toast('取消成功');
-    //         this.init();
-    //       }
-    //     });
-    //   }).catch(() => {
-    //     return;
-    //   });
-    // }
-
-    async noPay(id: number) {
-      try {
-        await Dialog.confirm({
-          title: '是否确认订单？',
+    noPay(id: number) {
+      Dialog.confirm({
+        title: '是否确认订单？',
+      }).then(() => {
+        confirmOrder(id).then((res: any) => {
+          if (res.resultCode == 200) {
+            Toast('取消成功');
+            this.init();
+            this.isNoPay = true;
+            this.noPayArr.push(id);
+            window.localStorage.setItem('noPayArr', JSON.stringify(this.noPayArr));
+          }
         });
-        const {resultCode} = await confirmOrder(id) as any;
-        Toast('取消成功');
-        this.init();
-      } catch (e) {
+      }).catch(() => {
         return;
-      }
+      });
     }
+
+    // async noPay(id: number) {
+    //   try {
+    //     await Dialog.confirm({
+    //       title: '是否确认订单？',
+    //     });
+    //     const {resultCode} = await confirmOrder(id) as any;
+    //     Toast('取消成功');
+    //     this.init();
+    //   } catch (e) {
+    //     return;
+    //   }
+    // }
 
   }
 </script>
