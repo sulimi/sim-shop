@@ -20,7 +20,7 @@
       console.log(this.$route.query);
     }
     goTo(){
-      this.$router.push('/addaddress')
+      this.$router.push('/addaddress?add=add')
     }
   }
 </script>

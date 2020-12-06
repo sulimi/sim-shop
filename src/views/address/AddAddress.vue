@@ -20,6 +20,8 @@
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
   import {tdist} from '@/assets/ts/utils';
+  import {addAddress} from '@/service/address';
+  import {Toast} from 'vant';
 
   @Component({
     components: {ItemHeader}
@@ -52,11 +54,29 @@
     }
 
     async onSave(content: any) {
-//
+      console.log(content);
+      const params = {//这是后台接口要求发送的数据格式
+        userName: content.name,
+        userPhone: content.tel,
+        provinceName: content.province,
+        cityName: content.city,
+        regionName: content.county,
+        detailAddress: content.addressDetail,
+        defaultFlag: content.isDefault ? 1 : 0,
+      };
+      try {
+        const {message} = await addAddress(params);
+        Toast('保存成功')
+        setTimeout(() => {
+          this.$router.push({ path: 'addressmanage' })
+        }, 1000)
+      }catch (e) {
+        return
+      }
     }
 
     async onDelete() {
-//
+      //
     }
   }
 </script>
