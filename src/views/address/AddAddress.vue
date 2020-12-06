@@ -125,11 +125,16 @@
     }
 
     async onDelete() {
-      await DeleteAddress(this.addressId as any)
-      Toast('删除成功')
-      setTimeout(() => {
-        this.$router.push({ path: 'addressmanage' })
-      }, 1000)
+      try {
+        await DeleteAddress(this.addressId as any);
+        Toast('删除成功');
+        setTimeout(() => {
+          this.$router.go(-1);
+        }, 1000);
+      } catch (e) {
+        return;
+      }
+
     }
   }
 </script>

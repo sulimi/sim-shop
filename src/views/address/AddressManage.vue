@@ -1,16 +1,17 @@
 <template>
   <div class="address-manage-wrapper">
-    <ItemHeader icon-right="more" title="地址管理"/>
+    <ItemHeader icon-right="more" title="地址管理" :router-name="from"/>
     <div class="address-item">
-      <van-address-list
-        :switchable='switchable'
-        v-model="chosenAddressId"
-        :list="list"
-        default-tag-text="默认"
-        @add="onAdd"
-        @edit="onEdit"
-        @click-item="select"
+      <van-address-list v-if="list.length"
+                        :switchable='switchable'
+                        v-model="chosenAddressId"
+                        :list="list"
+                        default-tag-text="默认"
+                        @add="onAdd"
+                        @edit="onEdit"
+                        @click-item="select"
       />
+      <AddressEmpty v-else/>
     </div>
   </div>
 </template>
@@ -20,26 +21,39 @@
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
   import {getAddressList} from '@/service/address';
+  import AddressEmpty from '@/views/address/AddressEmpty.vue';
+  import {Toast} from 'vant';
 
   @Component({
-    components: {ItemHeader}
+    components: {AddressEmpty, ItemHeader}
   })
   export default class AddressManage extends Vue {
     list = [];
     chosenAddressId = '1';
     switchable = false;
+    from = '';
 
     async mounted() {
-      const {data} = await getAddressList();
-      this.list = data.map((item: any) => {
-        return {
-          id: item.addressId,
-          name: item.userName,
-          tel: item.userPhone,
-          address: `${item.provinceName} ${item.cityName} ${item.regionName} ${item.detailAddress}`,
-          isDefault: !!item.defaultFlag,
-        };
-      });
+      try {
+        const {data} = await getAddressList();
+        this.list = data.map((item: any) => {
+          return {
+            id: item.addressId,
+            name: item.userName,
+            tel: item.userPhone,
+            address: `${item.provinceName} ${item.cityName} ${item.regionName} ${item.detailAddress}`,
+            isDefault: !!item.defaultFlag,
+          };
+        });
+      } catch (e) {
+        return;
+      }
+      const {submit, user} = this.$route.query;
+      if (submit) {
+        this.from = '';
+      } else if (user) {
+        this.from = 'user';
+      }
     }
 
     onAdd() {
@@ -66,5 +80,13 @@
 
   .address-item {
     margin-top: 40px;
+
+    .van-address-list {
+      .van-address-list__bottom {
+        .van-button--danger {
+          background: @primary;
+        }
+      }
+    }
   }
 </style>
