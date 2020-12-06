@@ -2,10 +2,10 @@
   <div class="my-pay">
     <ItemHeader title="我的订单" icon-right="more" router-name="user"/>
     <van-tabs @change="onChangeTab" :color="'#1baeae'" :title-active-color="'#1baeae'" class="pay-tab"
-              v-model="status">
+              v-model="type">
       <van-tab title="全部" name=''></van-tab>
       <van-tab title="待付款" name="0"></van-tab>
-      <van-tab title="待确认" name="1"></van-tab>
+      <van-tab title="已付款" name="1"></van-tab>
       <van-tab title="待发货" name="2"></van-tab>
       <van-tab title="已发货" name="3"></van-tab>
       <van-tab title="交易完成" name="4"></van-tab>
@@ -19,20 +19,12 @@
         @load="onLoad"
         @offset="300"
       >
-        <div class="pay-list" v-for="item in list" :key="item.createTime">
+        <div class="pay-list" v-for="(item,index) in list" :key="index" @click="goToDetail(item.orderNo)">
           <div class="item-header">
             <span>订单时间：{{item.createTime}}</span>
             <span>{{item.orderStatusString}}</span>
           </div>
-          <van-card
-            v-for="(i, index) in item.newBeeMallOrderItemVOS"
-            :key="index"
-            :num="i.goodsCount"
-            :price="i.sellingPrice"
-            desc="全场包邮"
-            :title="i.goodsName"
-            :thumb="prefix(i.goodsCoverImg)"
-          />
+          <VanCardItem :list="item.newBeeMallOrderItemVOS"/>
         </div>
       </van-list>
     </van-pull-refresh>
@@ -45,17 +37,19 @@
   import ItemHeader from '@/components/ItemHeader.vue';
   import {Toast} from 'vant';
   import {getOrderDetail, getOrderList} from '@/service/submit';
+  import VanCardItem from '@/views/myPay/VanCardItem.vue';
 
   @Component({
-    components: {ItemHeader}
+    components: {VanCardItem, ItemHeader}
   })
   export default class MyPay extends Vue {
-    status = '';
+    type = ''; //查看账单状态类型,默认是全部查看
     loading = false;
     finished = false;
     refreshing = false;
     list = [];
     page = 1;
+    totalPage = 1;
 
     mounted() {
       this.loadData();
@@ -64,29 +58,41 @@
     async loadData() {
       // 获取订单列表
       //page是要传给后台第几页的订单数据，默认从第一页开始
-      const {data, data: {list}} = await getOrderList({pageNumber: this.page, status: this.status});
+      const {data, data: {list}} = await getOrderList({pageNumber: this.page, status: this.type});
       this.list = this.list.concat(list);
-      console.log(this.list);
-
-      // this.totalPage = data.totalPage
-      // this.loading = false;
-      // if (this.page >= data.totalPage) this.finished = true
+      this.totalPage = data.totalPage;
+      this.loading = false;
+      if (this.page >= data.totalPage) this.finished = true;
     }
 
-    onChangeTab() {
-      //
+    onChangeTab(name: string) {
+      this.type = name;
+      //切换一次就要刷新
+      this.onRefresh();
     }
 
     onRefresh() {
-      setTimeout(() => {
-        Toast('刷新成功');
-        this.refreshing = false;
-      }, 1000);
+      this.refreshing = true;
+      this.finished = false;
+      this.loading = true;
+      this.page = 1;
+      //加载
+      this.onLoad();
     }
 
     onLoad() {
-      //
-      this.loading = false;
+      if (!this.refreshing && this.page < this.totalPage) {
+        this.page = this.page + 1;
+      }
+      if (this.refreshing) {
+        this.list = [];
+        this.refreshing = false;
+      }
+      this.loadData();
+    }
+
+    goToDetail(value: number) {
+      this.$router.push(`/paydetail?id=${value}`);
     }
   }
 </script>
@@ -95,14 +101,24 @@
   @import "~@/assets/style/mixin";
 
   .my-pay {
-    margin-top: 40px;
+    background: #f9f9f9;
+    height: 100vh;
+
+    .pay-tab {
+      background-color: #fff;
+      position: fixed;
+      margin-top: 39px;
+      left: 0;
+      z-index: 1000;
+      width: 100%;
+    }
 
     .pay-list-wrapper {
-      background: #f9f9f9;
+
 
       .van-pull-refresh__track {
         .van-list {
-          margin-top: -10px;
+          margin-top: 100px;
           background: #f9f9f9;
 
           .pay-list {
@@ -113,32 +129,6 @@
               .fjbt();
               padding: 10px 10px 4px 10px;
               font-size: 12px;
-            }
-
-            .van-card {
-              background-color: #fff;
-
-              .van-card__header {
-
-                .van-card__content {
-                  div {
-                    text-align: left;
-
-                    .van-ellipsis {
-                      font-size: 10px;
-                      padding: 4px 0;
-                    }
-                  }
-
-                  .van-card__bottom {
-                    .fjbt();
-
-                    .van-card__price {
-                      color: red;
-                    }
-                  }
-                }
-              }
             }
           }
         }

@@ -11,6 +11,7 @@ import SubmitPage from '@/views/submit/SubmitPage.vue';
 import AddressManage from '@/views/address/AddressManage.vue';
 import AddAddress from '@/views/address/AddAddress.vue';
 import MyPay from '@/views/myPay/MyPay.vue';
+import PayDetail from '@/views/myPay/PayDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -110,6 +111,14 @@ const routes: Array<RouteConfig> = [
     component: MyPay,
     meta: {
       index: 2
+    }
+  },
+  {
+    path: '/paydetail',
+    name: 'paydetail',
+    component: PayDetail,
+    meta: {
+      index: 3
     }
   },
   {
