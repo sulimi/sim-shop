@@ -22,29 +22,10 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component,Prop} from 'vue-property-decorator';
-  import {getAddressDetail, getDefaultAddress} from '@/service/address';
-  import {Toast} from 'vant';
 
   @Component
   export default class SubmitAddress extends Vue {
-    @Prop() isHaveAddress!: boolean
-    address = '';
-
-    async mounted() {
-      this.init();
-    }
-
-    async init() {
-      const {addressId} = this.$route.query;
-      const {data: address} =addressId?await getAddressDetail(addressId as any): await getDefaultAddress();
-      this.address = address;
-      if (!address) {
-        this.$emit('update:isHaveAddress',false)
-        Toast.fail('请添加收货地址');
-        return;
-      }
-    }
-
+    @Prop() address: any
     goTo() {
       this.$router.push({path: 'addressmanage?submit=submit'});
     }
