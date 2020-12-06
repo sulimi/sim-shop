@@ -20,7 +20,7 @@
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
   import {tdist} from '@/assets/ts/utils';
-  import {addAddress} from '@/service/address';
+  import {addAddress, getAddressDetail} from '@/service/address';
   import {Toast} from 'vant';
 
   @Component({
@@ -38,6 +38,12 @@
     from = '';
 
     async mounted() {
+      this.chooseProvinceCityCounty();
+      await this.editFun();
+    }
+
+
+    chooseProvinceCityCounty() {
       // 省市区列表构造
       const _provinceList: any = {}, _cityList: any = {}, _countyList: any = {};
       tdist.getLev1().forEach((p: { id: string; text: string }) => {
@@ -53,8 +59,42 @@
       this.areaList['county_list'] = _countyList;
     }
 
+    async editFun() {
+      const {type, addressId} = this.$route.query;
+      this.type = type as string;
+      if (type === 'edit') {
+        const {data: addressDetail} = await getAddressDetail(addressId as any);
+        console.log(addressDetail);
+        let _areaCode = ''; //地区编码必填
+        const province = tdist.getLev1();
+        Object.entries(this.areaList.county_list).forEach(([id, text]) => {
+          // 先找出当前对应的区
+          if (text == addressDetail.regionName) {
+            // 找到区对应的几个省份
+            const provinceIndex = province.findIndex((item: any) => item.id.substr(0, 2) == id.substr(0, 2));
+            // 找到区对应的几个市区
+            const cityItem = Object.entries(this.areaList.city_list).filter(([cityId, cityName]) => cityId.substr(0, 4) == id.substr(0, 4))[0];
+            // 对比找到的省份和接口返回的省份是否相等，因为有一些区会重名
+            if (province[provinceIndex].text == addressDetail.provinceName && cityItem[1] == addressDetail.cityName) {
+              _areaCode = id;
+            }
+          }
+        });
+        this.addressInfo = { //vant地址初识值
+          id: addressDetail.addressId,
+          name: addressDetail.userName,
+          tel: addressDetail.userPhone,
+          province: addressDetail.provinceName,
+          city: addressDetail.cityName,
+          county: addressDetail.regionName,
+          addressDetail: addressDetail.detailAddress,
+          areaCode: _areaCode,
+          isDefault: !!addressDetail.defaultFlag
+        };
+      }
+    }
+
     async onSave(content: any) {
-      console.log(content);
       const params = {//这是后台接口要求发送的数据格式
         userName: content.name,
         userPhone: content.tel,
@@ -65,13 +105,13 @@
         defaultFlag: content.isDefault ? 1 : 0,
       };
       try {
-        const {message} = await addAddress(params);
-        Toast('保存成功')
+        await addAddress(params);
+        Toast('保存成功');
         setTimeout(() => {
-          this.$router.push({ path: 'addressmanage' })
-        }, 1000)
-      }catch (e) {
-        return
+          this.$router.push({path: 'addressmanage'});
+        }, 1000);
+      } catch (e) {
+        return;
       }
     }
 
