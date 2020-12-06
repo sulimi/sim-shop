@@ -23,6 +23,7 @@
   import {getDefaultAddress} from '@/service/address';
   import GoodList from '@/views/submit/GoodList.vue';
   import SubmitAddress from '@/views/submit/SubmitAddress.vue';
+  import {getLocal, setLocal} from '@/assets/ts/utils';
 
   @Component({
     components: {SubmitAddress, GoodList, ItemHeader}
@@ -38,9 +39,12 @@
     async init() {
       Toast.loading({message: '加载中...', forbidClick: true});
       // 获取查询参数内的 id
-      const {checkIdArr} = this.$route.query;
+      //保存提交订单的商品信息到本地，解决选择地址返回时页面空白
+      const {checkIdArr, addressId} = this.$route.query;
+      const _checkIdArr=checkIdArr?JSON.parse((checkIdArr as any)):JSON.parse(getLocal('checkIdArr') as any)
+      setLocal('checkIdArr',JSON.stringify(_checkIdArr))
       //找到
-      const {data: list} = await getByCartItemIds({cartItemIds: JSON.parse((checkIdArr as any)).join(',')});
+      const {data: list} = await getByCartItemIds({cartItemIds: _checkIdArr.join(',')});
       this.cartList = list;
       const {data: address} = await getDefaultAddress();
       this.address = address;

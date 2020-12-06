@@ -43,7 +43,7 @@
 
     //地址
     onClickEditAddress() {
-      console.log(1);
+      // console.log(1);
     }
   }
 </script>

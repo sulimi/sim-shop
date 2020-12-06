@@ -19,16 +19,17 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component,Prop} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
 
   @Component
   export default class GoodList extends Vue {
-@Prop() cartList: any
+    @Prop() cartList: any;
   }
 </script>
 
 <style lang="less" scoped>
   @import "~@/assets/style/mixin.less";
+
   .good-message {
     width: 100%;
     margin-bottom: 120px;

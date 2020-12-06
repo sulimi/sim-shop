@@ -3,11 +3,13 @@
     <ItemHeader icon-right="more" title="地址管理"/>
     <div class="address-item">
       <van-address-list
+        :switchable='switchable'
         v-model="chosenAddressId"
         :list="list"
         default-tag-text="默认"
         @add="onAdd"
         @edit="onEdit"
+        @click-item="select"
       />
     </div>
   </div>
@@ -25,6 +27,7 @@
   export default class AddressManage extends Vue {
     list = [];
     chosenAddressId = '1';
+    switchable = false;
 
     async mounted() {
       const {data} = await getAddressList();
@@ -40,13 +43,21 @@
     }
 
     onAdd() {
-      this.$router.push('/addaddress?type=add')
+      this.$router.push('/addaddress?type=add');
     }
 
     onEdit(item: any) {
-      this.$router.push(`/addaddress?type=edit&addressId=${item.id}`)
+      this.$router.push(`/addaddress?type=edit&addressId=${item.id}`);
     }
 
+    select(item: any) {
+      const {submit, user} = this.$route.query;
+      if (submit) {
+        this.$router.push({path: `submitpage?addressId=${item.id}`});
+      } else {
+        return;
+      }
+    }
   }
 </script>
 

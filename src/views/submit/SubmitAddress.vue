@@ -22,7 +22,7 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import {getDefaultAddress} from '@/service/address';
+  import {getAddressList, getDefaultAddress} from '@/service/address';
   import {Toast} from 'vant';
 
   @Component
@@ -31,7 +31,7 @@
 
     async mounted() {
       const {data} = await getDefaultAddress();
-      this.address = data;
+      const {data:value}=await getAddressList()
       if (!data) {
         // this.$router.push({path: 'addressmanage'});
         Toast.fail('请添加收货地址');

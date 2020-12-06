@@ -86,7 +86,6 @@
         this.$store.dispatch('updateCart');
         this.goTo()
       }catch (e) {
-        console.log(e);
         this.goTo()
       }
 
