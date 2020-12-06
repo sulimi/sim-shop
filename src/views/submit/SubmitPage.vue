@@ -1,14 +1,14 @@
 <template>
   <div class="submit-wrapper">
     <ItemHeader title="提交订单" icon-right="more"/>
-    <SubmitAddress/>
+    <SubmitAddress :isHaveAddress.sync="isHaveAddress"/>
     <GoodList :cart-list="cartList"/>
     <div class="yes-btn">
       <div class="price">
         <span>商品金额：</span>
         <span>¥{{moneyPay}}</span>
       </div>
-      <van-button class="pay-btn" color="#1baeae" type="primary" block v-if="address">生成订单</van-button>
+      <van-button class="pay-btn" color="#1baeae" type="primary" block v-if="isHaveAddress">生成订单</van-button>
       <van-button disabled class="pay-btn" color="#1baeae" type="primary" block v-else>生成订单</van-button>
     </div>
   </div>
@@ -20,7 +20,6 @@
   import ItemHeader from '@/components/ItemHeader.vue';
   import {Toast} from 'vant';
   import {getByCartItemIds} from '@/service/cart';
-  import {getDefaultAddress} from '@/service/address';
   import GoodList from '@/views/submit/GoodList.vue';
   import SubmitAddress from '@/views/submit/SubmitAddress.vue';
   import {getLocal, setLocal} from '@/assets/ts/utils';
@@ -30,7 +29,7 @@
   })
   export default class SubmitPage extends Vue {
     cartList = [];
-    address = '';
+    isHaveAddress=true
 
     mounted() {
       this.init();
@@ -46,8 +45,6 @@
       //找到
       const {data: list} = await getByCartItemIds({cartItemIds: _checkIdArr.join(',')});
       this.cartList = list;
-      const {data: address} = await getDefaultAddress();
-      this.address = address;
       Toast.clear();
     }
 
