@@ -44,7 +44,7 @@
     showPay = false;
     cartList = [];
     address = '';
-    orderNo = '';
+    orderNo = ''; //订单编号
     addressId = '';
 
     mounted() {
@@ -103,7 +103,6 @@
       };
       const {data} = await createOrder(params);
       setLocal('cartItemIds', '');
-      console.log(data);
       this.orderNo = data;
       await payOrder({orderNo: this.orderNo, payType: type});
       // this.$router.push({path: 'order'});

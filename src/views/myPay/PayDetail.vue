@@ -15,8 +15,13 @@
         <span class="text">下单时间：</span>
         <span class="num">{{ list.createTime }}</span>
       </div>
+      <van-button v-if="list.orderStatus == 0" style="margin-bottom: 10px" color="#1baeae" block @click="showPayFn">
+        去支付
+      </van-button>
+      <van-button v-if="!(list.orderStatus < 0 || list.orderStatus == 4)" block @click="noPay(list.orderNo)">
+        取消订单
+      </van-button>
     </div>
-
     <div class="detail-money">
       <div class="money-item">
         <span class="text">商品金额：</span>
@@ -28,6 +33,17 @@
       </div>
     </div>
     <VanCardItem :list="list.newBeeMallOrderItemVOS"/>
+
+    <van-popup
+      v-model="showPay"
+      closeable
+      close-icon="close"
+      position="bottom"
+      :style="{ height: '30%' }"
+    >
+      <van-button color="#1989fa" block @click="payFun(list.orderNo,1)">支付宝支付</van-button>
+      <van-button color="#4fc08d" block @click="payFun(list.orderNo,2)">微信支付</van-button>
+    </van-popup>
   </div>
 </template>
 
@@ -35,8 +51,8 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
-  import {Toast} from 'vant';
-  import {getOrderDetail} from '@/service/submit';
+  import {Dialog, Toast} from 'vant';
+  import {confirmOrder, getOrderDetail, payOrder} from '@/service/submit';
   import VanCardItem from '@/views/myPay/VanCardItem.vue';
 
   @Component({
@@ -60,6 +76,44 @@
       this.list = data;
       Toast.clear();
     }
+
+    async payFun(id: number, type: number) {
+      Toast.loading;
+      await payOrder({orderNo: id, payType: type});
+    }
+
+    showPayFn() {
+      this.showPay = true;
+    }
+
+    // noPay(id: number) {
+    //   Dialog.confirm({
+    //     title: '是否确认订单？',
+    //   }).then(() => {
+    //     confirmOrder(id).then((res: any) => {
+    //       if (res.resultCode == 200) {
+    //         Toast('取消成功');
+    //         this.init();
+    //       }
+    //     });
+    //   }).catch(() => {
+    //     return;
+    //   });
+    // }
+
+    async noPay(id: number) {
+      try {
+        await Dialog.confirm({
+          title: '是否确认订单？',
+        });
+        const {resultCode} = await confirmOrder(id) as any;
+        Toast('取消成功');
+        this.init();
+      } catch (e) {
+        return;
+      }
+    }
+
   }
 </script>
 
@@ -94,14 +148,17 @@
       margin: 20px 0;
       padding: 20px;
       font-size: 15px;
-      .money-item{
+
+      .money-item {
         text-align: left;
         margin-bottom: 10px;
-        .text{
+
+        .text {
           font-size: 13px;
           color: #999;
         }
-        .type{
+
+        .type {
           font-size: 14px;
         }
       }
