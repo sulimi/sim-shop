@@ -117,7 +117,7 @@
         }
 
         setTimeout(() => {
-          this.$router.push({path: 'addressmanage'});
+          this.$router.go(-1);
         }, 1000);
       } catch (e) {
         return;
