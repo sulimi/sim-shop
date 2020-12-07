@@ -19,3 +19,7 @@ export function logout() {
 export function register(params: object) {
   return axios.post('/user/register', params);
 }
+//编辑
+export function EditUserInfo(params: any) {
+  return axios.put('/user/info', params);
+}

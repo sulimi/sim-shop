@@ -55,6 +55,7 @@
   import {Dialog, Toast} from 'vant';
   import {confirmOrder, getOrderDetail, payOrder} from '@/service/submit';
   import VanCardItem from '@/views/myPay/VanCardItem.vue';
+  import {getUserInfo} from '@/service/user';
 
   @Component({
     components: {VanCardItem, ItemHeader}
@@ -64,6 +65,7 @@
     showPay = false;
     isNoPay = false;
     noPayArr = [] as number[];
+    userName=''
 
     mounted() {
       this.init();
@@ -77,6 +79,9 @@
       const {id} = this.$route.query;
       const {data} = await getOrderDetail(id);
       this.list = data;
+      const {data: user}=await getUserInfo();
+      this.userName=user.loginName
+      console.log(this.userName);
       this.noPayArr = JSON.parse(window.localStorage.getItem('noPayArr') || '[]');
       const _noPayArr = [...this.noPayArr];
       if (_noPayArr.indexOf((id as any)) >= 0) {

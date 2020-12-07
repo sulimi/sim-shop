@@ -12,6 +12,7 @@ import AddressManage from '@/views/address/AddressManage.vue';
 import AddAddress from '@/views/address/AddAddress.vue';
 import MyPay from '@/views/myPay/MyPay.vue';
 import PayDetail from '@/views/myPay/PayDetail.vue';
+import Setting from '@/views/me/Setting.vue';
 
 Vue.use(VueRouter);
 
@@ -101,6 +102,14 @@ const routes: Array<RouteConfig> = [
     path: '/user',
     name: 'user',
     component: User,
+    meta: {
+      index: 1
+    }
+  },
+  {
+    path: '/setting',
+    name: 'setting',
+    component: Setting,
     meta: {
       index: 1
     }

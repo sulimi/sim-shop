@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <ItemHeader :title="type==='login'?'登录':'注册'"/>
+    <ItemHeader :title="type==='login'?'登录':'注册'" router-name="home"/>
     <img src="../../assets/login.jpg" alt="登录">
     <div class="login-message">
       <van-form @submit="onSubmit" class="login-from">
@@ -20,7 +20,7 @@
           :rules="[{ required: true, message: '请填写密码' }]"
         />
         <div class="verify">
-          <Verify ref="loginVerifyRef" :showButton="false" :width="'100%'" :height="'40px'" :fontSize="'16px'" :type="1"
+          <Verify ref="loginVerifyRef" :showButton="false" :width="'100%'" :height="'40px'" :fontSize="'16px'" :type="2"
                   @success="successFun" @error="errorFun"
           />
         </div>
@@ -72,6 +72,7 @@
             'passwordMd5': Vue.prototype.$md5(values.password)
           });
           setLocal('token', data);//设置localStorage
+          Toast.success('登录成功');
           window.location.href = '/'; //回到首页？
         } catch (err) {
           Toast.fail(err.message);

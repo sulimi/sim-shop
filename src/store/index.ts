@@ -65,7 +65,7 @@ const store = new Vuex.Store({
         context.state.searchLoading = false;
         return;
       }
-      const {data, data: {list}} = await search({
+      const {data, data: {list}} = await search({ //这也方法也要验证登录，诶，不想诶
         pageNumber: context.state.searchPage,
         keyword: context.state.keyword,
         orderBy: context.state.orderBy

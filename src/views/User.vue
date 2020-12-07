@@ -14,12 +14,12 @@
         <span>我的订单</span>
         <Icon name="right"/>
       </li>
-      <li>
-        <span>账号管理</span>
-        <Icon name="right"/>
-      </li>
       <li @click="goTo('地址管理')">
         <span>地址管理</span>
+        <Icon name="right"/>
+      </li>
+      <li @click="goTo('账号管理')">
+        <span>账号管理</span>
         <Icon name="right"/>
       </li>
       <li>
@@ -51,11 +51,15 @@
         Toast.fail(e.message);
       }
     }
+
+
     goTo(value: string){
       if (value==='地址管理'){
         this.$router.push('/addressmanage?user=user')
       }else if (value==='我的订单'){
         this.$router.push('/mypay?user=user')
+      }else if (value==='账号管理'){
+        this.$router.push('/setting')
       }
     }
   }
