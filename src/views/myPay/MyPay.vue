@@ -22,7 +22,7 @@
         <div class="pay-list" v-for="(item,index) in list" :key="index" @click="goToDetail(item.orderNo)">
           <div class="item-header">
             <span>订单时间：{{item.createTime}}</span>
-            <span>{{item.orderStatusString}}</span>
+            <span>{{typeFun(item)}}</span>
           </div>
           <VanCardItem :list="item.newBeeMallOrderItemVOS"/>
         </div>
@@ -54,6 +54,10 @@
     mounted() {
       this.loadData();
     }
+
+    // get cancelPay(){
+    //   return [...JSON.parse(window.localStorage.getItem('noPayArr') || '[]')].indexOf()
+    // }
 
     async loadData() {
       // 获取订单列表
@@ -90,7 +94,13 @@
       }
       this.loadData();
     }
-
+    typeFun(item: any){
+      const noPayArr=[...JSON.parse(window.localStorage.getItem('noPayArr') || '[]')]
+      if (noPayArr.indexOf(item.orderNo)>=0){
+        return '订单已取消'
+      }
+      return item.orderStatusString
+    }
     goToDetail(value: number) {
       this.$router.push(`/paydetail?id=${value}`);
     }
