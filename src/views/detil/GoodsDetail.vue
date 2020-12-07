@@ -28,7 +28,7 @@
       <van-goods-action-icon icon="chat-o" text="客服" color="#ee0a24" @click="onClickIcon"/>
       <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" @click="onClickIcon"/>
       <van-goods-action-icon icon="cart-o" text="购物车" :badge="count" @click="goTo"/>
-      <van-goods-action-button type="warning" text="加入购物车" @click="addCartFun"/>
+      <van-goods-action-button type="warning" text="加入购物车" @click="addCartFun(true)"/>
       <van-goods-action-button type="danger" text="立即购买" @click="goToBay"/>
     </van-goods-action>
   </div>
@@ -87,13 +87,13 @@
       this.$router.push({path: '/cart'});
     }
 
-    async firstBay() {
+    async firstBay(value: boolean) {
       try {
         const {data, resultCode} = await addCart({
           goodsCount: 1,
           goodsId: (this.goodsItemData as any).goodsId
         }) as any;
-        if (resultCode == 200) Toast.success('添加成功');
+        if (value) Toast.success('添加成功');
         await this.$store.dispatch('updateCart');
         await this.cartItemIdInit();
       } catch (e) {
@@ -101,11 +101,11 @@
       }
     }
 
-    async addCartFun() {
+    async addCartFun(value: boolean) {
       this.goodsCount += 1;
       if (this.goodsCount === 1) {
         //第一次加入购物车
-        await this.firstBay();
+        await this.firstBay(value);
       } else {
         //第二次加入就只加数量
         try {
@@ -120,8 +120,9 @@
       }
     }
 
-    goToBay() {
-      this.$router.push(`/submitpage?goodDetailId=${this.goodsItemData.goodsId}`);
+    async goToBay() {
+      await this.addCartFun(false);
+      await this.$router.push('/cart');
       // try {
       //   console.log(this.goodsItemData);
       //   // const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;

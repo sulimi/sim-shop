@@ -58,17 +58,12 @@
       Toast.loading({message: '加载中...', forbidClick: true});
       // 获取查询参数内的 id
       //保存提交订单的商品信息到本地，解决选择地址返回时页面空白
-      const {cart, goodDetailId, addressId} = this.$route.query;
+      const {addressId} = this.$route.query;
       try {
         //找到
-        if (cart) {
-          const _checkIdArr = JSON.parse(getLocal('checkIdArr') as any);
-          const {data} = await getByCartItemIds({cartItemIds: _checkIdArr.join(',')});
-          this.cartList = data;
-        } else if (goodDetailId) {
-          const {data} = await getDetail((goodDetailId as any));
-          this.cartList = data;
-        }
+        const _checkIdArr = JSON.parse(getLocal('checkIdArr') as any);
+        const {data} = await getByCartItemIds({cartItemIds: _checkIdArr.join(',')});
+        this.cartList = data;
 
         //地址：
         this.addressId = addressId as any;
@@ -100,14 +95,10 @@
 
     async submitPay() {
       //提交未支付状态
-      const {cart, goodDetailId} = this.$route.query;
       this.showPay = true;
-      const params =cart? {
+      const params = {
         addressId: (this.address as any).addressId,
         cartItemIds: this.cartList.map(item => (item as any).cartItemId)
-      }:{
-        addressId: (this.address as any).addressId,
-        cartItemIds: [3627]
       };
       const {data} = await createOrder(params);
       console.log(data);

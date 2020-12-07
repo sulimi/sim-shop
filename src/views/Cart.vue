@@ -57,7 +57,7 @@
       Toast.loading({message: '加载中...', forbidClick: true});
       // 获取购物车商品数据
       const {data} = await getCart({pageNumber: 1});
-      this.list = data;
+      this.list = data.reverse();
       this.$store.state.cartCount=this.list.length
       this.$store.commit('saveCartCount')
       Toast.clear();
@@ -70,6 +70,7 @@
     }
 
     checkItemFun(arr: any) {
+      console.log(arr);
       //牛逼!它会把选中的商品的id加到数组里!
       this.checkAll = this.checkIdArr.length === this.list.length;
     }
