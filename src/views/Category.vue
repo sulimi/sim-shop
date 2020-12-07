@@ -84,7 +84,7 @@
     .category-content {
       margin-top: 40px;
       display: flex;
-      height: 400px;
+      /*height: 400px;*/
 
       .menu-list {
         background: #F8F8F8;

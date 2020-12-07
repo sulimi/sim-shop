@@ -87,10 +87,9 @@
 
 
     get moneyPay() {
-      const {cart} = this.$route.query;
-      return cart ? this.cartList.reduce((sum: any, item: any) => {
+      return this.cartList.reduce((sum: any, item: any) => {
         return sum + (item as any).sellingPrice * (item as any).goodsCount;
-      }, 0) : (this.cartList as any).originalPrice;
+      }, 0)
     }
 
     async submitPay() {

@@ -24,6 +24,7 @@
     @Prop() title!: string;
     @Prop() iconRight!: string;
     @Prop() routerName!: string;
+    n = 0;
 
     get leftIcon() {
       return this.title === '购物车' || this.title === '我的' ? '' : 'left';
@@ -35,11 +36,13 @@
     }
 
     backFun() {
+
       if (!this.leftIcon) return;
       if (!this.routerName) {
         this.$router.go(-1);
+      } else {
+        this.$router.push({path: this.routerName});
       }
-      this.$router.push({path: this.routerName});
     }
   }
 </script>
