@@ -21,7 +21,7 @@
     @Prop({default:true}) click!: boolean;
     // 是否开启横向滚动
     @Prop({default:false}) scrollX!: boolean;
-    @Prop({default:false}) scrollY!: boolean
+    @Prop({default:true}) scrollY!: boolean
     // 是否派发滚动事件
     @Prop({default:true}) listenScroll!: boolean;
     // 列表的数据
@@ -131,6 +131,7 @@
 .scroll-wrapper{
   width: 100%;
   height: 100%;
-  overflow: hidden;
+
+  overflow: auto;
 }
 </style>

@@ -10,8 +10,8 @@
 
     <!--    滑动-->
 
-    <main class="category-content" ref="searchWrap">
-      <ListScroll class="menu-list">
+    <main ref="categorycontent" class="category-content">
+      <div class="menu-list">
         <ul>
           <li v-for="item in categoryList" :key="item.categoryId"
               :class="{'active' : clickIndexId === item.categoryId}"
@@ -21,8 +21,8 @@
             {{item.categoryName}}
           </li>
         </ul>
-      </ListScroll>
-      <ListScroll class="category-list" :scroll-data="categoryList">
+      </div>
+      <div class="category-list">
         <div class="list-wrapper">
           <div class="list-item-wrapper" v-for="item in categoryList" :key="item.categoryId">
             <div class="list-item" v-for="i in item.secondLevelCategoryVOS" :key="i.categoryId">
@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-      </ListScroll>
+      </div>
     </main>
 
   </div>
@@ -62,6 +62,8 @@
     async mounted() {
       const {data} = await getCategory();
       this.categoryList = data;
+      const heightV = document.documentElement.clientHeight - 100;
+      (this.$refs.categorycontent as any).setAttribute('style', `height:${heightV}px`);
     }
 
 
@@ -69,8 +71,8 @@
       this.clickIndexId = id;
     }
 
-    goTo(ii: any){
-      this.$router.push(`/searchpage?categoryName=${ii.categoryName}`)
+    goTo(ii: any) {
+      this.$router.push(`/searchpage?categoryName=${ii.categoryName}`);
     }
   }
 </script>
@@ -79,6 +81,7 @@
   @import "~@/assets/style/mixin";
 
   .category-wrapper {
+
     ::v-deep.item-header {
       .center-header {
         background: #F7F7F7;
@@ -88,16 +91,26 @@
     .category-content {
       margin-top: 40px;
       display: flex;
-      /*height: 400px;*/
+      height: 100%;
+      overflow-y: auto;
+      &::-webkit-scrollbar{
+        display: none;
+      }
 
       .menu-list {
         background: #F8F8F8;
         width: 30%;
         height: 100%;
-        overflow: hidden;
+        overflow: auto;
         flex-shrink: 0;
+        &::-webkit-scrollbar{
+          display: none;
+        }
 
         ul {
+          &::-webkit-scrollbar{
+            display: none;
+          }
           width: 100%;
           background: #F8F8F8;
 
@@ -124,6 +137,11 @@
         background: #fff;
         flex-grow: 1;
         padding: 0 10px;
+        height: 100%;
+        overflow: auto;
+        &::-webkit-scrollbar{
+          display: none;
+        }
 
         .list-wrapper {
           width: 100%;
