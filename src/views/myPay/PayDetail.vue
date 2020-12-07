@@ -1,7 +1,6 @@
 <template>
   <div class="pay-detail-wrapper">
     <ItemHeader title="订单详情" router-name="mypay" icon-right="more"/>
-
     <div class="detail-state">
       <div class="status-item">
         <span class="text">订单状态：</span>
@@ -34,8 +33,8 @@
       </div>
     </div>
     <VanCardItem :list="list.newBeeMallOrderItemVOS"/>
-
     <van-popup
+      :close-on-click-overlay="false"
       v-model="showPay"
       closeable
       close-icon="close"
@@ -130,10 +129,12 @@
     //   }
     // }
 
+
   }
 </script>
 
 <style lang="less" scoped>
+  @import "~@/assets/style/mixin.less";
   .pay-detail-wrapper {
     padding-top: 40px;
     height: 100vh;
@@ -177,6 +178,15 @@
         .type {
           font-size: 14px;
         }
+      }
+    }
+
+    .van-popup--bottom {
+      .fjcc(column);
+      padding: 0 16px;
+
+      button {
+        margin: 6px;
       }
     }
   }

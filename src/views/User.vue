@@ -22,7 +22,7 @@
         <span>账号管理</span>
         <Icon name="right"/>
       </li>
-      <li>
+      <li @click="goTo('关于我们')">
         <span>关于我们</span>
         <Icon name="right"/>
       </li>
@@ -43,6 +43,7 @@
   })
   export default class User extends Vue {
     userData = {};
+
     async mounted() {
       try {
         const {data} = await getUserInfo();
@@ -53,13 +54,16 @@
     }
 
 
-    goTo(value: string){
-      if (value==='地址管理'){
-        this.$router.push('/addressmanage?user=user')
-      }else if (value==='我的订单'){
-        this.$router.push('/mypay?user=user')
-      }else if (value==='账号管理'){
-        this.$router.push('/setting')
+    goTo(value: string) {
+      if (value === '地址管理') {
+        this.$router.push('/addressmanage?user=user');
+      } else if (value === '我的订单') {
+        this.$router.push('/mypay?user=user');
+      } else if (value === '账号管理') {
+        this.$router.push('/setting');
+      } else if (value === '关于我们') {
+        Toast.setDefaultOptions({duration: 500});
+        Toast('未开发');
       }
     }
   }

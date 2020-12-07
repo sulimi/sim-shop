@@ -56,6 +56,7 @@
       // 获取购物车商品数据
       const {data} = await getCart({pageNumber: 1});
       this.list = data;
+      console.log(data);
       this.$store.state.cartCount=this.list.length
       this.$store.commit('saveCartCount')
       Toast.clear();

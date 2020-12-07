@@ -8,16 +8,18 @@
         <span>商品金额：</span>
         <span>¥{{moneyPay}}</span>
       </div>
-      <van-button class="pay-btn" color="#1baeae" type="primary" block @click="submitPay" v-if="address">生成订单
+      <van-button class="pay-btn" color="#1baeae" type="primary" block @click="submitPay" v-if="address">提交并付款
       </van-button>
-      <van-button disabled class="pay-btn" color="#1baeae" type="primary" block v-else>生成订单</van-button>
+      <van-button disabled class="pay-btn" color="#1baeae" type="primary" block v-else>提交并付款</van-button>
     </div>
     <van-popup
+      :close-on-click-overlay="false"
       v-model="showPay"
       closeable
       close-icon="close"
       position="bottom"
       :style="{ height: '30%' }"
+      @close="closeFun()"
     >
       <van-button color="#1989fa" block @click="payFun(1)">支付宝支付</van-button>
       <van-button color="#4fc08d" block @click="payFun(2)">微信支付</van-button>
@@ -30,7 +32,7 @@
   import {Component} from 'vue-property-decorator';
   import ItemHeader from '@/components/ItemHeader.vue';
   import {Toast} from 'vant';
-  import {getByCartItemIds} from '@/service/cart';
+  import {getByCartItemIds, getCart} from '@/service/cart';
   import GoodList from '@/views/submit/GoodList.vue';
   import SubmitAddress from '@/views/submit/SubmitAddress.vue';
   import {getLocal, setLocal} from '@/assets/ts/utils';
@@ -93,19 +95,27 @@
 
     async submitPay() {
       this.showPay = true;
-    }
-
-    async payFun(type: number) {
-      Toast.loading;
       const params = {
         addressId: (this.address as any).addressId,
         cartItemIds: this.cartList.map(item => (item as any).cartItemId)
       };
       const {data} = await createOrder(params);
-      setLocal('cartItemIds', '');
+      setLocal('checkIdArr', '');
       this.orderNo = data;
+      const {data:num} = await getCart({pageNumber: 1});
+      this.$store.state.cartCount=num.length
+      this.$store.commit('saveCartCount')
+    }
+
+    async payFun(type: number) {
+      Toast.loading;
       await payOrder({orderNo: this.orderNo, payType: type});
       // this.$router.push({path: 'order'});
+    }
+
+    closeFun() {
+      Toast.fail('未付款订单');
+      this.$router.push('/mypay');
     }
   }
 </script>

@@ -41,23 +41,42 @@
   import {getDetail} from '@/service/category';
   import SwipeHome from '@/views/home/SwipeHome.vue';
   import {Toast} from 'vant';
-  import {addCart} from '@/service/cart';
+  import {addCart, addCartItemCount, getCart} from '@/service/cart';
 
   @Component({
     components: {SwipeHome, ItemHeader}
   })
   export default class GoodsDetail extends Vue {
-    goodsItemData = [];
-    async mounted() {
-      this.$store.commit('fetchCartCount')
+    goodsItemData = [] as any;
+    goodsCount = 0;
+    cartItemId = 0;
+
+    mounted() {
+      this.$store.commit('fetchCartCount');
       Toast.setDefaultOptions({duration: 500});
+      this.dataInit();
+      this.cartItemIdInit();
+    }
+
+    get count() {
+      return this.$store.state.cartCount;
+    }
+
+    async dataInit() {
       const {id} = this.$route.params;
       const {data} = await getDetail(id);
       this.goodsItemData = data;
     }
 
-    get count () {
-      return this.$store.state.cartCount
+    async cartItemIdInit() {
+      const {data: cartList} = await getCart({pageNumber: 1});
+      try {
+        const cartItem = cartList.filter((i: any) => i.goodsId === this.goodsItemData.goodsId)[0];
+        this.goodsCount = cartItem ? this.goodsCount = cartItem.goodsCount : 0;
+        this.cartItemId = cartItem.cartItemId;
+      } catch (e) {
+        return;
+      }
     }
 
     onClickIcon() {
@@ -70,12 +89,31 @@
 
 
     async addCartFun() {
-      try {
-        const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
-        if (resultCode == 200) Toast.success('添加成功');
-        this.$store.dispatch('updateCart');
-      }catch (e) {
-        return
+      this.goodsCount += 1;
+      if (this.goodsCount === 1) {
+        //第一次加入购物车
+        try {
+          const {data, resultCode} = await addCart({
+            goodsCount: this.goodsCount,
+            goodsId: (this.goodsItemData as any).goodsId
+          }) as any;
+          if (resultCode == 200) Toast.success('添加成功');
+          await this.$store.dispatch('updateCart');
+          await this.cartItemIdInit();
+        } catch (e) {
+          return;
+        }
+      } else {
+        //第二次加入就只加数量
+        try {
+          await addCartItemCount({
+            cartItemId: this.cartItemId,
+            goodsCount: this.goodsCount
+          });
+          Toast.success(`加购数量${this.goodsCount}`);
+        } catch (e) {
+          return;
+        }
       }
     }
 
@@ -84,9 +122,9 @@
       try {
         const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
         this.$store.dispatch('updateCart');
-        this.goTo()
-      }catch (e) {
-        this.goTo()
+        this.goTo();
+      } catch (e) {
+        this.goTo();
       }
 
     }
