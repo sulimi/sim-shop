@@ -79,7 +79,7 @@
             position: absolute;
             background: #ee0a24;
             color: #fff;
-            top: 1px;
+            top: 4px;
             right: 30%;
             font-size: 12px;
             height: 1.3em;

@@ -89,6 +89,10 @@
           }
         }
       }
+      button{
+        background: -webkit-linear-gradient(left,#009FCC ,#1baeae);
+        background: linear-gradient(to right,#009FCC ,#1baeae);
+      }
     }
   }
 </style>

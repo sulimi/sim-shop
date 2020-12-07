@@ -16,16 +16,23 @@
     components: {NavBar}
   })
   export default class App extends Vue {
-    isShowNav = false;
     routeList = ['/', '/home', '/category', '/cart', '/user'];
-
-    @Watch('$route', {immediate: true, deep: true})
-    onRouteChange(newVal: Route, oldVal: Route) {
-      //TODO 这里可以用路由元信息判断来做一些事情
-      this.isShowNav = this.routeList.indexOf(newVal.path) > -1;
-    }
-
     transitionName = 'slide-left';
+    get isShowNav(){
+      return this.routeList.indexOf(this.$route.path) > -1;
+    }
+    @Watch('$route', {immediate: false, deep: true})
+    onRouteChange(newVal: Route, oldVal: Route) {
+      // 有主级到次级
+      if (newVal.meta.index > oldVal.meta.index) {
+        this.transitionName = 'slide-left'; // 向左滑动
+      } else if (newVal.meta.index < oldVal.meta.index) {
+        // 由次级到主级
+        this.transitionName = 'slide-right';
+      } else {
+        this.transitionName = '';   //同级无过渡效果
+      }
+    }
   }
 </script>
 
@@ -39,5 +46,42 @@
     text-align: center;
     color: #2c3e50;
     font-size: 14px;
+
+    .router-view{
+      width: 100%;
+      height: auto;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: 0 auto;
+      -webkit-overflow-scrolling: touch;//这是？
+    }
+
+    .slide-right-enter-active,
+    .slide-right-leave-active,
+    .slide-left-enter-active,
+    .slide-left-leave-active{
+      height: 100%;
+      will-change: transform;
+      transition: all 500ms;
+      position: absolute;
+      backface-visibility: hidden;
+    }
+    .slide-right-enter{
+      opacity: 0;
+      transform: translate3d(-100%, 0, 0);
+    }
+    .slide-right-leave-active{
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
+    }
+    .slide-left-enter{
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
+    }
+    .slide-left-leave-active{
+      opacity: 0;
+      transform: translate3d(-100%, 0, 0);
+    }
   }
 </style>

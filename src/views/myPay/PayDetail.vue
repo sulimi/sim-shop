@@ -83,7 +83,6 @@
       const {id} = this.$route.query;
       const {data} = await getOrderDetail(id);
       this.list = data;
-      console.log(data);
       const {data: user} = await getUserInfo();
       this.userName = user.loginName;
       this.noPayArr = JSON.parse(window.localStorage.getItem('noPayArr') || '[]');

@@ -100,7 +100,6 @@
         cartItemIds: this.cartList.map(item => (item as any).cartItemId)
       };
       const {data} = await createOrder(params);
-      console.log(data);
       setLocal('checkIdArr', '');
       this.orderNo = data;
       const {data: num} = await getCart({pageNumber: 1});

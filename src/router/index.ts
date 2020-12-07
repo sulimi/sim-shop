@@ -55,7 +55,7 @@ const routes: Array<RouteConfig> = [
     name: 'category',
     component: Category,
     meta: {
-      index: 2
+      index: 1
     }
   },
   {
@@ -87,7 +87,7 @@ const routes: Array<RouteConfig> = [
     name: 'addressmanage',
     component: AddressManage,
     meta: {
-      index: 3
+      index: 2
     }
   },
   {
@@ -111,7 +111,7 @@ const routes: Array<RouteConfig> = [
     name: 'setting',
     component: Setting,
     meta: {
-      index: 1
+      index: 2
     }
   },
   {
