@@ -50,6 +50,7 @@
     addressId = '';
 
     mounted() {
+      console.log(3);
       this.init();
     }
 
@@ -58,8 +59,11 @@
       // 获取查询参数内的 id
       //保存提交订单的商品信息到本地，解决选择地址返回时页面空白
       const {checkIdArr, addressId} = this.$route.query;
-      const _checkIdArr = checkIdArr ? JSON.parse((checkIdArr as any)) : JSON.parse(getLocal('checkIdArr') as any);
-      setLocal('checkIdArr', JSON.stringify(_checkIdArr));
+      console.log(checkIdArr,'checkIdArr');
+      // const _checkIdArr = checkIdArr ? JSON.parse((checkIdArr as any)) : JSON.parse(getLocal('checkIdArr') as any);
+      const _checkIdArr = JSON.parse(getLocal('checkIdArr') as any);
+      console.log(_checkIdArr,'_checkIdArr');
+      // setLocal('checkIdArr', JSON.stringify(_checkIdArr));
       try {
         //找到
         const {data: list} = await getByCartItemIds({cartItemIds: _checkIdArr.join(',')});
@@ -94,6 +98,7 @@
     }
 
     async submitPay() {
+      //提交未支付状态
       this.showPay = true;
       const params = {
         addressId: (this.address as any).addressId,

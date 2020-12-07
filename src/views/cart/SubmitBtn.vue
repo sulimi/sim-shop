@@ -12,6 +12,7 @@
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
   import {Toast} from 'vant';
+  import {setLocal} from '@/assets/ts/utils';
 
   @Component
   export default class SubmitBtn extends Vue {
@@ -29,7 +30,10 @@
         Toast.fail('请选择购买商品');
         return;
       }
-      this.$router.push(`/submitpage?checkIdArr=${JSON.stringify(this.checkObj.checkIdArr)}`);
+      console.log(this.checkObj.checkIdArr);
+      setLocal('checkIdArr', JSON.stringify(this.checkObj.checkIdArr));
+      // this.$router.push(`/submitpage?checkIdArr=${JSON.stringify(this.checkObj.checkIdArr)}`);
+      this.$router.push(`/submitpage?checkIdArr=cart`);
     }
 
     //全选
