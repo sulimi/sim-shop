@@ -114,13 +114,22 @@
 
     async payFun(type: number) {
       Toast.loading;
-      await payOrder({orderNo: this.orderNo, payType: type});
-      // this.$router.push({path: 'order'});
+     try {
+       await payOrder({orderNo: this.orderNo, payType: type});
+       Toast.success('付款成功')
+       setTimeout(()=>{
+         this.$router.push('/mypay');
+       },500)
+     }catch (e) {
+       return
+     }
     }
 
     closeFun() {
       Toast.fail('未付款订单');
-      this.$router.push('/mypay');
+      setTimeout(()=>{
+        this.$router.push('/mypay');
+      },500)
     }
   }
 </script>

@@ -91,7 +91,16 @@
 
     async payFun(id: number, type: number) {
       Toast.loading;
-      await payOrder({orderNo: id, payType: type});
+
+      try {
+        await payOrder({orderNo: id, payType: type});
+        Toast.success('付款成功')
+        setTimeout(()=>{
+          this.$router.push('/mypay');
+        },500)
+      }catch (e) {
+        return
+      }
     }
 
     showPayFn() {
