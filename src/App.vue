@@ -18,9 +18,6 @@
   export default class App extends Vue {
     routeList = ['/', '/home', '/category', '/cart', '/user'];
     transitionName = 'slide-left';
-    get isShowNav(){
-      return this.routeList.indexOf(this.$route.path) > -1;
-    }
     @Watch('$route', {immediate: false, deep: true})
     onRouteChange(newVal: Route, oldVal: Route) {
       // 有主级到次级
@@ -32,6 +29,10 @@
       } else {
         this.transitionName = '';   //同级无过渡效果
       }
+    }
+
+    get isShowNav(){
+      return this.routeList.indexOf(this.$route.path) > -1;
     }
   }
 </script>
