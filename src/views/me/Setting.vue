@@ -31,7 +31,6 @@
 
     async mounted() {
       const {data} = await getUserInfo();
-      console.log(data);
       this.nickName = data.nickName;
       this.introduceSign = data.introduceSign;
       this.loginName = data.loginName;
