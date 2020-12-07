@@ -48,7 +48,7 @@
           .fjbt();
 
           .van-card__price {
-            color: red;
+            /*color: red;*/
           }
         }
       }

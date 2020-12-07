@@ -25,6 +25,10 @@
             <span>{{typeFun(item)}}</span>
           </div>
           <VanCardItem :list="item.newBeeMallOrderItemVOS"/>
+          <div class="item-header">
+            <span></span>
+            <span>金额：<span class="total">￥{{item.totalPrice}}</span></span>
+          </div>
         </div>
       </van-list>
     </van-pull-refresh>
@@ -94,13 +98,15 @@
       }
       this.loadData();
     }
-    typeFun(item: any){
-      const noPayArr=[...JSON.parse(window.localStorage.getItem('noPayArr') || '[]')]
-      if (noPayArr.indexOf(item.orderNo)>=0){
-        return '订单已取消'
+
+    typeFun(item: any) {
+      const noPayArr = [...JSON.parse(window.localStorage.getItem('noPayArr') || '[]')];
+      if (noPayArr.indexOf(item.orderNo) >= 0) {
+        return '订单已取消';
       }
-      return item.orderStatusString
+      return item.orderStatusString;
     }
+
     goToDetail(value: number) {
       this.$router.push(`/paydetail?id=${value}`);
     }
@@ -139,6 +145,13 @@
               .fjbt();
               padding: 10px 10px 4px 10px;
               font-size: 12px;
+
+              span {
+                .total {
+                  font-size: 16px;
+                  color: red;
+                }
+              }
             }
           }
         }
