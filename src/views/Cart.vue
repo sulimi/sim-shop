@@ -70,7 +70,6 @@
     }
 
     checkItemFun(arr: any) {
-      console.log(arr);
       //牛逼!它会把选中的商品的id加到数组里!
       this.checkAll = this.checkIdArr.length === this.list.length;
     }

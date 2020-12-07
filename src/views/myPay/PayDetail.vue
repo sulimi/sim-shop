@@ -17,8 +17,9 @@
       <van-button v-if="list.orderStatus == 0" style="margin-bottom: 10px" color="#1baeae" block @click="showPayFn">
         去支付
       </van-button>
-      <van-button v-if="!(list.orderStatus < 0 || list.orderStatus == 4)" block @click="noPay(list.orderNo)">
-        取消订单
+      <van-button v-if="!(list.orderStatus < 0 || list.orderStatus == 4)" block @click="noPay(list.orderNo)"
+                  style="color: red; background: #f9f9f9;">
+        {{list.orderStatus===1?'我要退货':'取消订单'}}
       </van-button>
       <van-button v-if="isNoPay" block disabled>订单已取消</van-button>
     </div>
@@ -33,6 +34,10 @@
       </div>
     </div>
     <VanCardItem :list="list.newBeeMallOrderItemVOS"/>
+    <van-button v-if="list.orderStatus == 1" style="position: fixed; bottom: 0;left: 0;" color="#1baeae" block
+                @click="finishFn">
+      确认收货
+    </van-button>
     <van-popup
       :close-on-click-overlay="false"
       v-model="showPay"
@@ -60,11 +65,11 @@
     components: {VanCardItem, ItemHeader}
   })
   export default class PayDetail extends Vue {
-    list = {};
+    list = {} as any;
     showPay = false;
     isNoPay = false;
     noPayArr = [] as number[];
-    userName=''
+    userName = '';
 
     mounted() {
       this.init();
@@ -78,8 +83,9 @@
       const {id} = this.$route.query;
       const {data} = await getOrderDetail(id);
       this.list = data;
-      const {data: user}=await getUserInfo();
-      this.userName=user.loginName
+      console.log(data);
+      const {data: user} = await getUserInfo();
+      this.userName = user.loginName;
       this.noPayArr = JSON.parse(window.localStorage.getItem('noPayArr') || '[]');
       const _noPayArr = [...this.noPayArr];
       if (_noPayArr.indexOf((id as any)) >= 0) {
@@ -93,12 +99,12 @@
 
       try {
         await payOrder({orderNo: id, payType: type});
-        Toast.success('付款成功')
-        setTimeout(()=>{
+        Toast.success('付款成功');
+        setTimeout(() => {
           this.$router.push('/mypay');
-        },500)
-      }catch (e) {
-        return
+        }, 500);
+      } catch (e) {
+        return;
       }
     }
 
@@ -108,11 +114,11 @@
 
     noPay(id: number) {
       Dialog.confirm({
-        title: '是否确认订单？',
+        title: this.list.orderStatus === 1 ? '确认退货吗？' : '确认取消吗？',
       }).then(() => {
         confirmOrder(id).then((res: any) => {
           if (res.resultCode == 200) {
-            Toast('取消成功');
+            Toast(this.list.orderStatus === 1 ? '退款成功' : '取消成功');
             this.init();
             this.isNoPay = true;
             this.noPayArr.push(id);
@@ -136,13 +142,21 @@
     //     return;
     //   }
     // }
-
+    async finishFn() {
+      //
+      await confirmOrder(this.list.orderNo);
+      Toast.success('收货成功');
+      setTimeout(()=>{
+        this.$router.push('/mypay')
+      },500)
+    }
 
   }
 </script>
 
 <style lang="less" scoped>
   @import "~@/assets/style/mixin.less";
+
   .pay-detail-wrapper {
     padding-top: 40px;
     height: 100vh;
