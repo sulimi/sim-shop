@@ -23,7 +23,9 @@
   })
   export default class SearchPage extends Vue {
     created() {
-      this.$store.commit('changeKeyword', '手机');
+      const {categoryName}=this.$route.query
+      const initKeyword=categoryName?categoryName:'手机'
+      this.$store.commit('changeKeyword', initKeyword);
       this.$store.commit('onRefresh')
       this.$store.dispatch('init')
     }

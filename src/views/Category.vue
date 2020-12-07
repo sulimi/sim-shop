@@ -22,17 +22,17 @@
           </li>
         </ul>
       </ListScroll>
-      <ListScroll class="category-list">
+      <ListScroll class="category-list" :scroll-data="categoryList">
         <div class="list-wrapper">
           <div class="list-item-wrapper" v-for="item in categoryList" :key="item.categoryId">
             <div class="list-item" v-for="i in item.secondLevelCategoryVOS" :key="i.categoryId">
               <template v-if="clickIndexId===i.parentId">
                 <div class="item-title">{{i.categoryName}}</div>
                 <div class="item">
-                  <router-link to="/" class="i" v-for="ii in i.thirdLevelCategoryVOS" :key="ii.categoryId">
+                  <div class="i" v-for="ii in i.thirdLevelCategoryVOS" :key="ii.categoryId" @click="goTo(ii)">
                     <Icon name="todo"/>
                     <span>{{ii.categoryName}}</span>
-                  </router-link>
+                  </div>
                 </div>
               </template>
             </div>
@@ -67,6 +67,10 @@
 
     onClickMenu(id: number) {
       this.clickIndexId = id;
+    }
+
+    goTo(ii: any){
+      this.$router.push(`/searchpage?categoryName=${ii.categoryName}`)
     }
   }
 </script>

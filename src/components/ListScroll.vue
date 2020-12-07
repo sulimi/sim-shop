@@ -1,6 +1,6 @@
 <template>
   <div ref="wrapper" class="scroll-wrapper">
-    <slot></slot>
+    <slot/>
   </div>
 </template>
 
@@ -16,24 +16,26 @@
      * 2 滚动的时候实时派发scroll事件，不会截流。
      * 3 除了实时派发scroll事件，在swipe的情况下仍然能实时派发scroll事件
      */
-    @Prop(Number) probeType!: number | 1;
+    @Prop({default:1}) probeType!: number;
     // 点击列表是否派发click事件
-    @Prop(Boolean) click!: boolean | true;
+    @Prop({default:true}) click!: boolean;
     // 是否开启横向滚动
-    @Prop(Boolean) scrollX!: boolean | false;
+    @Prop({default:false}) scrollX!: boolean;
+    @Prop({default:false}) scrollY!: boolean
     // 是否派发滚动事件
-    @Prop(Boolean) listenScroll!: boolean | true;
+    @Prop({default:true}) listenScroll!: boolean;
     // 列表的数据
-    @Prop(Array) scrollData!: [] | null;
+    @Prop({default:null}) scrollData!: [];
     // 是否派发滚动到底部的事件，用于上拉加载
-    @Prop(Boolean) pullup!: boolean | false;
+    @Prop({default:false}) pullup!: boolean;
     // 是否派发顶部下拉的事件，用于下拉刷新
-    @Prop(Boolean) pulldown!: boolean | false;
+    @Prop({default:false}) pulldown!: boolean;
     // 是否派发列表滚动开始的事件
-    @Prop(Boolean) beforeScroll!: boolean | false;
+    @Prop({default:false}) beforeScroll!: boolean;
     // 当数据更新后，刷新scroll的延时
-    @Prop(Number) refreshDelay!: number | 20;
+    @Prop({default:20}) refreshDelay!: number;
 
+    @Prop({default:true}) taps!: boolean;
 
 
     scroll: any;
@@ -62,7 +64,9 @@
       this.scroll = new BScroll((this.$refs.wrapper as any), {
         probeType: this.probeType,
         click: this.click,
-        scrollX: this.scrollX
+        scrollY:this.scrollY,
+        scrollX: this.scrollX,
+        taps: this.taps
       });
       // 是否派发滚动事件
       if (this.listenScroll) {

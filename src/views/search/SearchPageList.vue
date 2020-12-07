@@ -3,7 +3,7 @@
                     @refresh="$store.commit('onRefresh')"
                     success-text="刷新成功"
                     class="search-list-refresh">
-    <van-list v-if="$store.state.searchResult.length"
+    <van-list
               v-model="$store.state.searchLoading"
               :finished="$store.state.searchFinished"
               finished-text="没有更多了"
@@ -19,7 +19,7 @@
         </div>
       </div>
     </van-list>
-    <None v-else>输入关键字搜索吧~</None>
+<!--    <None v-else>输入关键字搜索吧~</None>-->
   </van-pull-refresh>
 </template>
 
