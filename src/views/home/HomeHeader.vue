@@ -4,9 +4,9 @@
       <Icon name="show"/>
     </router-link>
     <SearchOne>
-      <span class="shop-name">XX商城</span>
+      <span class="shop-name">小马商城</span>
       <span class="border"> | </span>
-      <router-link class="text-search" tag="span" to="/searchpage">屯年货啦！</router-link>
+      <router-link class="text-search" tag="span" to="/searchpage">马上屯年货啦！</router-link>
     </SearchOne>
     <router-link class="header-btn" to="/user">
       <Icon name="user" v-if="isLogin"/>
