@@ -1,16 +1,34 @@
 <template>
   <div class="good-message">
-    <div class="good-item" v-for="item in cartList" :key="item.cartItemId">
-      <div class="good-img">
-        <img :src='prefix(item.goodsCoverImg)' alt="">
-      </div>
-      <div class="good-text">
-        <div class="good-title">
-          <span>{{item.goodsName}}</span>
-          <span>x{{item.goodsCount}}</span>
+    <div v-if="cartList.goodsCarouselList">
+      <div class="good-item">
+        <div class="good-img">
+          <img :src='prefix(cartList.goodsCoverImg)' alt="">
         </div>
-        <div class="good-money">
-          <div class="price">¥{{item.sellingPrice}}</div>
+        <div class="good-text">
+          <div class="good-title">
+            <span>{{cartList.goodsName}}</span>
+            <span>x1</span>
+          </div>
+          <div class="good-money">
+            <div class="price">¥{{cartList.sellingPrice}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="good-item" v-for="item in cartList" :key="item.cartItemId">
+        <div class="good-img">
+          <img :src='prefix(item.goodsCoverImg)' alt="">
+        </div>
+        <div class="good-text">
+          <div class="good-title">
+            <span>{{item.goodsName}}</span>
+            <span>x{{item.goodsCount}}</span>
+          </div>
+          <div class="good-money">
+            <div class="price">¥{{item.sellingPrice}}</div>
+          </div>
         </div>
       </div>
     </div>

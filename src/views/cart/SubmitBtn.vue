@@ -30,10 +30,9 @@
         Toast.fail('请选择购买商品');
         return;
       }
-      console.log(this.checkObj.checkIdArr);
       setLocal('checkIdArr', JSON.stringify(this.checkObj.checkIdArr));
       // this.$router.push(`/submitpage?checkIdArr=${JSON.stringify(this.checkObj.checkIdArr)}`);
-      this.$router.push(`/submitpage?checkIdArr=cart`);
+      this.$router.push(`/submitpage?cart=cart`);
     }
 
     //全选

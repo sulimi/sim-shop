@@ -36,6 +36,7 @@
   import CartEmpty from '@/views/cart/CartEmpty.vue';
   import SubmitBtn from '@/views/cart/SubmitBtn.vue';
   import CartGoodItem from '@/views/cart/CartGoodItem.vue';
+  import {setLocal} from '@/assets/ts/utils';
 
   @Component({
     components: {CartGoodItem, SubmitBtn, CartEmpty, ItemHeader}
@@ -47,6 +48,7 @@
 
     mounted() {
       this.init();
+      setLocal('checkIdArr', '');
     }
 
 
@@ -56,7 +58,6 @@
       // 获取购物车商品数据
       const {data} = await getCart({pageNumber: 1});
       this.list = data;
-      console.log(data);
       this.$store.state.cartCount=this.list.length
       this.$store.commit('saveCartCount')
       Toast.clear();
@@ -69,7 +70,7 @@
     }
 
     checkItemFun(arr: any) {
-      //牛逼!它会把选中的商品的id加到数组里
+      //牛逼!它会把选中的商品的id加到数组里!
       this.checkAll = this.checkIdArr.length === this.list.length;
     }
 

@@ -38,6 +38,7 @@
   import {getLocal, setLocal} from '@/assets/ts/utils';
   import {getAddressDetail, getAddressList, getDefaultAddress} from '@/service/address';
   import {createOrder, payOrder} from '@/service/submit';
+  import {getDetail} from '@/service/category';
 
   @Component({
     components: {SubmitAddress, GoodList, ItemHeader}
@@ -50,7 +51,6 @@
     addressId = '';
 
     mounted() {
-      console.log(3);
       this.init();
     }
 
@@ -58,17 +58,17 @@
       Toast.loading({message: '加载中...', forbidClick: true});
       // 获取查询参数内的 id
       //保存提交订单的商品信息到本地，解决选择地址返回时页面空白
-      const {checkIdArr, addressId} = this.$route.query;
-      console.log(checkIdArr,'checkIdArr');
-      // const _checkIdArr = checkIdArr ? JSON.parse((checkIdArr as any)) : JSON.parse(getLocal('checkIdArr') as any);
-      const _checkIdArr = JSON.parse(getLocal('checkIdArr') as any);
-      console.log(_checkIdArr,'_checkIdArr');
-      // setLocal('checkIdArr', JSON.stringify(_checkIdArr));
+      const {cart, goodDetailId, addressId} = this.$route.query;
       try {
         //找到
-        const {data: list} = await getByCartItemIds({cartItemIds: _checkIdArr.join(',')});
-        this.cartList = list;
-
+        if (cart) {
+          const _checkIdArr = JSON.parse(getLocal('checkIdArr') as any);
+          const {data} = await getByCartItemIds({cartItemIds: _checkIdArr.join(',')});
+          this.cartList = data;
+        } else if (goodDetailId) {
+          const {data} = await getDetail((goodDetailId as any));
+          this.cartList = data;
+        }
 
         //地址：
         this.addressId = addressId as any;
@@ -92,44 +92,50 @@
 
 
     get moneyPay() {
-      return this.cartList.reduce((sum: any, item: any) => {
+      const {cart} = this.$route.query;
+      return cart ? this.cartList.reduce((sum: any, item: any) => {
         return sum + (item as any).sellingPrice * (item as any).goodsCount;
-      }, 0);
+      }, 0) : (this.cartList as any).originalPrice;
     }
 
     async submitPay() {
       //提交未支付状态
+      const {cart, goodDetailId} = this.$route.query;
       this.showPay = true;
-      const params = {
+      const params =cart? {
         addressId: (this.address as any).addressId,
         cartItemIds: this.cartList.map(item => (item as any).cartItemId)
+      }:{
+        addressId: (this.address as any).addressId,
+        cartItemIds: [3627]
       };
       const {data} = await createOrder(params);
+      console.log(data);
       setLocal('checkIdArr', '');
       this.orderNo = data;
-      const {data:num} = await getCart({pageNumber: 1});
-      this.$store.state.cartCount=num.length
-      this.$store.commit('saveCartCount')
+      const {data: num} = await getCart({pageNumber: 1});
+      this.$store.state.cartCount = num.length;
+      this.$store.commit('saveCartCount');
     }
 
     async payFun(type: number) {
       Toast.loading;
-     try {
-       await payOrder({orderNo: this.orderNo, payType: type});
-       Toast.success('付款成功')
-       setTimeout(()=>{
-         this.$router.push('/mypay');
-       },500)
-     }catch (e) {
-       return
-     }
+      try {
+        await payOrder({orderNo: this.orderNo, payType: type});
+        Toast.success('付款成功');
+        setTimeout(() => {
+          this.$router.push('/mypay');
+        }, 500);
+      } catch (e) {
+        return;
+      }
     }
 
     closeFun() {
       Toast.fail('未付款订单');
-      setTimeout(()=>{
+      setTimeout(() => {
         this.$router.push('/mypay');
-      },500)
+      }, 500);
     }
   }
 </script>

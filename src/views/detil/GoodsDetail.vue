@@ -29,7 +29,7 @@
       <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" @click="onClickIcon"/>
       <van-goods-action-icon icon="cart-o" text="购物车" :badge="count" @click="goTo"/>
       <van-goods-action-button type="warning" text="加入购物车" @click="addCartFun"/>
-      <van-goods-action-button type="danger" text="立即购买" @click="goToCart"/>
+      <van-goods-action-button type="danger" text="立即购买" @click="goToBay"/>
     </van-goods-action>
   </div>
 </template>
@@ -87,22 +87,25 @@
       this.$router.push({path: '/cart'});
     }
 
+    async firstBay() {
+      try {
+        const {data, resultCode} = await addCart({
+          goodsCount: 1,
+          goodsId: (this.goodsItemData as any).goodsId
+        }) as any;
+        if (resultCode == 200) Toast.success('添加成功');
+        await this.$store.dispatch('updateCart');
+        await this.cartItemIdInit();
+      } catch (e) {
+        return;
+      }
+    }
 
     async addCartFun() {
       this.goodsCount += 1;
       if (this.goodsCount === 1) {
         //第一次加入购物车
-        try {
-          const {data, resultCode} = await addCart({
-            goodsCount: this.goodsCount,
-            goodsId: (this.goodsItemData as any).goodsId
-          }) as any;
-          if (resultCode == 200) Toast.success('添加成功');
-          await this.$store.dispatch('updateCart');
-          await this.cartItemIdInit();
-        } catch (e) {
-          return;
-        }
+        await this.firstBay();
       } else {
         //第二次加入就只加数量
         try {
@@ -117,15 +120,17 @@
       }
     }
 
-    async goToCart() {
-      //TODO 应该要跳到下单页
-      try {
-        const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
-        this.$store.dispatch('updateCart');
-        this.goTo();
-      } catch (e) {
-        this.goTo();
-      }
+    goToBay() {
+      this.$router.push(`/submitpage?goodDetailId=${this.goodsItemData.goodsId}`);
+      // try {
+      //   console.log(this.goodsItemData);
+      //   // const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
+      //   // await this.$store.dispatch('updateCart');
+      //   await this.$router.push(`/submitpage?checkIdArr=${22}`)
+      // } catch (e) {
+      //   console.log(this.goodsItemData);
+      //   await this.$router.push('/submitpage')
+      // }
 
     }
   }

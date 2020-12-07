@@ -80,7 +80,6 @@
       this.list = data;
       const {data: user}=await getUserInfo();
       this.userName=user.loginName
-      console.log(this.userName);
       this.noPayArr = JSON.parse(window.localStorage.getItem('noPayArr') || '[]');
       const _noPayArr = [...this.noPayArr];
       if (_noPayArr.indexOf((id as any)) >= 0) {
