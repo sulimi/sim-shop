@@ -56,7 +56,7 @@
     totalPage = 1;
 
     mounted() {
-      this.loadData();
+      // this.loadData(); //vant刷新组件引入会自动执行刷新函数，不需要再额外执行，会执行两遍，数据重复
     }
 
     // get cancelPay(){
@@ -64,6 +64,7 @@
     // }
 
     async loadData() {
+      // console.log('lasdData');
       // 获取订单列表
       //page是要传给后台第几页的订单数据，默认从第一页开始
       const {data, data: {list}} = await getOrderList({pageNumber: this.page, status: this.type});
@@ -80,6 +81,7 @@
     }
 
     onRefresh() {
+      // console.log('onRefresh');
       this.refreshing = true;
       this.finished = false;
       this.loading = true;
@@ -89,6 +91,7 @@
     }
 
     onLoad() {
+      // console.log('onLoad');
       if (!this.refreshing && this.page < this.totalPage) {
         this.page = this.page + 1;
       }
