@@ -49,13 +49,13 @@
     font-size: 14px;
 
     .router-view{
-      width: 100%;
-      height: auto;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      margin: 0 auto;
-      -webkit-overflow-scrolling: touch;//这是？
+      /*width: 100%;*/
+      /*height: auto;*/
+      /*position: absolute;*/
+      /*top: 0;*/
+      /*bottom: 0;*/
+      /*margin: 0 auto;*/
+      /*-webkit-overflow-scrolling: touch;//这是？*/
     }
 
     .slide-right-enter-active,
