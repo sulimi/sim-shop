@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <ItemHeader :title="type==='login'?'登录':'注册'" router-name="home"/>
+    <ItemHeader :title="type==='login'?'登录':'注册'" router-name="user"/>
     <img src="../../assets/login.jpg" alt="登录">
     <div class="login-message">
       <van-form @submit="onSubmit" class="login-from">
