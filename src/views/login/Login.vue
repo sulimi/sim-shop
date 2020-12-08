@@ -73,7 +73,7 @@
           });
           setLocal('token', data);//设置localStorage
           Toast.success('登录成功');
-          window.location.href = '/'; //回到首页？
+          await this.$router.push('/home') //回到首页？
         } catch (err) {
           Toast.fail(err.message);
         }

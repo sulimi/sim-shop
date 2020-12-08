@@ -62,7 +62,7 @@
         await logout();
         setLocal('token', '');
         Toast.success('退出成功');
-        window.location.href = '/';
+        await this.$router.push('/home')
       } catch (e) {
         return;
       }
