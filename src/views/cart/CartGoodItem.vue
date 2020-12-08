@@ -78,6 +78,17 @@
       .good-title {
         display: flex;
         justify-content: space-between;
+        span{
+          &:nth-child(1){
+            text-align: left;
+            flex-grow: 1;
+            font-size: 12px;
+          }
+          &:nth-child(2){
+            flex-shrink: 0;
+            padding-left: 10px;
+          }
+        }
       }
 
       .good-btn {
