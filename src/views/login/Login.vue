@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <ItemHeader :title="type==='login'?'登录':'注册'" router-name="user"/>
+    <ItemHeader :title="type==='login'?'登录':'注册'" router-name="home"/>
     <img src="../../assets/login.jpg" alt="登录">
     <div class="login-message">
       <van-form @submit="onSubmit" class="login-from">
@@ -62,6 +62,7 @@
 
       if (!this.verify) {
         Toast.fail('验证码未填或填写错误'); //这个方法可以哦——vant表单方法
+        return;
       }
 
       //开始请求数据、提交数据
@@ -73,7 +74,9 @@
           });
           setLocal('token', data);//设置localStorage
           Toast.success('登录成功');
-          await this.$router.push('/home') //回到首页？
+          await this.$router.push('/') //回到首页？
+          // window.location.href = '/'; //回到首页？
+          window.location.reload()
         } catch (err) {
           Toast.fail(err.message);
         }

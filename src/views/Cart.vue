@@ -56,13 +56,16 @@
       // 加载中禁止点击
       Toast.loading({message: '加载中...', forbidClick: true});
       // 获取购物车商品数据
-      const {data} = await getCart({pageNumber: 1});
-      this.list = data.reverse();
-      this.$store.state.cartCount=this.list.length
-      this.$store.commit('saveCartCount')
+      try {
+        const {data} = await getCart({pageNumber: 1});
+        this.list = data.reverse();
+        this.$store.state.cartCount = this.list.length;
+        this.$store.commit('saveCartCount');
+      } catch (e) {
+        return;
+      }
       Toast.clear();
     }
-
 
 
     get checkItemArr() {
@@ -76,8 +79,8 @@
 
     async deleteGood(id: number) {
       const {data} = await deleteCartItem(id);
-      this.$store.dispatch('updateCart');
-      this.init();
+      await this.$store.dispatch('updateCart');
+      await this.init();
     }
   }
 </script>
