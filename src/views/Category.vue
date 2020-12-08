@@ -63,7 +63,8 @@
       const {data} = await getCategory();
       this.categoryList = data;
       const heightV = document.documentElement.clientHeight - 100;
-      (this.$refs.categorycontent as any).setAttribute('style', `height:${heightV}px`);
+      // (this.$refs.categorycontent as any).setAttribute('style', `height:${heightV}px`);
+      (this.$refs.categorycontent as any).style.height = heightV + 'px';
     }
 
 
@@ -93,7 +94,8 @@
       display: flex;
       height: 100%;
       overflow-y: auto;
-      &::-webkit-scrollbar{
+
+      &::-webkit-scrollbar {
         display: none;
       }
 
@@ -103,14 +105,16 @@
         height: 100%;
         overflow: auto;
         flex-shrink: 0;
-        &::-webkit-scrollbar{
+
+        &::-webkit-scrollbar {
           display: none;
         }
 
         ul {
-          &::-webkit-scrollbar{
+          &::-webkit-scrollbar {
             display: none;
           }
+
           width: 100%;
           background: #F8F8F8;
 
@@ -139,7 +143,8 @@
         padding: 0 10px;
         height: 100%;
         overflow: auto;
-        &::-webkit-scrollbar{
+
+        &::-webkit-scrollbar {
           display: none;
         }
 
