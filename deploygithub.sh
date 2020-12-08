@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
+set -e &&
 yarn build &&
 cd build &&
+cd dist &&
 git init &&
 git add . &&
 git commit -m 'deploy' &&
-git remote add origin git@github.com:sulimi/sim-shop.git&&
-git branch gh-pages &&
-git push -u origin gh-pages -f &&
+git push -f git@github.com:sulimi/sim-shop.git master:gh-pages &&
 cd -
