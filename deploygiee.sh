@@ -2,7 +2,6 @@
 
 set -e &&
 yarn build &&
-cd build &&
 cd dist &&
 git init &&
 git add . &&
