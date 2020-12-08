@@ -8,7 +8,7 @@
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "deploy:github": "sh deploygithub.sh",
-    "deploy:gitee": "sh deploygitee.sh"
+    "deploy:gitee": "sh deploygiee.sh"
   },
   "dependencies": {
     "@types/better-scroll": "^1.12.3",
