@@ -16,7 +16,6 @@
       :close-on-click-overlay="false"
       v-model="showPay"
       closeable
-      close-icon="close"
       position="bottom"
       :style="{ height: '30%' }"
       @close="closeFun()"
@@ -172,7 +171,7 @@
       padding: 0 16px;
 
       button {
-        margin: 6px;
+        margin-top: 6px;
       }
     }
   }
