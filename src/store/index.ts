@@ -65,16 +65,20 @@ const store = new Vuex.Store({
         context.state.searchLoading = false;
         return;
       }
-      const {data, data: {list}} = await search({ //这也方法也要验证登录，诶，不想诶
-        pageNumber: context.state.searchPage,
-        keyword: context.state.keyword,
-        orderBy: context.state.orderBy
-      });
-      context.state.searchResult = context.state.searchResult.concat(list);
-      context.state.searchTotalPage = data.totalPage;
-      context.state.searchLoading = false;
-      if (context.state.searchPage >= data.totalPage){
-        context.state.searchFinished = true;
+      try {
+        const {data, data: {list}} = await search({ //这也方法也要验证登录，诶，不想诶
+          pageNumber: context.state.searchPage,
+          keyword: context.state.keyword,
+          orderBy: context.state.orderBy
+        });
+        context.state.searchResult = context.state.searchResult.concat(list);
+        context.state.searchTotalPage = data.totalPage;
+        context.state.searchLoading = false;
+        if (context.state.searchPage >= data.totalPage){
+          context.state.searchFinished = true;
+        }
+      }catch (e) {
+        return
       }
     },
 

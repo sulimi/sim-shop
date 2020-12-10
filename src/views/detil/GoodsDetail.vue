@@ -63,14 +63,18 @@
     }
 
     async dataInit() {
-      const {id} = this.$route.params;
-      const {data} = await getDetail(id);
-      this.goodsItemData = data;
+      try {
+        const {id} = this.$route.params;
+        const {data} = await getDetail(id);
+        this.goodsItemData = data;
+      } catch (e) {
+        return;
+      }
     }
 
     async cartItemIdInit() {
-      const {data: cartList} = await getCart({pageNumber: 1});
       try {
+        const {data: cartList} = await getCart({pageNumber: 1});
         const cartItem = cartList.filter((i: any) => i.goodsId === this.goodsItemData.goodsId)[0];
         this.goodsCount = cartItem ? this.goodsCount = cartItem.goodsCount : 0;
         this.cartItemId = cartItem.cartItemId;
@@ -123,15 +127,15 @@
     async goToBay() {
       await this.addCartFun(false);
       await this.$router.push('/cart');
-      // try {
-      //   console.log(this.goodsItemData);
-      //   // const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
-      //   // await this.$store.dispatch('updateCart');
-      //   await this.$router.push(`/submitpage?checkIdArr=${22}`)
-      // } catch (e) {
-      //   console.log(this.goodsItemData);
-      //   await this.$router.push('/submitpage')
-      // }
+      try {
+        console.log(this.goodsItemData);
+        // const {data, resultCode} = await addCart({goodsCount: 1, goodsId: (this.goodsItemData as any).goodsId}) as any;
+        // await this.$store.dispatch('updateCart');
+        await this.$router.push(`/submitpage?checkIdArr=${22}`)
+      } catch (e) {
+        console.log(this.goodsItemData);
+        await this.$router.push('/submitpage')
+      }
 
     }
   }

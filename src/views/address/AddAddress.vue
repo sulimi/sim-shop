@@ -40,8 +40,13 @@
     addressId = '';
 
     async mounted() {
-      this.chooseProvinceCityCounty();
-      await this.editFun();
+      try {
+        this.chooseProvinceCityCounty();
+        await this.editFun();
+      }catch (e) {
+        Toast.fail(e.message)
+        return
+      }
     }
 
 
