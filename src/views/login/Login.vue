@@ -43,6 +43,7 @@
   import {Toast} from 'vant';
   import {login, register} from '@/service/user';
   import {setLocal} from '@/assets/ts/utils';
+  import {getCart} from '@/service/cart';
 
   @Component({
     components: {ItemHeader, Verify}
@@ -74,6 +75,9 @@
           });
           setLocal('token', data);//设置localStorage
           Toast.success('登录成功');
+          const {data: list}=await getCart()
+          this.$store.state.cartCount = list.length;
+          this.$store.commit('saveCartCount');
           await this.$router.push('/') //回到首页？
           // window.location.href = '/'; //回到首页？
           window.location.reload()

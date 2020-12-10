@@ -36,12 +36,6 @@
     get isShowNav(){
       return this.routeList.indexOf(this.$route.path) > -1;
     }
-    async mounted(){
-      setLocal('checkIdArr', '');
-      const {data}=await getCart()
-      this.$store.state.cartCount = data.length;
-      this.$store.commit('saveCartCount');
-    }
   }
 </script>
 
