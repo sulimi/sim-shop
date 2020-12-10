@@ -24,6 +24,7 @@
   import HomeNavList from '@/views/home/HomeNavList.vue';
   import HomeModule from '@/views/home/HomeModule.vue';
   import ListScroll from '@/components/ListScroll.vue';
+  import {getCart} from '@/service/cart';
 
   @Component({
     components: {
@@ -45,10 +46,12 @@
 
     async mounted() {
       window.addEventListener('scroll', this.pageScroll);
-
       const token = getLocal('token');//为什么要拿这个呢，又不是登录（哦，判断右上角是登录还是头像）
       if (token) {
         this.isLogin = true;
+        const {data: list}=await getCart()
+        this.$store.state.cartCount = list.length;
+        this.$store.commit('saveCartCount');
       }
       Toast.loading({
         message: '加载中',

@@ -62,6 +62,7 @@
         await logout();
         setLocal('token', '');
         setLocal('checkIdArr', '');
+        setLocal('cartCount', '0');
         Toast.success('退出成功');
         await this.$router.push('/')
         window.location.reload()

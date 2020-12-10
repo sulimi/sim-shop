@@ -75,9 +75,6 @@
           });
           setLocal('token', data);//设置localStorage
           Toast.success('登录成功');
-          const {data: list}=await getCart()
-          this.$store.state.cartCount = list.length;
-          this.$store.commit('saveCartCount');
           await this.$router.push('/') //回到首页？
           // window.location.href = '/'; //回到首页？
           window.location.reload()
@@ -92,6 +89,8 @@
           });
           Toast.success('注册成功');//校验账号有没有被注册过是在后端完成
           this.type = 'login';
+          await this.$router.push('/')
+          window.location.reload()
         } catch (err) {
           Toast.fail(err.message);
         }
