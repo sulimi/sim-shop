@@ -20,17 +20,23 @@
 
     goTo(url: string) {
       //TODO  跳到一个指定路由
-      window.open(url);
+      // window.open(url);
     }
   }
 </script>
 
 <style lang="less" scoped>
-  .home-swipe .van-swipe-item {
+  .home-swipe{
     width: 100vw;
-    img {
+    .van-swipe__track{
       width: 100%;
-      height: 100%;
+      .van-swipe-item {
+        width: 100%;
+        img {
+          width: 100%;
+        }
+      }
     }
   }
+
 </style>
