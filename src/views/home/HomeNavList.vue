@@ -25,12 +25,12 @@
     showList: ShowList[] = [
       {
         icon: 'chaoshi',
-        name: 'XX超市',
+        name: '小马超市',
         to: ''
       },
       {
         icon: 'fushi',
-        name: 'XX服饰',
+        name: '小马服饰',
         to: ''
       },
       {
@@ -40,12 +40,12 @@
       },
       {
         icon: 'shengxian',
-        name: 'XX生鲜',
+        name: '小马生鲜',
         to: ''
       },
       {
         icon: 'songhuo',
-        name: 'XX到家',
+        name: '小马到家',
         to: ''
       },
       {

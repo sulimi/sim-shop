@@ -11,6 +11,8 @@
   import {Component, Watch} from 'vue-property-decorator';
   import NavBar from '@/components/NavBar.vue';
   import {Route} from 'vue-router/types/router';
+  import {getCart} from '@/service/cart';
+  import {setLocal} from '@/assets/ts/utils';
 
   @Component({
     components: {NavBar}
@@ -33,6 +35,12 @@
 
     get isShowNav(){
       return this.routeList.indexOf(this.$route.path) > -1;
+    }
+    async mounted(){
+      setLocal('checkIdArr', '');
+      const {data}=await getCart()
+      this.$store.state.cartCount = data.length;
+      this.$store.commit('saveCartCount');
     }
   }
 </script>

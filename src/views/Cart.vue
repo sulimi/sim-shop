@@ -48,7 +48,6 @@
 
     mounted() {
       this.init();
-      setLocal('checkIdArr', '');
     }
 
 

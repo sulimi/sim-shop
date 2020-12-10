@@ -27,6 +27,7 @@
 
 <style lang="less" scoped>
   .home-swipe .van-swipe-item {
+    width: 100vw;
     img {
       width: 100%;
       height: 100%;
