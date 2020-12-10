@@ -48,10 +48,14 @@
       window.addEventListener('scroll', this.pageScroll);
       const token = getLocal('token');//为什么要拿这个呢，又不是登录（哦，判断右上角是登录还是头像）
       if (token) {
-        this.isLogin = true;
-        const {data: list}=await getCart()
-        this.$store.state.cartCount = list.length;
-        this.$store.commit('saveCartCount');
+       try {
+         this.isLogin = true;
+         const {data: list}=await getCart()
+         this.$store.state.cartCount = list.length;
+         this.$store.commit('saveCartCount');
+       }catch (e) {
+         Toast.fail(e.message)
+       }
       }
       Toast.loading({
         message: '加载中',
